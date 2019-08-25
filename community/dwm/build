@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+#amend install path to /usr
+sed "s#/usr/local#/usr#" -i config.mk
+
+make
+make DESTDIR="$1" install
