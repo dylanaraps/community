@@ -1,9 +1,10 @@
 #!/bin/sh -e
 
-./configure --prefix=/usr
+./configure \
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
 
-#remove docs
-rm -rf "$1"/usr/share/doc/
+# Remove docs.
+rm -rf "$1/usr/share/doc/"
