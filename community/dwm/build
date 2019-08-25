@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# Amend install path to '/usr'.
+sed -i'' "s#/usr/local#/usr#" config.mk
+
+# Remove pixel gap.
+sed -i'' "s/static const int resizehints = 1/static const int resizehints = 0/" config.def.h
+
+make
+make DESTDIR="$1" install
