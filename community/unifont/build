@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make DESTDIR="$1"
+make DESTDIR="$1" install
