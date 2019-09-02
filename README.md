@@ -22,7 +22,7 @@ More information: <https://getkiss.org/pages/package-system/>
 
 A simple package to use as a reference is `file`. It has dependencies and uses the GNU configure style (*which a lot of packages use*).
 
-https://github.com/kisslinux/repo/tree/master/core/file
+https://github.com/kisslinux/community/tree/master/community/file
 
 
 ## Generating checksums
