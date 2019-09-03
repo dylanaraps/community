@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+patch -p1 < openbox-3.6.2-rounded-corners.patch
+patch -p1 < openbox-3.6.2-fix-out-of-bounds.patch
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-nls \
+    --disable-librsvg \
+    --disable-imlib2 \
+    --disable-session-management
+
+make
+make -j1 DESTDIR="$1" install
