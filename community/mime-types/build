@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+mkdir -p "$1/etc"
+cp mime.types "$1/etc"
