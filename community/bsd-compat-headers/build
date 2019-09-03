@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+tar --exclude ".*" -C "$1" -xf *.apk
