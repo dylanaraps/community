@@ -1,5 +1,4 @@
-bsd-compat-headers
-gperf make
+gperf
 libXau
 libxcb
 xcb-util
