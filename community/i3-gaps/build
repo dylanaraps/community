@@ -2,6 +2,9 @@
 
 patch -p1 < i3-4.16-musl-GLOB_TILDE.patch
 
+# This is needed for i3-gaps since they don't have release tarballs with pre-generated ./configure scripts
+autoreconf -fvi
+
 ./configure \
     --prefix=/usr
 
