@@ -1,0 +1,4 @@
+libxcb
+gperf make
+xcb-util-image
+xcb-util-renderutil
