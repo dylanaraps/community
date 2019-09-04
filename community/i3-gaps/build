@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < i3-4.16-musl-GLOB_TILDE.patch
+
+./configure \
+    --prefix=/usr
+
+cd x86_64-pc-linux-musl
+
+make
+make DESTDIR="$1" install
