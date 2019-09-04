@@ -1,15 +1,16 @@
 #!/bin/sh -e
 
 ./configure \
-	--prefix=/usr \
-	--enable-jit \
-	--enable-utf8 \
-	--enable-unicode-properties \
-	--enable-pcre8 \
-	--enable-pcre16 \
-	--enable-pcre32 \
-	--with-match-limit-recursion=8192
+    --prefix=/usr \
+    --enable-jit \
+    --enable-utf8 \
+    --enable-unicode-properties \
+    --enable-pcre8 \
+    --enable-pcre16 \
+    --enable-pcre32 \
+    --with-match-limit-recursion=8192
 
 make
-
 make DESTDIR="$1" install
+
+rm -rf "${1}/usr/share/doc"
