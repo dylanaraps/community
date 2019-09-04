@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < libev-4.25-pc.patch
+
+sed -i -e "/^include_HEADERS/s/ event.h//" Makefile.am
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
