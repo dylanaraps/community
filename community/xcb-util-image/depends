@@ -1,3 +1,4 @@
+libXau
 libxcb
-gperf make
+xcb-util
 xcb-util-renderutil
