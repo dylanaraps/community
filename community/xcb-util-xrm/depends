@@ -1,0 +1,6 @@
+bsd-compat-headers
+gperf make
+libXau
+libxcb
+xcb-util
+xcb-util-renderutil
