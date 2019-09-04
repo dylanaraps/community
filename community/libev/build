@@ -6,26 +6,5 @@
 make
 make DESTDIR="$1" install
 
-
-mkdir -p "$1/usr/lib/pkgconfig"
-
-# Grab package version.
-read -r version _ < "${0%/*}/version"
-
-# Create a 'pkg-config' file.
-cat > "$1/usr/lib/pkgconfig/libev.pc" <<EOF
-prefix=/usr
-exec_prefix=\${prefix}
-libdir=/usr/lib
-includedir=\${prefix}/include
-
-Name: libev
-Description: A high-performance event loop/event model with lots of features
-Version: $version
-Libs: -L\${libdir} -lev
-Libs.private:
-Cflags: -I\${includedir}
-EOF
-
 # Remove compatibility header which conflicts with 'libevent'.
 rm -f "$1/usr/include/event.h"
