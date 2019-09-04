@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+meson \
+	--prefix=/usr \
+	-Denable-wayland=false \
+	-Denable-docs=false \
+	-Denable-x11=true \
+	-Ddefault_library=both \
+	build
+
+ninja -C build
+
+DESTDIR="$1" ninja -C build install
