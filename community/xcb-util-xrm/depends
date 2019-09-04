@@ -1,5 +1,3 @@
-gperf
-libXau
 libxcb
 xcb-util
 xcb-util-renderutil
