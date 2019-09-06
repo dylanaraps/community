@@ -1,5 +1,5 @@
-util-linux
 e2fsprogs
-zstd
 lzo
-automake make
+util-linux
+zlib
+zstd
