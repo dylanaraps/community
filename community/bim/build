@@ -1,4 +1,7 @@
 #!/bin/sh -e
 
+# Remove 'bash' dependency.
+sed -i'' "s|\$(shell docs/git-tag)||" Makefile
+
 make
 make DESTDIR="$1" prefix=/usr install
