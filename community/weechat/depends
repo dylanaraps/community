@@ -1,5 +1,5 @@
 cmake     make
+gnutls
 libgcrypt
 libressl
 zlib
-gnutls
