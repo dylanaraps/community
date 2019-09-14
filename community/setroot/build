@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make PREFIX=/usr xinerama=1
+make PREFIX=/usr DESTDIR="$1" install
