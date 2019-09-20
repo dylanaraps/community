@@ -1,4 +1,10 @@
 #!/bin/sh -e
 
-make generic
-make DESTDIR="$1" install
+make MYCFLAGS="$CFLAGS -fPIC" \
+     MYLDFLAGS="$LDFLAGS" \
+     posix
+
+make INSTALL_TOP="$1/usr" \
+     INSTALL_MAN="$1/usr/share/man/man1" \
+     INSTALL_DATA="cp -d" \
+     install
