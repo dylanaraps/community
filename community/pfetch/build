@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm 755 pfetch "$1/usr/bin/pfetch"
