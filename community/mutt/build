@@ -2,9 +2,8 @@
 
 ./configure \
     --prefix=/usr \
-    --with-screen=ncurses \
     --sysconfdir=/etc \
-    --disable-nls
+    --with-screen=ncurses
 
 make
 make DESTDIR="$1" install
