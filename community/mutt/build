@@ -2,7 +2,12 @@
 
 ./configure \
     --prefix=/usr \
-    --sysconfdir=/etc
+    --sysconfdir=/etc \
+    --enable-pop \
+    --enable-imap \
+    --enable-smtp \
+    --with-ssl \
+    --with-sasl
 
 make
 make DESTDIR="$1" install
