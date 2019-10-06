@@ -1,13 +1,12 @@
 #!/bin/sh -e
 
-patch -p0 < patch-src_libssl_compat_h.patch
-
 ./configure \
     --prefix=/usr \
     --disable-nls \
     --disable-metalink \
     --disable-websocket \
-    --disable-epoll
+    --disable-epoll \
+    --without-sqlite3
 
 make
 make DESTDIR="$1" install
