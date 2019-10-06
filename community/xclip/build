@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-./bootstrap
+autoreconf -i \
 
 ./configure \
     --prefix=/usr
