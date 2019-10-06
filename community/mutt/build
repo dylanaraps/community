@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --enable-pop \
+    --enable-imap \
+    --enable-smtp \
+    --with-ssl \
+    --with-sasl
+
+make
+make DESTDIR="$1" install
+
+rm -f "$1/etc/mime.types"
