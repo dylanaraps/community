@@ -7,10 +7,4 @@ make \
     LIBS="-lncursesw" \
     build
 
-make DESTDIR="$1" install 
-
-# Remove all doc files.
-rm -rf "$1/usr/share/doc"
-
-# Remove all info files.
-rm -rf "$1/usr/share/info"
+make DESTDIR="$1" install
