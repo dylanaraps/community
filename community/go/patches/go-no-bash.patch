@@ -1,0 +1,31 @@
+diff --git a/make.bash b/make.bash
+index 92d1481..677a053 100755
+--- a/make.bash
++++ b/make.bash
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/bin/sh
+ # Copyright 2009 The Go Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style
+ # license that can be found in the LICENSE file.
+@@ -154,14 +154,12 @@ fi
+ 
+ export GOROOT_BOOTSTRAP=${GOROOT_BOOTSTRAP:-$HOME/go1.4}
+ export GOROOT="$(cd .. && pwd)"
+-IFS=$'\n'; for go_exe in $(type -ap go); do
+-	if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
+-		goroot=$(GOROOT='' GOOS='' GOARCH='' "$go_exe" env GOROOT)
+-		if [ "$goroot" != "$GOROOT" ]; then
+-			GOROOT_BOOTSTRAP=$goroot
+-		fi
+-	fi
+-done; unset IFS
++if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
++    goroot=$(GOROOT='' GOOS='' GOARCH='' "$(command -v go)" env GOROOT)
++    if [ "$goroot" != "$GOROOT" ]; then
++        GOROOT_BOOTSTRAP=$goroot
++    fi
++fi
+ echo "Building Go cmd/dist using $GOROOT_BOOTSTRAP."
+ if $verbose; then
+ 	echo cmd/dist
