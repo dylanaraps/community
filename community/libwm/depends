@@ -1,1 +1,2 @@
 libxcb make
+xcb-util-wm make
