@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make CMAKE_BUILD_TYPE=Release
+
+make CMAKE_INSTALL_PREFIX="$1" install
