@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+patch -p1 < remove_gettext.patch
+
+meson build \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--buildtype=release \
+	--backend=ninja \
+	-Dsynctex=disabled
+ 
+DESTDIR="$1" ninja -C build install
