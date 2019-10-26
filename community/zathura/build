@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < remove_gettext.patch
-
 meson build \
 	--prefix=/usr \
 	--sysconfdir=/etc \
