@@ -1,0 +1,21 @@
+# Description: GNU emacs - an extensible text editor
+# URL: http://gnu.org/software/emacs/
+# Maintainer:  Cory Burgett, cmburget at gmail dot com
+# Depends on: 
+# Conflicts with: ctags
+
+name=fish
+version=3.0.0
+release=1
+source=(https://github.com/fish-shell/fish-shell/archive/${version}.tar.gz)
+
+build() {
+	cd fish-shell-$version
+
+	autoreconf --no-recursive
+	./configure --prefix=/usr \
+		    --sysconfdir=/etc
+
+	make
+	make DESTDIR=$PKG install
+}
