@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < remove_gettext.patch
+
 meson build \
 	--prefix=/usr \
 	--sysconfdir=/etc \
@@ -8,3 +10,6 @@ meson build \
 	-Dsynctex=disabled
  
 DESTDIR="$1" ninja -C build install
+
+install -D -m 0644 zathura.1 "$1"/usr/share/man/man1/zathura.1
+install -D -m 0644 zathurarc.5 "$1"/usr/share/man/man1/zathurarc.5
