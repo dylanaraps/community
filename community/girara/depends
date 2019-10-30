@@ -1,5 +1,5 @@
 glib
 gtk+3
 json-c
-meson
-ninja
+meson make
+ninja make
