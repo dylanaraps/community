@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
 meson build \
-	--prefix=/usr \
-	--sysconfdir=/etc \
-	--buildtype=release \
-	--backend=ninja 
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --buildtype=release \
+    --backend=ninja 
  
 DESTDIR="$1" ninja -C build install
