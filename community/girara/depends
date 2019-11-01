@@ -2,4 +2,3 @@ glib
 gtk+3
 json-c
 meson make
-ninja make
