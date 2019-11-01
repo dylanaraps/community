@@ -1,4 +1,3 @@
 meson make
-ninja make
 poppler-glib
 zathura
