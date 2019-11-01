@@ -4,7 +4,6 @@ meson build \
     --prefix=/usr \
     --sysconfdir=/etc \
     --buildtype=release \
-    --backend=ninja \
     -Djson=enabled \
     -Dnotify=disabled \
     -Ddocs=disabled \
