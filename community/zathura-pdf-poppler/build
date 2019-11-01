@@ -3,7 +3,6 @@
 meson build \
     --prefix=/usr \
     --sysconfdir=/etc \
-    --buildtype=release \
-    --backend=ninja 
+    --buildtype=release
  
 DESTDIR="$1" ninja -C build install
