@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
-sed 's/usr\/local/usr/g' config.mk
+sed -i 's|usr/local|usr|g' config.mk
 
 make DESTDIR="$1" clean install
