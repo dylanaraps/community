@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# Disable stripping of binaries.
+# This breaks Go.
+:> nostrip
+
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
