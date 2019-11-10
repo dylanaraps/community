@@ -1,0 +1,4 @@
+https://git.pwmt.org/pwmt/zathura/-/archive/0.4.4/zathura-0.4.4.tar.gz
+patches/remove_gettext.patch
+files/zathura.1
+files/zathurarc.5
