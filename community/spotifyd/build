@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+cargo build \
+    --release \
+    --no-default-features \
+    --features alsa_backend
+
+install -Dm755 target/release/spotifyd "$1/usr/bin/spotifyd"
