@@ -1,0 +1,401 @@
+diff --git a/i3-config-wizard/main.c b/i3-config-wizard/main.c
+index 7c1f00a..8277b15 100644
+--- a/i3-config-wizard/main.c
++++ b/i3-config-wizard/main.c
+@@ -48,8 +48,6 @@
+ #include <xkbcommon/xkbcommon.h>
+ #include <xkbcommon/xkbcommon-x11.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launchee.h>
+ 
+ #include <X11/Xlib.h>
+ #include <X11/keysym.h>
+@@ -851,9 +849,6 @@ int main(int argc, char *argv[]) {
+ #undef xmacro
+ 
+     /* Init startup notification. */
+-    SnDisplay *sndisplay = sn_xcb_display_new(conn, NULL, NULL);
+-    SnLauncheeContext *sncontext = sn_launchee_context_new_from_environment(sndisplay, screen);
+-    sn_display_unref(sndisplay);
+ 
+     root_screen = xcb_aux_get_screen(conn, screen);
+     root = root_screen->root;
+@@ -887,9 +882,6 @@ int main(int argc, char *argv[]) {
+             0, /* back pixel: black */
+             XCB_EVENT_MASK_EXPOSURE |
+                 XCB_EVENT_MASK_BUTTON_PRESS});
+-    if (sncontext) {
+-        sn_launchee_context_setup_window(sncontext, win);
+-    }
+ 
+     /* Map the window (make it visible) */
+     xcb_map_window(conn, win);
+@@ -952,10 +944,6 @@ int main(int argc, char *argv[]) {
+     }
+ 
+     /* Startup complete. */
+-    if (sncontext) {
+-        sn_launchee_context_complete(sncontext);
+-        sn_launchee_context_unref(sncontext);
+-    }
+ 
+     xcb_flush(conn);
+ 
+diff --git a/i3-nagbar/main.c b/i3-nagbar/main.c
+index ec3e25f..cae37e8 100644
+--- a/i3-nagbar/main.c
++++ b/i3-nagbar/main.c
+@@ -32,8 +32,6 @@
+ #include <xcb/randr.h>
+ #include <xcb/xcb_cursor.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launchee.h>
+ 
+ #include "i3-nagbar.h"
+ 
+@@ -427,9 +425,6 @@ int main(int argc, char *argv[]) {
+ #undef xmacro
+ 
+     /* Init startup notification. */
+-    SnDisplay *sndisplay = sn_xcb_display_new(conn, NULL, NULL);
+-    SnLauncheeContext *sncontext = sn_launchee_context_new_from_environment(sndisplay, screens);
+-    sn_display_unref(sndisplay);
+ 
+     root_screen = xcb_aux_get_screen(conn, screens);
+     root = root_screen->root;
+@@ -500,9 +495,6 @@ int main(int argc, char *argv[]) {
+                 XCB_EVENT_MASK_BUTTON_PRESS |
+                 XCB_EVENT_MASK_BUTTON_RELEASE,
+             cursor});
+-    if (sncontext) {
+-        sn_launchee_context_setup_window(sncontext, win);
+-    }
+ 
+     /* Map the window (make it visible) */
+     xcb_map_window(conn, win);
+@@ -564,10 +556,6 @@ int main(int argc, char *argv[]) {
+     draw_util_surface_init(conn, &bar, win, get_visualtype(root_screen), win_pos.width, win_pos.height);
+ 
+     /* Startup complete. */
+-    if (sncontext) {
+-        sn_launchee_context_complete(sncontext);
+-        sn_launchee_context_unref(sncontext);
+-    }
+ 
+     /* Grab the keyboard to get all input */
+     xcb_flush(conn);
+diff --git a/include/all.h b/include/all.h
+index e93b066..26c45d4 100644
+--- a/include/all.h
++++ b/include/all.h
+@@ -72,7 +72,6 @@
+ #include "assignments.h"
+ #include "regex.h"
+ #include "libi3.h"
+-#include "startup.h"
+ #include "scratchpad.h"
+ #include "commands.h"
+ #include "commands_parser.h"
+diff --git a/include/data.h b/include/data.h
+index c3cada3..2de800a 100644
+--- a/include/data.h
++++ b/include/data.h
+@@ -11,8 +11,6 @@
+ 
+ #include "libi3.h"
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launcher.h>
+ 
+ #include <xcb/randr.h>
+ #include <stdbool.h>
+@@ -232,7 +230,6 @@ struct Startup_Sequence {
+     /** workspace on which this startup was initiated */
+     char *workspace;
+     /** libstartup-notification context for this launch */
+-    SnLauncherContext *context;
+     /** time at which this sequence should be deleted (after it was marked as
+      * completed) */
+     time_t delete_at;
+diff --git a/include/i3.h b/include/i3.h
+index e7afe7e..a89be5d 100644
+--- a/include/i3.h
++++ b/include/i3.h
+@@ -20,8 +20,6 @@
+ 
+ #include <X11/XKBlib.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launcher.h>
+ 
+ #include "queue.h"
+ #include "data.h"
+@@ -52,7 +50,6 @@ extern xcb_window_t ewmh_window;
+  * and are used for some things, like determining a unique ID in startup
+  * notification). */
+ extern xcb_timestamp_t last_timestamp;
+-extern SnDisplay *sndisplay;
+ extern xcb_key_symbols_t *keysyms;
+ extern char **start_argv;
+ extern Display *xlibdpy, *xkbdpy;
+diff --git a/include/startup.h b/include/startup.h
+index feece57..2c1e539 100644
+--- a/include/startup.h
++++ b/include/startup.h
+@@ -14,8 +14,6 @@
+ 
+ #include <config.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-monitor.h>
+ 
+ /**
+  * Starts the given application by passing it through a shell. We use double
+@@ -44,7 +42,6 @@ void startup_sequence_delete(struct Startup_Sequence *sequence);
+  * Called by libstartup-notification when something happens
+  *
+  */
+-void startup_monitor_event(SnMonitorEvent *event, void *userdata);
+ 
+ /**
+  * Renames workspaces that are mentioned in the startup sequences.
+diff --git a/src/handlers.c b/src/handlers.c
+index ae42b82..9b1bbde 100644
+--- a/src/handlers.c
++++ b/src/handlers.c
+@@ -14,8 +14,6 @@
+ #include <float.h>
+ #include <sys/time.h>
+ #include <xcb/randr.h>
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-monitor.h>
+ 
+ int randr_base = -1;
+ int xkb_base = -1;
+@@ -663,8 +661,6 @@ static void handle_expose_event(xcb_expose_event_t *event) {
+ static void handle_client_message(xcb_client_message_event_t *event) {
+     /* If this is a startup notification ClientMessage, the library will handle
+      * it and call our monitor_event() callback. */
+-    if (sn_xcb_display_process_event(sndisplay, (xcb_generic_event_t *)event))
+-        return;
+ 
+     LOG("ClientMessage for window 0x%08x\n", event->window);
+     if (event->type == A__NET_WM_STATE) {
+@@ -1305,7 +1301,6 @@ static struct property_handler_t property_handlers[] = {
+  *
+  */
+ void property_handlers_init(void) {
+-    sn_monitor_context_new(sndisplay, conn_screen, startup_monitor_event, NULL, NULL);
+ 
+     property_handlers[0].atom = A__NET_WM_NAME;
+     property_handlers[1].atom = XCB_ATOM_WM_HINTS;
+diff --git a/src/main.c b/src/main.c
+index c76f9ec..2d1520a 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -46,7 +46,6 @@ xcb_connection_t *conn;
+ int conn_screen;
+ 
+ /* Display handle for libstartup-notification */
+-SnDisplay *sndisplay;
+ 
+ /* The last timestamp we got from X11 (timestamps are included in some events
+  * and are used for some things, like determining a unique ID in startup
+@@ -536,7 +535,6 @@ int main(int argc, char *argv[]) {
+     if (xcb_connection_has_error(conn))
+         errx(EXIT_FAILURE, "Cannot open display");
+ 
+-    sndisplay = sn_xcb_display_new(conn, NULL, NULL);
+ 
+     /* Initialize the libev event loop. This needs to be done before loading
+      * the config file because the parser will install an ev_child watcher
+diff --git a/src/startup.c b/src/startup.c
+index c5b7ad5..9cfdaff 100644
+--- a/src/startup.c
++++ b/src/startup.c
+@@ -18,8 +18,6 @@
+ #include <sys/wait.h>
+ #include <paths.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launcher.h>
+ 
+ static TAILQ_HEAD(startup_sequence_head, Startup_Sequence) startup_sequences =
+     TAILQ_HEAD_INITIALIZER(startup_sequences);
+@@ -32,29 +30,7 @@ static TAILQ_HEAD(startup_sequence_head, Startup_Sequence) startup_sequences =
+  *
+  */
+ static void startup_timeout(EV_P_ ev_timer *w, int revents) {
+-    const char *id = sn_launcher_context_get_startup_id(w->data);
+-    DLOG("Timeout for startup sequence %s\n", id);
+ 
+-    struct Startup_Sequence *current, *sequence = NULL;
+-    TAILQ_FOREACH(current, &startup_sequences, sequences) {
+-        if (strcmp(current->id, id) != 0)
+-            continue;
+-
+-        sequence = current;
+-        break;
+-    }
+-
+-    /* Unref the context (for the timeout itself, see start_application) */
+-    sn_launcher_context_unref(w->data);
+-
+-    if (!sequence) {
+-        DLOG("Sequence already deleted, nevermind.\n");
+-        free(w);
+-        return;
+-    }
+-
+-    /* Complete the startup sequence, will trigger its deletion. */
+-    sn_launcher_context_complete(w->data);
+     free(w);
+ }
+ 
+@@ -103,11 +79,7 @@ static int _prune_startup_sequences(void) {
+  */
+ void startup_sequence_delete(struct Startup_Sequence *sequence) {
+     assert(sequence != NULL);
+-    DLOG("Deleting startup sequence %s, delete_at = %lld, current_time = %lld\n",
+-         sequence->id, (long long)sequence->delete_at, (long long)time(NULL));
+ 
+-    /* Unref the context, will be free()d */
+-    sn_launcher_context_unref(sequence->context);
+ 
+     /* Delete our internal sequence */
+     TAILQ_REMOVE(&startup_sequences, sequence, sequences);
+@@ -131,45 +103,6 @@ void startup_sequence_delete(struct Startup_Sequence *sequence) {
+  *
+  */
+ void start_application(const char *command, bool no_startup_id) {
+-    SnLauncherContext *context = NULL;
+-
+-    if (!no_startup_id) {
+-        /* Create a startup notification context to monitor the progress of this
+-         * startup. */
+-        context = sn_launcher_context_new(sndisplay, conn_screen);
+-        sn_launcher_context_set_name(context, "i3");
+-        sn_launcher_context_set_description(context, "exec command in i3");
+-        /* Chop off everything starting from the first space (if there are any
+-         * spaces in the command), since we don’t want the parameters. */
+-        char *first_word = sstrdup(command);
+-        char *space = strchr(first_word, ' ');
+-        if (space)
+-            *space = '\0';
+-        sn_launcher_context_initiate(context, "i3", first_word, last_timestamp);
+-        free(first_word);
+-
+-        /* Trigger a timeout after 60 seconds */
+-        struct ev_timer *timeout = scalloc(1, sizeof(struct ev_timer));
+-        ev_timer_init(timeout, startup_timeout, 60.0, 0.);
+-        timeout->data = context;
+-        ev_timer_start(main_loop, timeout);
+-
+-        LOG("startup id = %s\n", sn_launcher_context_get_startup_id(context));
+-
+-        /* Save the ID and current workspace in our internal list of startup
+-         * sequences */
+-        Con *ws = con_get_workspace(focused);
+-        struct Startup_Sequence *sequence = scalloc(1, sizeof(struct Startup_Sequence));
+-        sequence->id = sstrdup(sn_launcher_context_get_startup_id(context));
+-        sequence->workspace = sstrdup(ws->name);
+-        sequence->context = context;
+-        TAILQ_INSERT_TAIL(&startup_sequences, sequence, sequences);
+-
+-        /* Increase the refcount once (it starts with 1, so it will be 2 now) for
+-         * the timeout. Even if the sequence gets completed, the timeout still
+-         * needs the context (but will unref it then) */
+-        sn_launcher_context_ref(context);
+-    }
+ 
+     LOG("executing: %s\n", command);
+     if (fork() == 0) {
+@@ -188,8 +121,6 @@ void start_application(const char *command, bool no_startup_id) {
+         signal(SIGPIPE, SIG_DFL);
+         if (fork() == 0) {
+             /* Setup the environment variable(s) */
+-            if (!no_startup_id)
+-                sn_launcher_context_setup_child_process(context);
+             setenv("I3SOCK", current_socketpath, 1);
+ 
+             execl(_PATH_BSHELL, _PATH_BSHELL, "-c", command, NULL);
+@@ -199,64 +130,12 @@ void start_application(const char *command, bool no_startup_id) {
+     }
+     wait(0);
+ 
+-    if (!no_startup_id) {
+-        /* Change the pointer of the root window to indicate progress */
+-        if (xcursor_supported)
+-            xcursor_set_root_cursor(XCURSOR_CURSOR_WATCH);
+-        else
+-            xcb_set_root_cursor(XCURSOR_CURSOR_WATCH);
+-    }
+ }
+ 
+ /*
+  * Called by libstartup-notification when something happens
+  *
+  */
+-void startup_monitor_event(SnMonitorEvent *event, void *userdata) {
+-    SnStartupSequence *snsequence;
+-
+-    snsequence = sn_monitor_event_get_startup_sequence(event);
+-
+-    /* Get the corresponding internal startup sequence */
+-    const char *id = sn_startup_sequence_get_id(snsequence);
+-    struct Startup_Sequence *current, *sequence = NULL;
+-    TAILQ_FOREACH(current, &startup_sequences, sequences) {
+-        if (strcmp(current->id, id) != 0)
+-            continue;
+-
+-        sequence = current;
+-        break;
+-    }
+-
+-    if (!sequence) {
+-        DLOG("Got event for startup sequence that we did not initiate (ID = %s). Ignoring.\n", id);
+-        return;
+-    }
+-
+-    switch (sn_monitor_event_get_type(event)) {
+-        case SN_MONITOR_EVENT_COMPLETED:
+-            DLOG("startup sequence %s completed\n", sn_startup_sequence_get_id(snsequence));
+-
+-            /* Mark the given sequence for deletion in 30 seconds. */
+-            time_t current_time = time(NULL);
+-            sequence->delete_at = current_time + 30;
+-            DLOG("Will delete startup sequence %s at timestamp %lld\n",
+-                 sequence->id, (long long)sequence->delete_at);
+-
+-            if (_prune_startup_sequences() == 0) {
+-                DLOG("No more startup sequences running, changing root window cursor to default pointer.\n");
+-                /* Change the pointer of the root window to indicate progress */
+-                if (xcursor_supported)
+-                    xcursor_set_root_cursor(XCURSOR_CURSOR_POINTER);
+-                else
+-                    xcb_set_root_cursor(XCURSOR_CURSOR_POINTER);
+-            }
+-            break;
+-        default:
+-            /* ignore */
+-            break;
+-    }
+-}
+ 
+ /*
+  * Renames workspaces that are mentioned in the startup sequences.
+diff --git a/src/util.c b/src/util.c
+index 9fe3fa4..fc9c2d8 100644
+--- a/src/util.c
++++ b/src/util.c
+@@ -21,8 +21,6 @@
+ #include <libgen.h>
+ #include <ctype.h>
+ 
+-#define SN_API_NOT_YET_FROZEN 1
+-#include <libsn/sn-launcher.h>
+ 
+ int min(int a, int b) {
+     return (a < b ? a : b);
