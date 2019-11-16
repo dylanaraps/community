@@ -1,0 +1,5 @@
+libX11
+libXau
+libxcb
+xcb-util
+xorg-util-macros make
