@@ -1,0 +1,4 @@
+libX11
+libXau
+libxcb
+xcb-util
