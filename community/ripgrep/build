@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+cargo build --release
+
+install -Dm755 target/release/rg "$1/usr/bin/rg"
