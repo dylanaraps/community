@@ -1,3 +1,3 @@
-cmake make
-libtool make
 automake make
+cmake    make
+libtool  make
