@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-user-session \
+    --disable-doxygen-docs \
+    --disable-xml-docs \
+    --with-systemduserunitdir=no \
+    --with-systemdsystemunitdir=no \
+    --docdir=/usr/share/doc/dbus-1.12.16 \
+    --with-console-auth-dir=/run/console \
+    --with-system-pid-file=/run/dbus/pid \
+    --with-system-socket=/run/dbus/system_bus_socket
+
+make
+make DESTDIR="$1" install
