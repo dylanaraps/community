@@ -1,1 +1,5 @@
-musl
+gcc
+libevent
+pcre
+gc
+libatomic_ops
