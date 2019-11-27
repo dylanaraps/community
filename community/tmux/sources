@@ -1,1 +1,2 @@
-https://github.com/tmux/tmux/releases/download/2.9a/tmux-2.9a.tar.gz
+https://github.com/tmux/tmux/releases/download/3.0/tmux-3.0.tar.gz
+patches/musl.patch
