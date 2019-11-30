@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < strncpy.patch
+
+autoreconf -i
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
