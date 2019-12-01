@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# Remove mandatory gettext dependency.
+sed -i -e 's/^/#/' src/nvim/po/CMakeLists.txt
+
+make CMAKE_BUILD_TYPE=Release \
+     CMAKE_INSTALL_PREFIX=/usr \
+     CMAKE_INSTALL_LIBDIR=lib
+
+make DESTDIR="$1" install

@@ -1,0 +1,4 @@
+cmake   make
+imlib2
+lua     make
+ncurses

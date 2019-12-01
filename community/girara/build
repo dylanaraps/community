@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+meson build \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --buildtype=release \
+    -Djson=enabled \
+    -Dnotify=disabled \
+    -Ddocs=disabled \
+    -Dtests=disabled 
+
+DESTDIR="$1" ninja -C build install

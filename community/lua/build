@@ -8,3 +8,5 @@ make INSTALL_TOP="$1/usr" \
      INSTALL_MAN="$1/usr/share/man/man1" \
      INSTALL_DATA="cp -d" \
      install
+
+install -D lua.pc "$1/usr/lib/pkgconfig/lua.pc"

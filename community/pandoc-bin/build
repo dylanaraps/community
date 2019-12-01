@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 bin/pandoc "$1/usr/bin/pandoc"

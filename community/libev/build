@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
+
+# Remove compatibility header which conflicts with 'libevent'.
+rm -f "$1/usr/include/event.h"

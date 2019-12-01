@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+cmake . \
+    -DRELEASE=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_I18N=OFF \
+    -DCURSES_NEED_WIDE=ON \
+    -DCURSES_INCLUDE_PATH=/usr/include \
+    -DBUILD_I18N=OFF
+
+make
+make DESTDIR="$1" install
