@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+patch -p0 < 001-map-sync.patch
+patch -p0 < 002-ppc.patch
+patch -p0 < 003-sigtrm-max.patch
+patch -p0 < 004-syscall.patch
+patch -p0 < 005-elfload.patch
+
+./configure \
+    --prefix=/usr \
+    --localstatedir=/var \
+    --sysconfdir=/etc \
+    --python=/usr/bin/python3 \
+    --disable-glusterfs \
+    --disable-debug-info \
+    --disable-bsd-user \
+    --disable-werror \
+    --disable-xen \
+    --enable-kvm \
+    --enable-lzo \
+    --enable-sdl \
+    --enable-iconv \
+    --disable-gtk \
+    --disable-docs \
+    --enable-pie \
+    --enable-curses
+
+make
+make DESTDIR="$1" PREFIX=/usr install
