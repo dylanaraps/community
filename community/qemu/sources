@@ -1,4 +1,4 @@
-https://download.qemu.org/qemu-4.1.1.tar.xz
+https://download.qemu.org/qemu-4.2.0.tar.xz
 patches/001-map-sync.patch
 patches/002-ppc.patch
 patches/003-sigtrm-max.patch
