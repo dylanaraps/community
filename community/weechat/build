@@ -1,15 +1,15 @@
 #!/bin/sh -e
 
-patch -p1 < weechat-2.4-support-cap-echo-message.patch
+export DESTDIR="$1"
 
-mkdir -p build
-cd build
-
-cmake \
-    -Wno-dev ../ \
+cmake -B build \
+    -Wno-dev \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DENABLE_MAN=OFF \
     -DENABLE_DOC=OFF \
-    -DENABLE_GNUTLS=ON
+    -DENABLE_GNUTLS=ON \
+    -DENABLE_SCRIPTS=OFF \
+    -DENABLE_SPELL=OFF
 
-make DESTDIR="$1" install
+cmake --build   build
+cmake --install build
