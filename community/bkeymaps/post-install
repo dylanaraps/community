@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
-echo "\
+cat << "EOF"
+
 NOTE: Keymaps are copied to /usr/share/bkeymaps.
 
 NOTE: You should pipe the keymaps to loadkmap in 
 NOTE: order to load them.
 
-NOTE: example usage:
-NOTE:      loadkmap < /usr/share/bkeymaps/us/us.bmap"
+example usage:
+-> loadkmap < /usr/share/bkeymaps/us/us.bmap
+
+EOF
