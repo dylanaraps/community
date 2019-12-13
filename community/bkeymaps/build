@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+# Not much to do, you should really
+# download the bkeymap file itself
+
+make DESTDIR="$1" install
