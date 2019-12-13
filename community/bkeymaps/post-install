@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-cat << "EOF"
+cat <<EOF
 
 NOTE: Keymaps are copied to /usr/share/bkeymaps.
 
