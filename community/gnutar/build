@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+FORCE_UNSAFE_CONFIGURE=1 CC="gcc -static" ./configure --prefix=/opt/gnu/tar
+
+make DESTDIR="$1" install
