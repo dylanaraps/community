@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin"
+mkdir -p "$1/etc/udev/rules.d"
+
+install -m755 "lux.sh" "$1/usr/bin/lux"
+install -m755 "99-lux.rules" "$1/etc/udev/rules.d/99-lux.rules"
