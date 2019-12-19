@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+CC="gcc -static" CFLAGS="-Wno-error" ./configure --prefix=/opt/gnu/grep
+
+make DESTDIR="$1" install
