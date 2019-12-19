@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+CC="gcc -static" make
+
+mkdir -p "$1/opt/awk/bin"
+
+install -m755 "a.out" "$1/opt/awk/bin/awk"
