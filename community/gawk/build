@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+CC="gcc -static" ./configure --prefix=/opt/gnu/gawk
+
+make DESTDIR="$1" install
