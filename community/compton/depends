@@ -1,0 +1,6 @@
+make
+libev
+libconfig
+libpcre
+libxdg-basedir
+uthash

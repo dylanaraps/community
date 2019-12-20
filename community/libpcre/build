@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export MAKEINFO=true
+
+autoreconf
+
+./configure \
+    --prefix=/usr \
+    --disable-cxx
+
+make
+
+make DESTDIR="$1" install

@@ -1,0 +1,31 @@
+#!/bin/sh -e
+
+export NO_DBUS=1
+
+cat << EOF > a2x
+#!/bin/sh
+return 0
+EOF
+cat << EOF > asciidoc
+#!/bin/sh
+return 0
+EOF
+chmod +x a2x asciidoc
+touch man/compton.1
+touch man/compton-trans.1
+
+export PATH=$PWD:$PATH
+
+make
+
+make DESTDIR="$1" install
+
+# picom doesn't respect NO_DBUS=1, still leaving this here for the next guy
+# meson build \
+    #       --prefix=/usr \
+    #       --sysconfdir=/etc \
+    #       --mandir=/usr/share/man \
+    #       --localstatedir=/var \
+    #       --buildtype=release
+
+# DESTDIR="$1" ninja -C build install
