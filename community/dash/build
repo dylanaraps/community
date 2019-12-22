@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+CC="gcc -static" ./configure --prefix=/usr
+
+make DESTDIR="$1" install
