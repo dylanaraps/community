@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+sed -i 's/\#!\/usr\/bin\/env bash/\#!\/bin\/mksh/g' wal
+sed -i 's/shopt/#shopt/g' wal
+
+mkdir -p "$1/usr/bin"
+
+install -m755 "wal" "$1/usr/bin/wal"
