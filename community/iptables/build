@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+autoreconf -i
+
+./configure --prefix=/usr \
+            --sbindir=/usr/sbin \
+            --disable-nftables \
+            --enable-libipq \
+            --with-xtlibdir=/lib/xtables
+
+make
+
+make DESTDIR="$1" install
