@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p "$1/usr/include"
-
-install -m755 src/* "$1/usr/include"
