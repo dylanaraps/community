@@ -1,12 +1,13 @@
 #!/bin/sh -e
 
+# give option to easily enable nftables by passing USE="--with-nftables" to kiss
+[ -z "$USE" ] && USE="--disable-nftables"
+
 autoreconf -i
 
 ./configure --prefix=/usr \
             --sbindir=/usr/sbin \
-            --disable-nftables \
-            --enable-libipq \
-            --with-xtlibdir=/lib/xtables
+            --enable-libipq --with-xtlibdir=/lib/xtables "$USE"
 
 make
 
