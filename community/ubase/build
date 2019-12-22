@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+make CC="gcc -static" DESTDIR="$1" PREFIX=/opt/suckless/ubase install
