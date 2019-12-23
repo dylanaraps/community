@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+autoreconf -i
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --enable-iproute2 \
+    --enable-pkcs11 \
+    --enable-plugins \
+    --enable-password-save \
+    --enable-x509-alt-username \
+    --disable-plugin-auth-pam
+
+make DESTDIR="$1" install
