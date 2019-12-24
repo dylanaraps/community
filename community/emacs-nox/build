@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export with_xml2=yes
+
+./configure \
+    --prefix=/usr \
+    --without-all \
+    --without-x \
+    --with-x-toolkit=no \
+    --with-x=no \
+    --with-mailutils
+
+make DESTDIR="$1" install
