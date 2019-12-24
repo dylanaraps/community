@@ -6,7 +6,6 @@
     --without-x \
     --with-x-toolkit=no \
     --with-x=no \
-    --with-mailutils \
     --with-xml2=yes
 
 make DESTDIR="$1" install
