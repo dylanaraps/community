@@ -1,3 +1,4 @@
+make
 zlib
 ncurses
 libxml2
