@@ -5,6 +5,7 @@
     --sysconfdir=/etc \
     --libexecdir=/usr/lib \
     --localstatedir=/var \
+    --with-modules \
     --without-all \
     --without-x \
     --with-x-toolkit=no \
