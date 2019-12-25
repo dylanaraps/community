@@ -8,6 +8,3 @@
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
 make DESTDIR="$1" install
-
-# Harden security policy https://bugs.archlinux.org/task/62785
-sed -e '/<\/policymap>/i \ \ <policy domain="delegate" rights="none" pattern="gs" \/>' -i "$1/etc/ImageMagick-6/policy.xml"
