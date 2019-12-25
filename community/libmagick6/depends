@@ -2,4 +2,7 @@ make
 fontconfig
 libtool
 libpng
+libjpeg-turbo
 libxml2
+imlib2
+giflib
