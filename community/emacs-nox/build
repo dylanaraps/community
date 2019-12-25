@@ -22,11 +22,6 @@ cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
 
 ;; fix ugly
 (menu-bar-mode -1)
-(require 'cl-lib)
-
-(cl-loop for face in
-           '(mode-line-inactive mode-line default) do
-           (set-face-attribute face nil :foreground nil :background nil))
 
 ;; some better defaults
 (show-paren-mode 1)
