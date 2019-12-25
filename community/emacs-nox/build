@@ -2,6 +2,9 @@
 
 ./configure \
     --prefix=/usr \
+    --sysconfdir=/etc \
+    --libexecdir=/usr/lib \
+    --localstatedir=/var \
     --without-all \
     --without-x \
     --with-x-toolkit=no \
