@@ -14,7 +14,6 @@
     --without-gconf \
     --without-gsettings \
     --without-sound \
-    --with-xpm=no \
     --without-xpm \
     --without-jpeg \
     --without-tiff \
