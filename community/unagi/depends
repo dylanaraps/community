@@ -1,2 +1,6 @@
 make
 libconfuse
+libev
+libxcb
+xcb-proto
+xdg-basedir
