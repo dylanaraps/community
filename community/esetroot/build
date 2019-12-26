@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make IMLIB_LIBS="$(imlib2-config --libs) -lX11"
+
+make DESTDIR="$1" install
