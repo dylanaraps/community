@@ -2,4 +2,4 @@
 
 make IMLIB_LIBS="$(imlib2-config --libs) -lX11"
 
-make DESTDIR="$1" install
+install -D -m755 Esetroot "$1/usr/bin/esetroot"
