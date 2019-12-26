@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
-./configure --prefix=/usr
+autoreconf -i
+
+./configure --prefix=/usr --sysconfdir=/etc
 
 make DESTDIR="$1" install

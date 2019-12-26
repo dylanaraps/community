@@ -3,4 +3,4 @@ libconfuse
 libev
 libxcb
 xcb-proto
-xdg-basedir
+libxdg-basedir
