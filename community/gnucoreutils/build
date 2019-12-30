@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-FORCE_UNSAFE_CONFIGURE=1 CC="gcc -static" ./configure --prefix=/opt/gnu/coreutils
-
-make DESTDIR="$1" install
