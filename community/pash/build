@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+mkdir -p $1/usr/bin
+mv pash $1/usr/bin
