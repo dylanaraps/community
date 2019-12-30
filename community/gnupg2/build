@@ -11,10 +11,7 @@ autoreconf
             --sbindir=/usr/bin \
             --libexecdir=/usr/lib/gnupg \
             --enable-maintainer-mode \
-            --enable-symcryptrun
+            --enable-symcryptrun \
+            --enable-gpg-is-gpg2
 
 make DESTDIR="$1" install
-
-# fix gnupg1/gnupg2 conflict
-mv "$1/usr/bin/gpg" "$1/usr/bin/gpg2"
-mv "$1/usr/bin/gpgv" "$1/usr/bin/gpgv2"
