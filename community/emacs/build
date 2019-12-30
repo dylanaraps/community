@@ -24,79 +24,11 @@
 
 mkdir -p "$1/usr/share/emacs/site-lisp"
 cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
-;; load newest byte code
-(setq load-prefer-newer t)
-
-;; garbage collect less often
-(setq gc-cons-threshold 100000000)
-
 ;; fix ugly
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (horizontal-scroll-bar-mode -1)
-
-;; some better defaults
-(show-paren-mode 1)
-(setq-default indent-tabs-mode nil
-              tab-width 8
-              fill-column 80)
-(delete-selection-mode 1)
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(fset 'yes-or-no-p 'y-or-n-p)
-(ido-mode t)
-(setq ido-enable-flex-matching t
-      save-interprogram-paste-before-kill t
-      apropos-do-all t
-      mouse-yank-at-point t
-      require-final-newline t
-      load-prefer-newer t
-      ediff-window-setup-function 'ediff-setup-windows-plain)
-(global-set-key (kbd "M-/") 'hippie-expand)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-
-;; no littering
-(setq save-place-file (concat user-emacs-directory "places")
-        backup-directory-alist \`(("." . ,(concat user-emacs-directory
-                                                 "backups"))))
-
-;; a kiss front-end
-(defun kiss ()
-  "A minimalist front-end to the KISS Linux package manager"
-  (interactive)
-  (with-temp-buffer
-    (if (not (string-match "root@" (pwd)))
-        (cd (concat "/su:root@"system-name":"default-directory)))
-    (setq-local
-     my-read
-     (read-string "kiss [b|c|i|l|r|s|u] [pkg] [pkg] [pkg] " ""))
-    (async-shell-command (concat "kiss " my-read "|| echo err $?"))
-    (delete-other-windows)
-    (switch-to-buffer "*Async Shell Command*")))
-
-;; optionally allow user to bootstrap straight.el
-(defun straight-bootstrap ()
-  (interactive)
-  (if (bound-and-true-p use-straight-package)
-    (progn
-      (defvar bootstrap-version)
-    (let ((bootstrap-file
-           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-          (bootstrap-version 5))
-      (unless (file-exists-p bootstrap-file)
-        (with-current-buffer
-            (url-retrieve-synchronously
-             "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-             'silent 'inhibit-cookies)
-          (goto-char (point-max))
-          (eval-print-last-sexp)))
-      (load bootstrap-file nil 'nomessage)))
-    (message "To use this feature use-straight-package cannot be nil")))
 EOF
 
 make DESTDIR="$1" install
