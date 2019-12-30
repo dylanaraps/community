@@ -1,7 +1,3 @@
 #!/bin/sh -e
 
-
-
-mkdir -p "$1/usr/bin"
-
-install -m755 "mksh" "$1/usr/bin/mksh"
+install -Dm755 "keychain" "$1/usr/bin/keychain"
