@@ -2,6 +2,4 @@
 
 CC="gcc -static" sh Build.sh
 
-mkdir -p "$1/usr/bin"
-
-install -m755 "mksh" "$1/usr/bin/mksh"
+install -Dm755 "mksh" "$1/usr/bin/mksh"
