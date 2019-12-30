@@ -5,8 +5,6 @@ export MAKEINFO=true
 touch fig2dev convert ; chmod +x fig2dev convert
 export PATH=$PWD:$PATH
 
-autoreconf
-
 ./configure --prefix=/usr \
             --sbindir=/usr/bin \
             --libexecdir=/usr/lib/gnupg \
