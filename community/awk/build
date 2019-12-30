@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-CC="gcc -static" make SHARED=0 CFLAGS='-static -std=gnu99 -static-libgcc -static-libstdc++ -fPIC'
-
-mkdir -p "$1/opt/awk/bin"
-
-install -m755 "a.out" "$1/opt/awk/bin/awk"
