@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
-CC="gcc -static" ./configure --prefix=/opt/gnu/gawk
+export CC="gcc -static"
 
-make DESTDIR="$1" install
+./configure \
+    --prefix=/usr
+
+make
+
+install -Dm755 gawk "$1/usr/bin/gawk"
