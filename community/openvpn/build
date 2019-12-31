@@ -10,4 +10,5 @@
     --enable-x509-alt-username \
     --disable-plugin-auth-pam
 
+make
 make DESTDIR="$1" install
