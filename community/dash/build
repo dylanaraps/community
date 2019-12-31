@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-CC="gcc -static"
+export CC="gcc -static"
 
 ./configure \
     --prefix=/usr
