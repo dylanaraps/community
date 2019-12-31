@@ -1,6 +1,5 @@
-make
 fontconfig
-libtool
+libtool make
 libpng
 libjpeg-turbo
 libxml2
