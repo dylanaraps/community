@@ -1,15 +1,12 @@
 #!/bin/sh -e
 
-# fake
-export MAKEINFO=true
-touch fig2dev convert ; chmod +x fig2dev convert
-export PATH=$PWD:$PATH
-
 ./configure --prefix=/usr \
             --sbindir=/usr/bin \
             --libexecdir=/usr/lib/gnupg \
-            --enable-maintainer-mode \
             --enable-symcryptrun \
-            --enable-gpg-is-gpg2
+            --enable-gpg-is-gpg2 \
+            --disable-ldap \
+            --disable-nls
 
+make
 make DESTDIR="$1" install
