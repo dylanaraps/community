@@ -7,4 +7,5 @@ export CC="gcc -static"
     --prefix=/usr \
     --program-prefix=g
 
+make
 make DESTDIR="$1" install
