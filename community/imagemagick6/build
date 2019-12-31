@@ -1,11 +1,7 @@
 #!/bin/sh -e
 
 ./configure \
-    --prefix=/usr \
-    --sysconfdir=/etc \
-    --with-modules
-
-sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
