@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-CC="gcc -static" ./configure --prefix=/opt/gnu/patch
-
-make DESTDIR="$1" install
