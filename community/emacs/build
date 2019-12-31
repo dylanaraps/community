@@ -2,14 +2,11 @@
 
 ./configure \
     --prefix=/usr \
-    --sysconfdir=/etc \
-    --libexecdir=/usr/lib \
-    --localstatedir=/var \
+    --with-modules \
+    --with-xft \
+    --with-imagemagick=yes \
     --with-x-toolkit=athena \
     --without-toolkit-scroll-bars \
-    --with-gnutls=yes \
-    --with-xft \
-    --with-modules \
     --without-dbus \
     --without-gconf \
     --without-gsettings \
@@ -19,8 +16,7 @@
     --without-tiff \
     --without-gif \
     --without-png \
-    --without-rsvg \
-    --with-imagemagick=yes
+    --without-rsvg
 
 mkdir -p "$1/usr/share/emacs/site-lisp"
 cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
