@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
-make CC="gcc -static"
+make CFLAGS="$CFLAGS -static"
 
 install -Dm755 "a.out" "$1/usr/bin/nawk"
