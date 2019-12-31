@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
-make CC="gcc -static" ubase-box
+make CFLAGS="$CFLAGS -static" ubase-box
 
 install -Dm 755 ubase-box "$1/usr/bin/ubase-box"
