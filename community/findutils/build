@@ -7,11 +7,3 @@ export CC="gcc -static"
     --program-prefix=g
 
 make DESTDIR="$1" install
-
-
-# make
-
-# install -Dm755 find/find "$1/usr/bin/gfind"
-# install -Dm755 xargs/xargs "$1/usr/bin/gxargs"
-# install -Dm755 locate/locate "$1/usr/bin/locate"
-# install -Dm755 locate/updatedb "$1/usr/bin/updatedb"
