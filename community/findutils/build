@@ -1,10 +1,17 @@
 #!/bin/sh -e
 
-CC="gcc -static" ./configure --prefix=/usr
+export CC="gcc -static"
 
-make
+./configure \
+    --prefix=/usr \
+    --program-prefix=g
 
-install -Dm755 find/find "$1/usr/bin/gfind"
-install -Dm755 xargs/xargs "$1/usr/bin/gxargs"
-install -Dm755 locate/locate "$1/usr/bin/locate"
-install -Dm755 locate/updatedb "$1/usr/bin/updatedb"
+make DESTDIR="$1" install
+
+
+# make
+
+# install -Dm755 find/find "$1/usr/bin/gfind"
+# install -Dm755 xargs/xargs "$1/usr/bin/gxargs"
+# install -Dm755 locate/locate "$1/usr/bin/locate"
+# install -Dm755 locate/updatedb "$1/usr/bin/updatedb"
