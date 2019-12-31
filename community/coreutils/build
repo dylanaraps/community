@@ -5,7 +5,7 @@ export CC="gcc -static"
 export FORCE_UNSAFE_CONFIGURE=1
 
 ./configure \
-    --prefix=/opt/gnu/coreutils \
+    --prefix=/usr \
     --program-prefix=g \
     --program-transform-name=s/stat/nustat/
 
