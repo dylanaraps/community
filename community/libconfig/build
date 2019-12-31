@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export MAKEINFO=true
-
 ./configure \
     --prefix=/usr \
     --disable-cxx
