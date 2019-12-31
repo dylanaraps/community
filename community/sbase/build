@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make CC="gcc -static" sbase-box
+
+install -Dm 755 sbase-box "$1/usr/bin/sbase-box"
