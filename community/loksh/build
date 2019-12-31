@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+sed -i 's|ncurses|ncursesw|' Makefile
+
+make
+make DESTDIR="$1" PREFIX=/usr install
