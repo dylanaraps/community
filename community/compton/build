@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+export NO_DBUS=1
+
+# fake asciidoc
+touch a2x asciidoc man/compton.1 man/compton-trans.1 ; chmod +x a2x asciidoc
+PATH=$PWD:$PATH
+
+make DESTDIR="$1" install
