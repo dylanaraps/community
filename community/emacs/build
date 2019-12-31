@@ -8,7 +8,8 @@
     --without-toolkit-scroll-bars \
     --without-dbus \
     --without-gconf \
-    --without-gsettings
+    --without-gsettings \
+    --with-xpm=no
 
 mkdir -p "$1/usr/share/emacs/site-lisp"
 cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
