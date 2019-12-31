@@ -27,4 +27,5 @@ cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
 (horizontal-scroll-bar-mode -1)
 EOF
 
+make
 make DESTDIR="$1" install
