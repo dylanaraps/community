@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+CC="gcc -static" sh Build.sh
+
+install -Dm755 "mksh" "$1/usr/bin/mksh"
