@@ -1,10 +1,10 @@
 #!/bin/sh -e
 
 export FORCE_UNSAFE_CONFIGURE=1
+export CC="gcc -static"
 
-CC="gcc -static" ./configure \
-  --prefix=/opt/gnu/tar
+./configure \
+    --prefix=/usr \
+    --program-prefix=g
 
-make
-
-install -Dm755 src/tar "$1/usr/bin/gtar"
+make DESTDIR="$1" install
