@@ -1,5 +1,4 @@
 zlib
 ncurses
 libxaw3d
-libmagick6
-gnutls
+imagemagick6
