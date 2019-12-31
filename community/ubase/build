@@ -1,3 +1,5 @@
 #!/bin/sh -e
 
-make CC="gcc -static" DESTDIR="$1" PREFIX=/opt/suckless/ubase install
+make CC="gcc -static" ubase-box
+
+install -Dm 755 ubase-box "$1/usr/bin/ubase-box"
