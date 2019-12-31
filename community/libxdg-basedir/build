@@ -9,4 +9,5 @@
             --enable-pcregrep-libbz2 \
             --enable-pcretest-libreadline
 
+make
 make DESTDIR="$1" install
