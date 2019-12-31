@@ -1,3 +1,5 @@
 #!/bin/sh -e
 
-make CC="gcc -static" DESTDIR="$1" PREFIX=/opt/suckless/sbase install
+make CC="gcc -static" sbase-box
+
+install -Dm 755 sbase-box "$1/usr/bin/sbase-box"
