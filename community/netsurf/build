@@ -13,6 +13,5 @@ make \
     PREFIX=/usr \
     NETSURF_GTK_MAJOR=3 \
     TARGET=gtk \
-    DESTDIR="$1"
-
-install
+    DESTDIR="$1" \
+    install
