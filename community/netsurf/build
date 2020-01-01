@@ -4,12 +4,15 @@ make \
     LIBDIR=lib \
     INCLUDEDIR=include \
     PREFIX=/usr \
-    TARGET=gtk3 \
-    NETSURF_GTK_MAJOR=3
+    NETSURF_GTK_MAJOR=3 \
+    TARGET=gtk
 
 make \
     LIBDIR=lib \
     INCLUDEDIR=include \
     PREFIX=/usr \
-    DESTDIR="$1" \
-    install
+    NETSURF_GTK_MAJOR=3 \
+    TARGET=gtk \
+    DESTDIR="$1"
+
+install
