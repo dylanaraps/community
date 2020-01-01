@@ -4,7 +4,7 @@ make \
     LIBDIR=lib \
     INCLUDEDIR=include \
     PREFIX=/usr \
-    TARGET=gtk \
+    TARGET=gtk3 \
     NETSURF_GTK_MAJOR=3
 
 make \
