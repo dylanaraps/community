@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-modules \
+    --without-all \
+    --without-x \
+    --with-x-toolkit=no \
+    --with-x=no
+
+mkdir -p "$1/usr/share/emacs/site-lisp"
+cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
+;; fix ugly
+(menu-bar-mode -1)
+EOF
+
+make
+make DESTDIR="$1" install
