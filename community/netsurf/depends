@@ -1,5 +1,5 @@
 curl
-gtk+2
+gtk+3
 perl
 perl-html-parser
 perl-html-tagset

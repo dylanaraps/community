@@ -1,4 +1,15 @@
 #!/bin/sh -e
 
-make
-make DESTDIR="$1" install
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    TARGET=gtk \
+    NETSURF_GTK_MAJOR=3
+
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    DESTDIR="$1" \
+    install
