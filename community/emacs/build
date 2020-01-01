@@ -18,6 +18,9 @@ cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (horizontal-scroll-bar-mode -1)
+
+;; needed unless kiss linux gets librsvg support
+(setq-default shr-blocked-images ".*\.svg$")
 EOF
 
 make
