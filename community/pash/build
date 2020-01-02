@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm 755 pash "$1/usr/bin/pash"

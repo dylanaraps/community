@@ -1,2 +1,3 @@
-ncurses
 zlib
+ncurses
+libxaw3d

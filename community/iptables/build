@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/sbin \
+    --enable-libipq \
+    --with-xtlibdir=/lib/xtables \
+    --disable-nftables
+
+make
+make DESTDIR="$1" install

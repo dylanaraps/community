@@ -2,7 +2,26 @@
 
 ./configure \
     --prefix=/usr \
-    --with-gnutls=no
+    --with-modules \
+    --with-xft \
+    --with-x-toolkit=athena \
+    --without-toolkit-scroll-bars \
+    --without-dbus \
+    --without-gconf \
+    --without-gsettings \
+    --with-xpm=no
+
+mkdir -p "$1/usr/share/emacs/site-lisp"
+cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
+;; fix ugly
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(horizontal-scroll-bar-mode -1)
+
+;; needed unless kiss linux gets librsvg support
+(setq-default shr-blocked-images ".*\.svg$")
+EOF
 
 make
 make DESTDIR="$1" install
