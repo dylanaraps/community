@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+export NO_DBUS=1
+
+make compton
+
+install -Dm755 compton  "$1/usr/bin/compton"

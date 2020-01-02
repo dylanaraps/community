@@ -1,0 +1,6 @@
+curl
+gtk+3
+perl
+perl-html-parser
+perl-html-tagset
+vim make
