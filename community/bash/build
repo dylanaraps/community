@@ -10,7 +10,5 @@ done
     --without-installed-readline \
     --disable-nls
 
-export MAKEFLAGS="TERMCAP_LIB=/usr/lib/libncursesw.a $MAKEFLAGS"
-
 make
 make DESTDIR="$1" install
