@@ -7,15 +7,6 @@ log() {
 main() {
     PATH=/usr/bin
 
-    case "$1" in
-        reboot|poweroff)
-        ;;
-        *)
-            echo "Invalid action '$1' for rc.shutdown" 1>&2
-            exit 1
-            ;;
-    esac
-
     log "Waiting for services to stop..."; {
         sv -w196 force-stop /var/service/*
         sv exit /var/service/*
@@ -26,12 +17,12 @@ main() {
     }
 
     log "Sending TERM signal to all processes..."; {
-        ubase-box killall5 -TERM
+        ubase-box killall5 TERM
         sleep 1
     }
 
     log "Sending KILL signal to all processes..."; {
-        ubase-box killall5 -KILL
+        ubase-box killall5 KILL
     }
 
     log "Remounting root as read-only..."; {
@@ -56,15 +47,24 @@ main() {
 
     ubase-box sleep 3
     wait
-
-    case "$1" in
-        reboot)
-            ubase-box halt -r
-            ;;
-        poweroff)
-            ubase-box halt -p
-            ;;
-    esac
 }
 
+case "$1" in
+    reboot|poweroff)
+    ;;
+    *)
+        echo "Invalid action '$1' for rc.shutdown" 1>&2
+        exit 1
+        ;;
+esac
+
 main
+
+case "$1" in
+    reboot)
+        ubase-box halt -r
+        ;;
+    poweroff)
+        ubase-box halt -p
+        ;;
+esac
