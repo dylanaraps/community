@@ -17,7 +17,8 @@ Please update your kernel parameters accordingly,
 
 e.g. init=/usr/bin/sinit
 
------
+Also keep in mind that sinit does not use /etc/inittab
+The default busybox runit service supervisor will still be initialized.
 
 The 'poweroff' and 'reboot' commands are located in /usr/local/bin
 You may want to modify your 'PATH' to include this directory at the front.
@@ -26,9 +27,5 @@ Or you may opt to use alias functions,
 
 poweroff () { /bin/kill -s USR1 1 ; }
 reboot () { /bin/kill -s INT 1 ; }
-
------
-
-The rc.boot and rc.shutdown scripts are located in /lib/sinit
 
 EOF
