@@ -1,0 +1,70 @@
+#!/bin/dash
+
+log() {
+    printf '\033[31;1m=>\033[m %s\n' "$@"
+}
+
+main() {
+    PATH=/usr/bin
+
+    case "$1" in
+        reboot|poweroff)
+        ;;
+        *)
+            echo "Invalid action '$1' for rc.shutdown" 1>&2
+            exit 1
+            ;;
+    esac
+
+    log "Waiting for services to stop..."; {
+        sv -w196 force-stop /var/service/*
+        sv exit /var/service/*
+    }
+
+    log "Saving random seed..."; {
+        dd count=1 bs=512 if=/dev/random of=/var/random.seed
+    }
+
+    log "Sending TERM signal to all processes..."; {
+        ubase-box killall5 -TERM
+        sleep 1
+    }
+
+    log "Sending KILL signal to all processes..."; {
+        ubase-box killall5 -KILL
+    }
+
+    log "Remounting root as read-only..."; {
+        ubase-box mount -o remount,ro /
+    }
+
+    log "Unmounting filesystems and disabling swap..."; {
+        ubase-box swapoff -a
+        ubase-box umount -a
+        sbase-box sync
+    }
+
+    log "Deactivating dmcrypt devices (if any exist)."; {
+        [ -x /bin/cryptsetup ] && [ -x /bin/dmsetup ] && {
+            dmsetup ls --target crypt \
+                    --exec "dmsetup info -c --noheadings -o open,name" |
+                while read -r drive; do
+                    [ "${drive%%:*}" = "0" ] && cryptsetup close "${drive##*:}"
+                done
+        }
+    }
+
+    ubase-box sleep 3
+    wait
+
+    case "$1" in
+        reboot)
+            ubase-box halt -r
+            ;;
+        poweroff)
+            ubase-box halt -p
+            ;;
+    esac
+}
+
+main
