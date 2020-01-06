@@ -23,11 +23,11 @@ NOTE:
 
         Shutdown:
 
-        -> poweroff () { /bin/kill -s USR1 1 ; }
+        -> # kill -s USR1 1
 
         Reboot:
 
-        -> reboot () { /bin/kill -s INT 1 ; }
+        -> # kill -s INT 1
 
         You may opt to install the above commands
         as scripts in /usr/local/bin and modify it
