@@ -15,7 +15,7 @@ NOTE:
         the /etc/inittab file. The default busybox
         runit service supervisor will still be
         initialized. To use a different supervisor,
-        place the needed code in /etc/rc.supervisor
+        place the needed code in /etc/rc.sinit
         and it will automatically be sourced
         instead of busybox runit. To launch e.g.
         busybox runit, we use the following:
@@ -25,6 +25,14 @@ NOTE:
         A similar line may be placed in
         /etc/rc.supervisor to launch an
         alternative...
+
+NOTE:
+        If /etc/rc.conf exists, it will be sourced
+        before /etc/rc.supervisor , and if
+        ALT_GETTY is set, then the default busybox
+        getty setup will not be used, allowing
+        for your own customizations within
+        /etc/rc.sinit
 
 NOTE:
         The 'poweroff' and 'reboot' commands are
