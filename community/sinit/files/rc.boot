@@ -4,6 +4,10 @@
 
 [ -n "$ENABLE_KISS_INIT" ] && . /lib/init/rc.boot
 
+for file in /etc/sinit.d/*.sh ; do
+    [ -r "$file" ] && . "$file"
+done
+
 if [ -n "$ENABLE_BUSYBOX_GETTY" ]; then
     sh -c 'ubase-box respawn /sbin/getty 38400 tty1' &>/dev/null &
     sh -c 'ubase-box respawn /sbin/getty 38400 tty2' &>/dev/null &
@@ -16,7 +20,3 @@ fi
 if [ -n "ENABLE_BUSYBOX_RUNIT" ]; then
     sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
 fi
-
-for file in /etc/sinit.d/*.sh ; do
-    [ -r "$file" ] && . "$file"
-done
