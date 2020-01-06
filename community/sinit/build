@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # be explicitly static for pid 1
-makee CFLAGS="$CFLAGS -static"
+make CFLAGS="$CFLAGS -static"
 
 # /usr/bin
 install -Dm 755 sinit "$1/usr/bin/sinit"
