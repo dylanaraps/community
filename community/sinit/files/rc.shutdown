@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. /lib/init/rc.shutdown
+
+case "$1" in
+    reboot)
+        ubase-box halt -r
+        ;;
+    poweroff)
+        ubase-box halt -p
+        ;;
+esac

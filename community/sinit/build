@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+make
+
+install -Dm 755 sinit "$1/usr/bin/sinit"
+
+install -Dm 755 poweroff "$1/usr/local/bin/poweroff"
+install -Dm 755 reboot "$1/usr/local/bin/reboot"
+
+install -Dm 755 rc.boot "$1/lib/sinit/rc.boot"
+install -Dm 755 rc.shutdown "$1/lib/sinit/rc.shutdown"

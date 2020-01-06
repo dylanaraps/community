@@ -1,0 +1,39 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE:
+
+        This package is installed as /usr/bin/sinit
+        Please update your kernel parameters
+        accordingly,
+
+        -> e.g. init=/bin/sinit
+
+NOTE:
+        Please keep in mind that sinit does not use
+        the /etc/inittab file. The default busybox
+        runit service supervisor will still be
+        initialized. To use a different supervisor,
+        place the needed code in /etc/rc.supervisor
+        and it will automatically be sourced
+        instead of busybox runit. To launch e.g.
+        busybox runit, we use the following:
+
+        -> sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
+
+        A similar line may be placed in
+        /etc/rc.supervisor to launch an
+        alternative...
+
+NOTE:
+        The 'poweroff' and 'reboot' commands are
+        located in /usr/local/bin . Modify your
+        'PATH' accordingly or use alias functions.
+        In the future this may change when kiss
+        gains slotting abilities.
+
+        -> poweroff () { /bin/kill -s USR1 1 ; }
+        -> reboot () { /bin/kill -s INT 1 ; }
+
+EOF
