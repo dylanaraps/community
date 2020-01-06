@@ -170,10 +170,6 @@ main() {
         dmesg > /var/log/dmesg.log
     }
 
-    log "Starting process supervisor..."; {
-        sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
-    }
-
     log "Boot stage complete..."
 
     sh -c 'ubase-box respawn ubase-box getty /dev/tty1 linux' &>/dev/null &
@@ -182,6 +178,11 @@ main() {
     sh -c 'ubase-box respawn ubase-box getty /dev/tty4 linux' &>/dev/null &
     sh -c 'ubase-box respawn ubase-box getty /dev/tty5 linux' &>/dev/null &
     sh -c 'ubase-box respawn ubase-box getty /dev/tty6 linux' &>/dev/null &
+
+    log "Starting process supervisor..."; {
+        [ -f "/etc/rc.conf"] && . /etc/rc.conf && exit 0
+        sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
+    }
 }
 
 main

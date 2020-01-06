@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE:
+
+        This package is installed as /usr/bin/sinit
+        Please update your kernel parameters
+        accordingly,
+
+        -> e.g. init=/bin/sinit
+
+NOTE:
+        Also keep in mind that sinit does not use
+        the /etc/inittab file. The default busybox
+        runit service supervisor will still be
+        initialized. To use a different supervisor,
+        place the needed code in /etc/rc.conf and
+        it will automatically be sourced and
+        executed instead of busybox runit.
+
+NOTE:
+        The 'poweroff' and 'reboot' commands are
+        located in /usr/local/bin . Modify your
+        'PATH' accordingly or use alias functions
+
+        -> poweroff () { /bin/kill -s USR1 1 ; }
+        -> reboot () { /bin/kill -s INT 1 ; }
+
+EOF
