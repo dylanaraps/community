@@ -2,6 +2,6 @@
 
 . /etc/sinit.conf
 
-for file in /etc/sinit.d/* ; do
+for file in /etc/sinit.d/*.sh ; do
     [ -r "$file" ] && . "$file"
 done

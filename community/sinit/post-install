@@ -15,11 +15,16 @@ NOTE:
         runit service supervisor will still be
         initialized. To use a different supervisor,
         edit /etc/sinit.conf and place script(s) in
-        the /etc/sinit.d/ directory.
+        the /etc/sinit.d/ directory suffixed with
+        *.sh
 
         To shutdown:
 
         -> # kill -s USR1 1
+
+        Advanced users may place in /etc/sinit.d/
+        a "rc.shutdown" file which will be sourced
+        instead of /lib/init/rc.shutdown
 
         To reboot:
 
@@ -29,7 +34,8 @@ NOTE:
         as scripts in /usr/local/bin and modify it
         to the front of 'PATH'.
 
-        In the future this may change if kiss
+        In the future this [lack of poweroff and
+        reboot scripts in /bin] may change if kiss
         gains slotting abilities or if busybox
         becomes optional. Another possibility is
         a suckless overlay with a forked busybox.

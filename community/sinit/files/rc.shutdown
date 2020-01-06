@@ -9,7 +9,11 @@ case "$1" in
         ;;
 esac
 
-. /lib/init/rc.shutdown
+if [ -f "/etc/sinit.d/rc.shutdown" ];then
+    . /etc/sinit.d/rc.shutdown
+else
+    . /lib/init/rc.shutdown
+fi
 
 case "$1" in
     reboot)
