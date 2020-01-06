@@ -17,15 +17,11 @@ NOTE:
         edit /etc/sinit.conf and place script(s) in
         the /etc/sinit.d/ directory.
 
-        It might also be helpful to take a look at
-        /etc/sinit/rc.boot to see how to use
-        ubase-box respawn to launch a supervisor.
-
-        Shutdown:
+        To shutdown:
 
         -> # kill -s USR1 1
 
-        Reboot:
+        To reboot:
 
         -> # kill -s INT 1
 
