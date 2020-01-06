@@ -2,3 +2,7 @@ https://dl.suckless.org/sinit/sinit-1.0.tar.gz
 files/config.h
 files/rc.shutdown
 files/rc.boot
+files/sinit.conf
+files/sinit.d/10kiss-init.sh
+files/sinit.d/20busybox-getty.sh
+files/sinit.d/30busybox-runit.sh

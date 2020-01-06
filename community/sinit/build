@@ -1,9 +1,18 @@
 #!/bin/sh -e
 
+# be explicitly static for pid 1
 make \
     CFLAGS="$CFLAGS -static"
 
+# /usr/bin
 install -Dm 755 sinit "$1/usr/bin/sinit"
 
+# /etc
+install -Dm 755 sinit.conf "$1/etc/sinit.conf"
+install -Dm 755 10kiss-init.sh "$1/etc/sinit.d/10kiss-init.sh"
+install -Dm 755 20busybox-getty.sh "$1/etc/sinit.d/20busybox-getty.sh"
+install -Dm 755 30busybox-runit.sh "$1/etc/sinit.d/30busybox-runit.sh"
+
+# /lib/sinit
 install -Dm 755 rc.boot "$1/lib/sinit/rc.boot"
 install -Dm 755 rc.shutdown "$1/lib/sinit/rc.shutdown"
