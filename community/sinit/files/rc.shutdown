@@ -18,7 +18,7 @@ main() {
 
     log "Sending TERM signal to all processes..."; {
         ubase-box killall5 TERM
-        sleep 1
+        sbase-box sleep 1
     }
 
     log "Sending KILL signal to all processes..."; {
@@ -45,7 +45,7 @@ main() {
         }
     }
 
-    ubase-box sleep 3
+    sbase-box sleep 3
     wait
 }
 
