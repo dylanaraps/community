@@ -21,7 +21,7 @@ install -Dm 755 rc.shutdown_post "$1/etc/rc.d/rc.shutdown_post-sinit"
 
 # If this is a first time sinit install let's populate /etc/rc.conf with
 # some sane configuration variables...
-if [ "$(grep -q "SINIT_" /etc/rc.conf)" ];then
+if [ -z "$(grep -q "SINIT_" /etc/rc.conf)" ];then
     cat << EOF >> /etc/rc.conf
 
 # Uncomment and Set to 1 to enable /etc/rc.d/sinit_getty.sh
