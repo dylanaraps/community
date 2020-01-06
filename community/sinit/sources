@@ -2,5 +2,5 @@ https://dl.suckless.org/sinit/sinit-1.0.tar.gz
 files/config.h
 files/etc/rc.d/sinit_getty.sh
 files/etc/rc.d/sinit_runit.sh
-files/etc/rc.d/rc.shutdown_pre-sinit
-files/etc/rc.d/rc.shutdown_post-sinit
+files/etc/rc.d/rc.shutdown_pre
+files/etc/rc.d/rc.shutdown_post

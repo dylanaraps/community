@@ -16,8 +16,8 @@ install -Dm 755 sinit "$1/usr/bin/sinit"
 # /etc/rc.d scripts
 install -Dm 755 sinit_runit.sh "$1/etc/rc.d/sinit_runit.sh"
 install -Dm 755 sinit_getty.sh "$1/etc/rc.d/sinit_getty.sh"
-install -Dm 755 rc.shutdown_pre-sinit "$1/etc/rc.d/rc.shutdown_pre-sinit"
-install -Dm 755 rc.shutdown_post-sinit "$1/etc/rc.d/rc.shutdown_post-sinit"
+install -Dm 755 rc.shutdown_pre "$1/etc/rc.d/rc.shutdown_pre-sinit"
+install -Dm 755 rc.shutdown_post "$1/etc/rc.d/rc.shutdown_post-sinit"
 
 # If this is a first time sinit install let's populate /etc/rc.conf with
 # some sane configuration variables...
