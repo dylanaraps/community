@@ -180,7 +180,7 @@ main() {
     sh -c 'ubase-box respawn ubase-box getty /dev/tty6 linux' &>/dev/null &
 
     # optionally use a different service supervisor than busybox runit
-    [ -f "/etc/rc.conf"] && . /etc/rc.supervisor && exit 0
+    [ -f "/etc/rc.supervisor"] && . /etc/rc.supervisor && exit 0
     sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
 }
 
