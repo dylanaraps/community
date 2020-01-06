@@ -8,40 +8,34 @@ NOTE:
         Please update your kernel parameters
         accordingly,
 
-        -> e.g. init=/bin/sinit
+        -> init=/bin/sinit
 
-NOTE:
         Please keep in mind that sinit does not use
         the /etc/inittab file. The default busybox
         runit service supervisor will still be
         initialized. To use a different supervisor,
-        place the needed code in /etc/rc.sinit
-        and it will automatically be sourced
-        instead of busybox runit. To launch e.g.
-        busybox runit, we use the following:
+        edit /etc/sinit.conf and place script(s) in
+        the /etc/sinit.d/ directory.
 
-        -> sh -c 'ubase-box respawn /usr/bin/runsvdir -P /var/service' &
+        It might also be helpful to take a look at
+        /etc/sinit/rc.boot to see how to use
+        ubase-box respawn to launch a supervisor.
 
-        A similar line may be placed in
-        /etc/rc.supervisor to launch an
-        alternative...
-
-NOTE:
-        If /etc/rc.conf exists, it will be sourced
-        before /etc/rc.supervisor , and if
-        ALT_GETTY is set, then the default busybox
-        getty setup will not be used, allowing
-        for your own customizations within
-        /etc/rc.sinit
-
-NOTE:
-        The 'poweroff' and 'reboot' commands are
-        located in /usr/local/bin . Modify your
-        'PATH' accordingly or use alias functions.
-        In the future this may change when kiss
-        gains slotting abilities.
+        Shutdown:
 
         -> poweroff () { /bin/kill -s USR1 1 ; }
+
+        Reboot:
+
         -> reboot () { /bin/kill -s INT 1 ; }
+
+        You may opt to install the above commands
+        as scripts in /usr/local/bin and modify it
+        to the front of 'PATH'.
+
+        In the future this may change if kiss
+        gains slotting abilities or if busybox
+        becomes optional. Another possibility is
+        a suckless overlay with a forked busybox.
 
 EOF
