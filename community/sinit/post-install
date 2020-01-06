@@ -3,7 +3,6 @@
 cat <<EOF
 
 NOTE:
-
         This package is installed as /usr/bin/sinit
         Please update your kernel parameters
         accordingly,
