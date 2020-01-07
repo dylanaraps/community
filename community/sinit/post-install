@@ -18,9 +18,9 @@ IMPORTANT:
         options are provided by this package and
         should probably be uncommented:
 
-        -> # SINIT_ENABLE_RUNIT=1 <- launches the default busybox-runit
-        -> # SINIT_ENABLE_GETTY=1 <- needed because we don't use inittab
-        -> # SINIT_ENABLE_SHUTDOWN_HOOKS=1 <- needed for shutdown and reboot
+        -> # SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
+        -> # SINIT_ENABLE_GETTY=1            # <- (required)
+        -> # SINIT_ENABLE_RUNIT=1            # <- Enable sinit_runit.boot (optional)
 
 USAGE:
         To shutdown:
