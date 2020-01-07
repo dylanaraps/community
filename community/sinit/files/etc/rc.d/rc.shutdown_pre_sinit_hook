@@ -1,9 +1,11 @@
 # This is a module needed by sinit for users to shutdown
-case "$1" in
-    reboot|poweroff)
-    ;;
-    *)
-        echo "Invalid action '$1' for rc.shutdown" 1>&2
-        exit 1
+if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
+    case "$1" in
+        reboot|poweroff)
         ;;
-esac
+        *)
+            echo "Invalid action '$1' for rc.shutdown" 1>&2
+            exit 1
+            ;;
+    esac
+fi

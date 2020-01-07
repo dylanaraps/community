@@ -1,9 +1,11 @@
 # This is a module needed by sinit for users to shutdown
-case "$1" in
-    reboot)
-        ubase-box halt -r
-        ;;
-    poweroff)
-        ubase-box halt -p
-        ;;
-esac
+if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
+    case "$1" in
+        reboot)
+            ubase-box halt -r
+            ;;
+        poweroff)
+            ubase-box halt -p
+            ;;
+    esac
+fi

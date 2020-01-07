@@ -4,7 +4,7 @@
 if ! grep -q "rc.conf" /lib/init/rc.boot ; then
     cat << EOF && exit 1
 
-        -> Please update to latest baseinit (with added support for rc.conf and rc.d)
+        -> Please update to latest baseinit
         -> and then install sinit... Thank you.
 EOF
 fi
@@ -24,13 +24,11 @@ install -Dm 755 rc.shutdown_post_sinit_hook "$1/etc/rc.d/rc.shutdown_post_sinit_
 if ! grep -q "SINIT_" /etc/rc.conf ; then
     cat << EOF >> /etc/rc.conf
 
-# Uncomment and Set to 1 to enable /etc/rc.d/sinit_getty.sh
-# Warning: [sinit / non-busybox init users only!!]
-# SINIT_ENABLE_GETTY=1
-
-# Uncomment and Set to 1 to enable /etc/rc.d/sinit_runit.sh
-# Warning: [sinit / non-busybox init users only!!]
-# SINIT_ENABLE_RUNIT=1
+# Uncomment and Set to 1 to enable /etc/rc.d/ scripts for sinit
+# Warning: [sinit users only!!]
+# SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
+# SINIT_ENABLE_GETTY=1            # <- (required)
+# SINIT_ENABLE_RUNIT=1            # <- Enable sinit_runit.sh (optional)
 
 EOF
 fi
