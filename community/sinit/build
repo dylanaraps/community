@@ -15,10 +15,10 @@ make CFLAGS="$CFLAGS -static"
 install -Dm 755 sinit "$1/usr/bin/sinit"
 
 # /etc/rc.d scripts
-install -Dm 755 sinit_runit.sh "$1/etc/rc.d/sinit_runit.sh"
-install -Dm 755 sinit_getty.sh "$1/etc/rc.d/sinit_getty.sh"
-install -Dm 755 rc.shutdown_pre_sinit_hook "$1/etc/rc.d/rc.shutdown_pre_sinit_hook"
-install -Dm 755 rc.shutdown_post_sinit_hook "$1/etc/rc.d/rc.shutdown_post_sinit_hook"
+install -Dm 755 sinit_runit.boot "$1/etc/rc.d/sinit_runit.boot"
+install -Dm 755 sinit_getty.boot "$1/etc/rc.d/sinit_getty.boot"
+install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
+install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
 
 # provide sinit options to /etc/rc.conf
 if ! grep -q "SINIT_" /etc/rc.conf ; then
