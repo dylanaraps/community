@@ -20,6 +20,7 @@ IMPORTANT:
 
         -> # SINIT_ENABLE_RUNIT=1 <- launches the default busybox-runit
         -> # SINIT_ENABLE_GETTY=1 <- needed because we don't use inittab
+        -> # SINIT_ENABLE_SHUTDOWN_HOOKS=1 <- needed for shutdown and reboot
 
 USAGE:
         To shutdown:
