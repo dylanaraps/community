@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+IMPORTANT:
+        This package is installed as /usr/bin/sinit
+        Please update your kernel parameters
+        accordingly,
+
+        -> init=/bin/sinit
+
+        Please keep in mind that sinit does not use
+        the /etc/inittab file. The default busybox
+        runit service supervisor may (optionally)
+        still be initialized.
+
+        The following /etc/rc.conf default config
+        options are provided by this package and
+        should probably be uncommented:
+
+        -> # SINIT_ENABLE_RUNIT=1 <- launches the default busybox-runit
+        -> # SINIT_ENABLE_GETTY=1 <- needed because we don't use inittab
+
+USAGE:
+        To shutdown:
+
+        -> # kill -s USR1 1
+
+        To reboot:
+
+        -> # kill -s INT 1
+
+EOF

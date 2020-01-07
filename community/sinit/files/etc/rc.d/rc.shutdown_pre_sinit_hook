@@ -1,0 +1,9 @@
+# This is a module needed by sinit for users to shutdown
+case "$1" in
+    reboot|poweroff)
+    ;;
+    *)
+        echo "Invalid action '$1' for rc.shutdown" 1>&2
+        exit 1
+        ;;
+esac
