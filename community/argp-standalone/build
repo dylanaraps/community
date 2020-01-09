@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fPIC"
+
+for f in *.patch; do patch -p1 < "$f"; done
+
+autoreconf -vif
+
+./configure \
+    --build=$CBUILD \
+    --host=$CHOST \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --localstatedir=/var
+
+make
+
+install -D -m644 argp.h "$1/usr/include/argp.h"
+install -D -m755 libargp.a "$1/usr/lib/libargp.a"
