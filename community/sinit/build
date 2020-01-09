@@ -1,31 +1,18 @@
 #!/bin/sh -e
 
-# checking for rc.d support in rc.boot
-if ! grep -q "rc.conf" /lib/init/rc.boot ; then
-    cat << EOF && exit 1
-
-        -> Please update to latest baseinit
-        -> and then install sinit... Thank you.
-EOF
-fi
-
-# be explicitly static for pid 1
 make CFLAGS="$CFLAGS -static"
 
 install -Dm 755 sinit "$1/usr/bin/sinit"
 
-# /etc/rc.d scripts
 install -Dm 755 sinit_runit.boot "$1/etc/rc.d/sinit_runit.boot"
 install -Dm 755 sinit_getty.boot "$1/etc/rc.d/sinit_getty.boot"
 install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
 install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
 
-# provide sinit options to /etc/rc.conf
 if ! grep -q "SINIT_" /etc/rc.conf ; then
     cat << EOF >> /etc/rc.conf
 
 # Uncomment and Set to 1 to enable /etc/rc.d/ scripts for sinit
-# Warning: [sinit users only!!]
 # SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
 # SINIT_ENABLE_GETTY=1            # <- (required)
 # SINIT_ENABLE_RUNIT=1            # <- Enable sinit_runit.sh (optional)
