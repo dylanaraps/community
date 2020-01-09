@@ -4,6 +4,8 @@ unset CFLAGS LDFLAGS
 
 for f in *.patch ; do patch -p1 < "$f"; done
 
+: > mk/devel.mk
+
 make clean
 
 make bios efi64 installer
