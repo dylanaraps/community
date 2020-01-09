@@ -1,3 +1,2 @@
 https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz
 patches/fix-sysmacros.patch
-patches/0018-prevent-pow-optimization.patch
