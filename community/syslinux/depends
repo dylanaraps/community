@@ -1,4 +1,5 @@
-util-linux
 binutils make
-nasm make
-python make
+nasm     make
+perl     make
+python   make
+util-linux
