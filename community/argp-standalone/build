@@ -7,8 +7,8 @@ for f in *.patch; do patch -p1 < "$f"; done
 autoreconf -vif
 
 ./configure \
-    --build=$CBUILD \
-    --host=$CHOST \
+    --build="$CBUILD" \
+    --host="$CHOST" \
     --prefix=/usr \
     --sysconfdir=/etc \
     --mandir=/usr/share/man \
