@@ -7,9 +7,6 @@ unset CFLAGS LDFLAGS
 # Fix missing <sys/sysmacros.h> include.
 sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
 
-# Disable debugging and development "stuff".
-: > mk/devel.mk
-
 make clean
 
 make PYTHON=python \
