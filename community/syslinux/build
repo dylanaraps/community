@@ -22,7 +22,3 @@ sed 's|/usr/man|/usr/share/man|g' -i mk/syslinux.mk
 make installer
 
 make INSTALLROOT="$1" install
-
-mkdir -p "$1/etc/update-extlinux.d"
-install -Dm755 update-extlinux "$1/usr/bin/update-extlinux"
-install -Dm755 update-extlinux.conf "$1/etc/update-extlinux.conf"
