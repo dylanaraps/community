@@ -9,7 +9,8 @@ sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
 
 make clean
 
-make PYTHON=python \
+make -j1 \
+     PYTHON=python \
      bios \
      efi64 \
      installer
