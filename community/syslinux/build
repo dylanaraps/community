@@ -1,13 +1,25 @@
 #!/bin/sh -e
 
+export CCACHE_DISABLE=1
+
 unset CFLAGS LDFLAGS
 
-for f in *.patch ; do patch -p1 < "$f"; done
+# Fix missing <sys/sysmacros.h> include.
+sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
 
+# Disable debugging and development "stuff".
 : > mk/devel.mk
 
 make clean
 
-make bios efi64 installer
+make PYTHON=python \
+     bios \
+     efi64 \
+     installer
 
-make -j1 bios efi64 MANDIR=/usr/share/man INSTALLROOT="$1" install
+make -j1 \
+     MANDIR=/usr/share/man \
+     INSTALLROOT="$1" \
+     bios \
+     efi64 \
+     install

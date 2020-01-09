@@ -1,3 +1,4 @@
 util-linux
 binutils make
 nasm make
+python make
