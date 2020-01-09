@@ -8,4 +8,4 @@ make clean
 
 make bios efi64 installer
 
-make -j1 bios efi64 INSTALLROOT="$1" install
+make -j1 bios efi64 MANDIR=/usr/share/man INSTALLROOT="$1" install
