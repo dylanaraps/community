@@ -2,6 +2,9 @@
 
 unset CFLAGS LDFLAGS
 
+# apply patches
+for f in *.patch ; do patch -p1 < "$f"; done
+
 # x86_64 arch
 sed -e 's,^firmware =.*,firmware = bios efi64,g' -i Makefile
 
@@ -11,13 +14,10 @@ sed 's|win32/syslinux.exe win64/syslinux64.exe||g' -i Makefile
 sed 's|dosutil/\*.com dosutil/\*.sys||g' -i Makefile
 sed 's|dos/syslinux.com||g' -i Makefile
 sed 's|INSTALLSUBDIRS = com32 utils dosutil|INSTALLSUBDIRS = com32 utils|g' -i Makefile
-sed 's|install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|# install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|g' -i Makefile
+sed "s|install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|# install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|g" -i Makefile
 
 # fix incorrect manpath
 sed 's|/usr/man|/usr/share/man|g' -i mk/syslinux.mk
-
-# apply patches
-for f in *.patch ; do patch -p1 < "$f"; done
 
 make installer
 
