@@ -15,7 +15,7 @@ if ! grep -q "SINIT_" /etc/rc.conf ; then
 # Uncomment and Set to 1 to enable /etc/rc.d/ scripts for sinit
 # SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
 # SINIT_ENABLE_GETTY=1            # <- (required)
-# SINIT_ENABLE_RUNIT=1            # <- Enable sinit_runit.sh (optional)
+# SINIT_ENABLE_RUNIT=1            # <- Enable the busybox-runit process supervisor (optional)
 
 EOF
 fi
