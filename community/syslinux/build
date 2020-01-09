@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+unset CFLAGS LDFLAGS
+
+# x86_64 arch
+sed -e 's,^firmware =.*,firmware = bios efi64,g' -i Makefile
+
+# remove Windows related...
+sed 's|diag libinstaller dos win32 win64 dosutil txt|libinstaller txt|g' -i Makefile
+sed 's|win32/syslinux.exe win64/syslinux64.exe||g' -i Makefile
+sed 's|dosutil/\*.com dosutil/\*.sys||g' -i Makefile
+sed 's|dos/syslinux.com||g' -i Makefile
+sed 's|INSTALLSUBDIRS = com32 utils dosutil|INSTALLSUBDIRS = com32 utils|g' -i Makefile
+sed 's|install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|# install -m 644 -c $(INSTALL_DIAG) $(INSTALLROOT)$(DIAGDIR)|g' -i Makefile
+
+# fix incorrect manpath
+sed 's|/usr/man|/usr/share/man|g' -i mk/syslinux.mk
+
+# apply patches
+for f in *.patch ; do patch -p1 < "$f"; done
+
+make installer
+
+make INSTALLROOT="$1" install
+
+mkdir -p "$1/etc/update-extlinux.d"
+install -Dm755 update-extlinux "$1/usr/bin/update-extlinux"
+install -Dm755 update-extlinux.conf "$1/etc/update-extlinux.conf"
