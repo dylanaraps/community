@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+sed -i -e '1i#include <limits.h>' iucode_tool.c
+
+./autogen.sh
+
+./configure \
+    --build="$CBUILD" \
+    --host="$CHOST" \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --localstatedir=/var
+
+make
+make DESTDIR="$1" install

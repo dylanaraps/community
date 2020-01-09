@@ -1,0 +1,4 @@
+autoconf make
+automake make
+libtool make
+argp-standalone make
