@@ -20,7 +20,7 @@ IMPORTANT:
 
         -> # SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
         -> # SINIT_ENABLE_GETTY=1            # <- (required)
-        -> # SINIT_ENABLE_RUNIT=1            # <- Enable sinit_runit.boot (optional)
+        -> # SINIT_ENABLE_RUNIT=1            # <- Enable busybox-runit (optional)
 
 USAGE:
         To shutdown:
