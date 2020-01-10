@@ -1,10 +1,7 @@
 suckless_getty () {
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty1 linux' &>/dev/null &
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty2 linux' &>/dev/null &
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty3 linux' &>/dev/null &
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty4 linux' &>/dev/null &
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty5 linux' &>/dev/null &
-    sh -c 'ubase-box respawn ubase-box getty /dev/tty6 linux' &>/dev/null &
+    for getty in 1 2 3 4 5 6; do
+        ubase-box respawn ubase-box getty "/dev/tty${getty}" linux >/dev/null 2>&1 &
+    done
 }
 
 [ "$SINIT_ENABLE_GETTY" = 1 ] && suckless_getty
