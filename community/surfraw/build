@@ -1,19 +1,10 @@
 #!/bin/sh -e
 
+export MKDIR_P="install -d"
+
 ./configure \
 	--prefix=/usr \
 	--sysconfdir=/etc
 
 make
-
-# For some reason, surfraw's Makefile
-# gives an error when those directories
-# do not exist (even though the Makefile
-# creates it before exiting with error).
-
-for dir in lib share bin ; do
-	mkdir -p "$1/usr/$dir"
-done
-mkdir -p "$1/etc"
-
 make DESTDIR="$1" install
