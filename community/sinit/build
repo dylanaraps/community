@@ -9,13 +9,11 @@ install -Dm 755 sinit.getty.boot "$1/etc/rc.d/sinit.getty.boot"
 install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
 install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
 
-if ! grep -q "SINIT_" /etc/rc.conf ; then
-    cat << EOF >> /etc/rc.conf
+grep -q SINIT_ /etc/rc.conf || cat \
+                                   <<EOF >>/etc/rc.conf
 
 # Uncomment and Set to 1 to enable /etc/rc.d/ scripts for sinit
 # SINIT_ENABLE_SHUTDOWN_HOOKS=1 # <- (required)
 # SINIT_ENABLE_GETTY=1          # <- Enable getty/login   (required)
 # SINIT_ENABLE_RUNIT=1          # <- Enable busybox-runit (optional)
-
 EOF
-fi
