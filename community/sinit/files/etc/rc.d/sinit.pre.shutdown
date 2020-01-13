@@ -1,5 +1,4 @@
-# This is a module needed by sinit for users to shutdown
-if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
+sinit_pre_shutdown() {
     case "$1" in
         reboot|poweroff)
         ;;
@@ -8,4 +7,6 @@ if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
             exit 1
             ;;
     esac
-fi
+}
+
+[ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ] && sinit_pre_shutdown
