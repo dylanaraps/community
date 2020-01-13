@@ -4,6 +4,8 @@
     --prefix=/usr \
     --disable-python \
     --disable-backtrace \
-    --disable-documentation
+    --disable-documentation \
+    --disable-zstd
 
+make
 make DESTDIR="$1" install

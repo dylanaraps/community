@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+    --mandir=/usr/share/man \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
