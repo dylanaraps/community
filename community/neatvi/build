@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+# shellcheck disable=SC1003
 sed -i -e '/CFLAGS = /c\' -e 'CFLAGS += -Wall' Makefile
 sed -i s/0600/0666/ ex.c
 
