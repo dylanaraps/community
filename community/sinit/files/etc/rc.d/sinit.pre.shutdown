@@ -1,4 +1,4 @@
-sinit_pre_shutdown() {
+if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
     case "$1" in
         reboot|poweroff)
         ;;
@@ -7,6 +7,4 @@ sinit_pre_shutdown() {
             exit 1
             ;;
     esac
-}
-
-[ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ] && sinit_pre_shutdown
+fi

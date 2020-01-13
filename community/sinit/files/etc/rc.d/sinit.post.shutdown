@@ -1,4 +1,4 @@
-sinit_post_shutdown () {
+if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
     case "$1" in
         reboot)
             ubase-box halt -r
@@ -7,6 +7,4 @@ sinit_post_shutdown () {
             ubase-box halt -p
             ;;
     esac
-}
-
-[ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ] && sinit_post_shutdown
+fi
