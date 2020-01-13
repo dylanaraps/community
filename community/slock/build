@@ -1,5 +1,4 @@
 #!/bin/sh -e
 
-sed -i 's|usr/local|usr|g' config.mk
-
-make DESTDIR="$1" clean install
+make
+make DESTDIR="$1" PREFIX=/usr install
