@@ -14,13 +14,12 @@ IMPORTANT:
         runit service supervisor may (optionally)
         still be initialized.
 
-        The following /etc/rc.conf default config
-        options are provided by this package and
-        should probably be uncommented:
+        The following options should be added to
+        /etc/rc.conf:
 
-        -> # SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
-        -> # SINIT_ENABLE_GETTY=1            # <- (required)
-        -> # SINIT_ENABLE_RUNIT=1            # <- Enable busybox-runit (optional)
+        -> SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
+        -> SINIT_ENABLE_GETTY=1            # <- (required)
+        -> SINIT_ENABLE_RUNIT=1            # <- Enable busybox-runit (optional)
 
 USAGE:
         To shutdown:
