@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --enable-static \
+    --without-pam
+
+make
+make DESTDIR="$1" install
+
+install -D doas.conf "$1/etc/doas.conf"
