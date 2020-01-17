@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+:> nostrip
+
+./configure \
+    --prefix=/usr
+
+make
+
+DESTDIR="$1" PREFIX=/usr ./install

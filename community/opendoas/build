@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+printf "/chown \${BINOWN}:\${BINGRP}/d\nw\nq" | ed bsd.prog.mk >/dev/null
+printf "/BINMODE/s/111/755\nw\nq" | ed Makefile >/dev/null
+
+./configure \
+    --enable-static \
+    --without-pam
+
+make
+make DESTDIR="$1" install
+
+install -D doas.conf "$1/etc/doas.conf"
