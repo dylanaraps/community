@@ -1,10 +1,10 @@
 if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
     case "$1" in
         reboot)
-            halt -r
+            ubase-box halt -r
             ;;
         poweroff)
-            halt -p
+            ubase-box halt -p
             ;;
     esac
 fi
