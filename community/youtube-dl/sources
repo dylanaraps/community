@@ -1,2 +1,2 @@
-https://github.com/ytdl-org/youtube-dl/archive/2020.01.15.tar.gz
+git+https://github.com/ytdl-org/youtube-dl.git
 files/mpv-ytdl-helper.sh
