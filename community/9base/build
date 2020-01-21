@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+make
+make DESTDIR="$1" install
+
+# Since rc shell does not conflict with the
+# system tools, link it to /usr/bin
+mkdir -p "$1/usr/bin"
+ln -s /usr/local/plan9/bin/rc "$1/usr/bin/rc"
