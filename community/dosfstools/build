@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-./configure \
-    --prefix=/usr \
-    --mandir=/usr/share/man \
-    --enable-compat-symlinks
-
-make
-make DESTDIR="$1" install
