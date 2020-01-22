@@ -1,8 +1,6 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
+patch -p1 < fix-musl.patch
 
 # Remove gettext requirement.
 sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
