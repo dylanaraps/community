@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+patch -p1 < musl.patch
+
+aclocal
+automake
+
+./configure \
+    --prefix=/usr \
+    --enable-pcre
+
+make
+make DESTDIR="$1" install
