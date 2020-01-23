@@ -2,8 +2,7 @@
 
 patch -p1 < musl.patch
 
-aclocal
-automake
+autoreconf
 
 ./configure \
     --prefix=/usr \
