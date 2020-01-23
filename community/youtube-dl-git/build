@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make youtube-dl
+
+install -Dm755 youtube-dl "$1/usr/bin/youtube-dl"
