@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cat <<EOF
+
+NOTE: parted is installed with the prefix
+      'gnu' to avoid clashing with busybox
+      tools. the executables are called
+      'gnuparted' and 'gnupartprobe'.
+
+EOF
