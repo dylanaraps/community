@@ -1,4 +1,4 @@
-if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
+[ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ] && {
     case "$1" in
         reboot|poweroff)
         ;;
@@ -7,4 +7,4 @@ if [ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ]; then
             exit 1
             ;;
     esac
-fi
+}
