@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+patch -p0 < musl.patch
+
+./configure \
+    --prefix=/usr \
+    --without-x \
+    --disable-rpath \
+    --with-doc=no \
+    --enable-nls=auto
+
+make
+make DESTDIR="$1" install
+
+rm -f "$1/usr/share/man/man7/roff.7" \
+	"$1/usr/share/man/man1/soelim.1" \
+	"$1/usr/bin/soelim" \
