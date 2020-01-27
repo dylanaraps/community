@@ -1,0 +1,10 @@
+[ "$SINIT_ENABLE_SHUTDOWN_HOOKS" = 1 ] && {
+    case "$1" in
+        reboot)
+            ubase-box halt -r
+            ;;
+        poweroff)
+            ubase-box halt -p
+            ;;
+    esac
+}
