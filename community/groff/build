@@ -3,11 +3,11 @@
 patch -p0 < musl.patch
 
 ./configure \
-	--prefix=/usr \
-	--without-x \
-	--disable-rpath \
-	--with-doc=no \
-	--enable-nls=auto
+    --prefix=/usr \
+    --without-x \
+    --disable-rpath \
+    --with-doc=no \
+    --enable-nls=auto
 
 make
 make DESTDIR="$1" install
