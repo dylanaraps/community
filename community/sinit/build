@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
+make CFLAGS="$CFLAGS -static"
+
+install -Dm 755 sinit "$1/usr/bin/sinit"
+
+install -Dm 755 sinit.runit.boot "$1/etc/rc.d/sinit.runit.boot"
+install -Dm 755 sinit.getty.boot "$1/etc/rc.d/sinit.getty.boot"
+install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
+install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
