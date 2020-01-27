@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+"${CC:-gcc}" -lX11 -DSHADOW_PWD -o xtrlock xtrlock.c
+
+install -Dm4755 xtrlock     "$1/usr/bin/xtrlock"
+install -Dm644  xtrlock.man "$1/usr/share/man/man1/xtrlock.1"
