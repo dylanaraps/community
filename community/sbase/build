@@ -4,4 +4,4 @@ make CFLAGS="$CFLAGS -static" sbase-box
 make DESTDIR="$1" PREFIX=/usr sbase-box-install
 
 # Remove 'tar' which won't work with kiss.
-rm -f "$1/usr/bin/tar"
+unlink "$1/usr/bin/tar"
