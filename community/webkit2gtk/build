@@ -3,9 +3,12 @@
 patch -p1 < fix-musl.patch
 
 # Remove gettext requirement.
-sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
-sed -i '/po_files *.po/d'    Source/WebCore/platform/gtk/po/CMakeLists.txt
-sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
+sed 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c > .browser.c
+mv .browser.c Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
+sed '/po_files *.po/d'    Source/WebCore/platform/gtk/po/CMakeLists.txt > .cmake.bak
+mv .cmake.bak Source/WebCore/platform/gtk/po/CMakeLists.txt
+sed '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt > .cmake.bak
+mv .cmake.bak Source/WebCore/platform/gtk/po/CMakeLists.txt
 
 export DESTDIR="$1"
 
