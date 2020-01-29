@@ -1,2 +1,2 @@
 git+git://git.suckless.org/ubase
-https://github.com/michaelforney/ubase/commit/f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
+patches/f3aa4b156360ce4a18e4a3897f883b663771ba24.patch

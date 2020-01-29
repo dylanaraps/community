@@ -1,0 +1,70 @@
+From f3aa4b156360ce4a18e4a3897f883b663771ba24 Mon Sep 17 00:00:00 2001
+From: Michael Forney <mforney@mforney.org>
+Date: Mon, 5 Aug 2019 15:45:17 -0700
+Subject: [PATCH] Include sys/sysmacros.h when major is not defined in
+ sys/types.h
+
+---
+ libutil/tty.c | 5 ++++-
+ mknod.c       | 3 +++
+ mountpoint.c  | 3 +++
+ stat.c        | 3 +++
+ 4 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/libutil/tty.c b/libutil/tty.c
+index bceb01e..f56388e 100644
+--- a/libutil/tty.c
++++ b/libutil/tty.c
+@@ -1,6 +1,9 @@
+ /* See LICENSE file for copyright and license details. */
+-#include <sys/types.h>
+ #include <sys/stat.h>
++#include <sys/types.h>
++#ifndef major
++#include <sys/sysmacros.h>
++#endif
+ 
+ #include <fcntl.h>
+ #include <dirent.h>
+diff --git a/mknod.c b/mknod.c
+index 8de35c7..9dbede7 100644
+--- a/mknod.c
++++ b/mknod.c
+@@ -1,6 +1,9 @@
+ /* See LICENSE file for copyright and license details. */
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#ifndef major
++#include <sys/sysmacros.h>
++#endif
+ 
+ #include <fcntl.h>
+ #include <stdio.h>
+diff --git a/mountpoint.c b/mountpoint.c
+index 8f205a2..726cc80 100644
+--- a/mountpoint.c
++++ b/mountpoint.c
+@@ -1,6 +1,9 @@
+ /* See LICENSE file for copyright and license details. */
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#ifndef major
++#include <sys/sysmacros.h>
++#endif
+ 
+ #include <mntent.h>
+ #include <stdio.h>
+diff --git a/stat.c b/stat.c
+index 220a659..3a6569b 100644
+--- a/stat.c
++++ b/stat.c
+@@ -1,6 +1,9 @@
+ /* See LICENSE file for copyright and license details. */
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#ifndef major
++#include <sys/sysmacros.h>
++#endif
+ 
+ #include <inttypes.h>
+ #include <stdio.h>
