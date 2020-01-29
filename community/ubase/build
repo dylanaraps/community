@@ -6,4 +6,4 @@ make CFLAGS="$CFLAGS -static" ubase-box
 make DESTDIR="$1" PREFIX=/usr ubase-box-install
 
 # Remove 'su' which doesn't support '-c'.
-rm -f "$1/usr/bin/su"
+unlink "$1/usr/bin/su"
