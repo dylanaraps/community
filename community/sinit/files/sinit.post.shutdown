@@ -1,5 +1,3 @@
-# vim:filetype=sh
-
 # We handle the shutdown from here
 
 if [ "$SINIT_SHUTDOWN_HOOKS" = 1 ]; then
