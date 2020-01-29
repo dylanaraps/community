@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
-
 make CFLAGS="$CFLAGS -static"
 
 install -Dm 755 sinit "$1/usr/bin/sinit"
