@@ -9,17 +9,29 @@
     --without-dbus \
     --without-gconf \
     --without-gsettings \
-    --with-xpm=no
+    --with-xpm=no \
+    --with-gnutls=yes
 
 mkdir -p "$1/usr/share/emacs/site-lisp"
 cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
-;; fix ugly
+;; Improve startup time
+(setq gc-cons-threshold 50000000
+      package-enable-at-startup nil)
+
+;; Fix ugly
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (horizontal-scroll-bar-mode -1)
 
-;; needed unless kiss linux gets librsvg support
+;; Better security defaults
+(with-eval-after-load 'gnutls
+  (setq
+   gnutls-verify-error t
+   gnutls-min-prime-bits 2048
+   gnutls-trustfiles '("/etc/ssl/cert.pem")))
+
+;; Needed unless KISS Linux gains librsvg support
 (setq-default shr-blocked-images ".*\.svg$")
 EOF
 

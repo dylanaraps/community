@@ -1,3 +1,5 @@
 zlib
 xz
 ncurses
+gnutls
+libxml2

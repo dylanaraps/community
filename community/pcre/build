@@ -1,7 +1,9 @@
 #!/bin/sh -e
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --enable-utf8 \
+    --enable-unicode-properties
 
 make
 make DESTDIR="$1" install
