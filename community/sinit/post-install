@@ -1,33 +1,35 @@
 #!/bin/sh -e
 
+grep -q SINIT_ /etc/rc.conf || cat <<EOF >> /etc/rc.conf
+
+# Uncomment these to run the scripts for sinit
+# SINIT_SHUTDOWN_HOOKS=1
+# SINIT_ENABLE_GETTY=1
+# SINIT_ENABLE_RUNIT=1
+EOF
+
 cat <<EOF
 
-IMPORTANT:
-        This package is installed as /usr/bin/sinit
-        Please update your kernel parameters
-        accordingly,
+IMPORTANT: 
+        If you want to start using sinit, you 
+	need to edit your /etc/rc.conf to enable
+	SINIT variables. 
 
-        -> init=/usr/bin/sinit
+	Init is installed to /usr/bin/sinit, you 
+	can also link it to /usr/bin/init but you 
+	should only do that on a chroot environment.
 
-        Please keep in mind that sinit does not use
-        the /etc/inittab file. The default busybox
-        runit service supervisor may (optionally)
-        still be initialized.
+	To completely replace busybox init programs,
+	you can do (while chrooted)
 
-        The following options should be added to
-        /etc/rc.conf:
+	    kiss a | grep ^sinit | kiss a -
 
-        -> SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
-        -> SINIT_ENABLE_GETTY=1            # <- (required)
-        -> SINIT_ENABLE_RUNIT=1            # <- (optional)
+	This should replace,
 
-USAGE:
-        To shutdown:
-
-        -> # kill -s USR1 1
-
-        To reboot:
-
-        -> # kill -s INT 1
+	* /usr/bin/init
+	* /usr/bin/halt
+	* /usr/bin/poweroff
+	* /usr/bin/reboot
+	* /usr/bin/respawn (if ubase is installed)
 
 EOF

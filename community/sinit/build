@@ -1,10 +1,22 @@
 #!/bin/sh -e
 
-make CFLAGS="$CFLAGS -static"
+mv config.h sinit/config.h
 
-install -Dm 755 sinit "$1/usr/bin/sinit"
+cd sinit
+make CFLAGS="$CFLAGS -static" PREFIX=/usr DESTDIR="$1" install
+ln -s /usr/bin/sinit "$1/usr/bin/init"
 
-install -Dm 755 sinit.runit.boot "$1/etc/rc.d/sinit.runit.boot"
-install -Dm 755 sinit.getty.boot "$1/etc/rc.d/sinit.getty.boot"
-install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
-install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
+cd ..
+
+install -Dm755 poweroff "$1/usr/bin/poweroff"
+install -Dm755 reboot "$1/usr/bin/reboot"
+
+install -Dm644 sinit-launch-services.boot "$1/etc/rc.d/sinit-launch-services.boot"
+install -Dm644 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
+
+cd ubase
+make halt
+make respawn
+
+install -Dm755 halt "$1/usr/bin/halt"
+install -Dm755 respawn "$1/usr/bin/respawn"
