@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
+
 make CFLAGS="$CFLAGS -static" ubase-box
 
-install -Dm 755 ubase-box "$1/usr/bin/ubase-box"
+make DESTDIR="$1" PREFIX=/usr ubase-box-install
