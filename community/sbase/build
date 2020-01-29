@@ -2,4 +2,4 @@
 
 make CFLAGS="$CFLAGS -static" sbase-box
 
-install -Dm 755 sbase-box "$1/usr/bin/sbase-box"
+make DESTDIR="$1" PREFIX=/usr sbase-box-install
