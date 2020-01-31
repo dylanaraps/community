@@ -3,10 +3,8 @@
 # for busybox
 sinit_run_getty() {
     for getty in 1 2 3 4 5 6; do
-	# for busybox
-        respawn /sbin/getty 38400 tty${getty} 2>&1 &
-	# for ubase
-	# respawn /sbin/getty /dev/tty${getty} linux 2>&1 &
+        respawn /sbin/getty 38400 tty${getty} 2>&1 &  # busybox getty
+	# respawn /sbin/getty /dev/tty${getty} linux 2>&1 &  # ubase getty
     done
 }
 
