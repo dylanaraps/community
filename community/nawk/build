@@ -2,6 +2,6 @@
 
 make CFLAGS="$CFLAGS -static"
 
-install -Dm755 "a.out"
+install -Dm755 "a.out" "$1/usr/bin/nawk"
 
 ln -s /usr/bin/nawk "$1/usr/bin/awk"
