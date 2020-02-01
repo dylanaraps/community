@@ -3,8 +3,7 @@
 export CFLAGS="$CFLAGS -static"
 
 ./configure \
-    --prefix=/usr \
-    --program-prefix=g
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
