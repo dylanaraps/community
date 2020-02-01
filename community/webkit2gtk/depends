@@ -5,6 +5,7 @@ cmake  make
 gperf  make
 harfbuzz-icu
 libXslt
+libXt
 libgcrypt
 libsoup
 libwebp
