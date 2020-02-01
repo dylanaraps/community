@@ -1,16 +1,4 @@
 #!/bin/sh -e
 
-mk() {
-    make \
-        PREFIX=/usr \
-        ZLIB=no \
-        CC="${CC:-gcc}" \
-        OPT="$CFLAGS" \
-        SHAREDIR=/usr/share/hwdata \
-        MANDIR=/usr/share/man \
-        SBINDIR=/usr/bin \
-        "$@"
-}
-
-mk all
-mk DESTDIR="$1" install install-lib
+make all
+make PREFIX=/usr SBINDIR=/usr/bin DESTDIR="$1" install install-lib
