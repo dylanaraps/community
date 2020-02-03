@@ -2,7 +2,12 @@
 
 patch -p1 < f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
 
-make CFLAGS="$CFLAGS -static" ubase-box
+# prepend environment to config.mk defs
+sed -i config.mk \
+    -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/"
+
+make ubase-box
 make DESTDIR="$1" PREFIX=/usr ubase-box-install
 
 # Remove 'su' which doesn't support '-c'.
