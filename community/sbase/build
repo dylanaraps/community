@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-# prepend environment to config.mk defs
-sed -i config.mk \
+sed -i \
     -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
-    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/"
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
+    config.mk
 
 make sbase-box
 make DESTDIR="$1" PREFIX=/usr sbase-box-install
