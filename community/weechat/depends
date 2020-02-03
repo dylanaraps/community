@@ -3,3 +3,4 @@ gnutls
 libgcrypt
 libressl
 zlib
+ncurses
