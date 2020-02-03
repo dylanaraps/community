@@ -2,10 +2,10 @@
 
 patch -p1 < f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
 
-# prepend environment to config.mk defs
-sed -i config.mk \
+sed -i \
     -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
-    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/"
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
+    config.mk
 
 make ubase-box
 make DESTDIR="$1" PREFIX=/usr ubase-box-install
