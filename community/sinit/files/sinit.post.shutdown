@@ -2,13 +2,7 @@
 
 if [ "$SINIT_SHUTDOWN_HOOKS" = 1 ]; then
     case "$1" in
-        reboot)	
-            out "Requesting system reboot..."
-            halt -r 
-            ;;
-        *) 
-            out "Requesting system poweroff..."
-            halt -p 
-            ;;
+        reboot)	halt -r ;;
+        *)      halt -p ;;
     esac
 fi
