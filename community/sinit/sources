@@ -1,6 +1,5 @@
-https://dl.suckless.org/sinit/sinit-1.0.tar.gz sinit
-https://github.com/michaelforney/ubase/archive/b33bdaa.tar.gz ubase
-files/config.h sinit
+https://dl.suckless.org/sinit/sinit-1.0.tar.gz
+files/config.h
 files/reboot
 files/poweroff
 files/sinit-launch-services.boot
