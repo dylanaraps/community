@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-mv config.h sinit/config.h
-
 (
     cd sinit
     make CFLAGS="$CFLAGS -static" PREFIX=/usr DESTDIR="$1" install
