@@ -1,8 +1,0 @@
-# We handle the shutdown from here
-
-if [ "$SINIT_SHUTDOWN_HOOKS" = 1 ]; then
-    case "$1" in
-        reboot)	kpow r ;;
-        *)      kpow p ;;
-    esac
-fi

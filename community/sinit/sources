@@ -4,4 +4,3 @@ files/config.h sinit
 files/reboot
 files/poweroff
 files/sinit-launch-services.boot
-files/sinit.post.shutdown

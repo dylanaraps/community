@@ -9,7 +9,6 @@ IMPORTANT:
 
 	These variables are,
 
-	    [1mSINIT_SHUTDOWN_HOOKS=1[m (Mandatory)
 	    [1mSINIT_ENABLE_GETTY=1[m   (Mandatory)
 	    [1mSINIT_ENABLE_RUNIT=1[m   (Optional)
 
