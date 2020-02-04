@@ -1,19 +1,17 @@
 #!/bin/sh -e
 
-grep -q SINIT_ /etc/rc.conf || cat <<EOF >> /etc/rc.conf
-
-# Uncomment these to run the scripts for sinit
-# SINIT_SHUTDOWN_HOOKS=1
-# SINIT_ENABLE_GETTY=1
-# SINIT_ENABLE_RUNIT=1
-EOF
-
 cat <<EOF
 
 IMPORTANT: 
         If you want to start using sinit, you 
-	need to edit your /etc/rc.conf to enable
+	need to edit your /etc/rc.conf to add
 	SINIT variables. 
+
+	These variables are,
+
+	    [1mSINIT_SHUTDOWN_HOOKS=1[m (Mandatory)
+	    [1mSINIT_ENABLE_GETTY=1[m   (Mandatory)
+	    [1mSINIT_ENABLE_RUNIT=1[m   (Optional)
 
 	Init is installed to /usr/bin/sinit, you 
 	can also link it to /usr/bin/init but you 
@@ -30,6 +28,5 @@ IMPORTANT:
 	* /usr/bin/halt
 	* /usr/bin/poweroff
 	* /usr/bin/reboot
-	* /usr/bin/respawn (if ubase is installed)
 
 EOF
