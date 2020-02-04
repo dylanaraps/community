@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 make CFLAGS="$CFLAGS -static" PREFIX=/usr DESTDIR="$1" install
-ln -s /usr/bin/sinit "$1/usr/bin/init"
+ln -s sinit "$1/usr/bin/init"
 
 install -Dm755 poweroff "$1/usr/bin/poweroff"
 install -Dm755 reboot "$1/usr/bin/reboot"
