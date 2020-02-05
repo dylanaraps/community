@@ -1,0 +1,3 @@
+python
+iptables
+# 'gettext' is also marked as a dependency, but UFW seems to work without it.
