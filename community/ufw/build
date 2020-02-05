@@ -1,3 +1,4 @@
 #!/bin/sh -e
 
-python ./setup.py install --root="$1"
+sed -i 's|/lib|/usr/lib|;s|sbin|bin|' setup.py
+python setup.py install --root="$1"
