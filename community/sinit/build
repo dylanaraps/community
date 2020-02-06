@@ -1,10 +1,9 @@
 #!/bin/sh -e
 
-make CFLAGS="$CFLAGS -static"
+make CFLAGS="$CFLAGS -static" PREFIX=/usr DESTDIR="$1" install
+ln -s sinit "$1/usr/bin/init"
 
-install -Dm 755 sinit "$1/usr/bin/sinit"
+install -Dm755 poweroff "$1/usr/bin/poweroff"
+install -Dm755 reboot "$1/usr/bin/reboot"
 
-install -Dm 755 sinit.runit.boot "$1/etc/rc.d/sinit.runit.boot"
-install -Dm 755 sinit.getty.boot "$1/etc/rc.d/sinit.getty.boot"
-install -Dm 755 sinit.pre.shutdown "$1/etc/rc.d/sinit.pre.shutdown"
-install -Dm 755 sinit.post.shutdown "$1/etc/rc.d/sinit.post.shutdown"
+install -Dm644 sinit-launch-services.boot "$1/etc/rc.d/sinit-launch-services.boot"
