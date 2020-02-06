@@ -2,30 +2,25 @@
 
 cat <<EOF
 
-IMPORTANT: 
-        If you want to start using sinit, you 
-	need to edit your /etc/rc.conf to add
-	SINIT variables. 
+!! IMPORTANT !!
 
-	These variables are,
+If you want to start using sinit, you 
+need to edit
+/etc/rc.d/sinit-launch-services.boot
+And uncomment the getty function, and
+Optionally uncomment the runit function
+If you deem necessary.
 
-	    [1mSINIT_ENABLE_GETTY=1[m   (Mandatory)
-	    [1mSINIT_ENABLE_RUNIT=1[m   (Optional)
+sinit is installed as /usr/bin/sinit. It
+can fully replace busybox init by running
+the following command.
 
-	Init is installed to /usr/bin/sinit, you 
-	can also link it to /usr/bin/init but you 
-	should only do that on a chroot environment.
+      kiss a | grep ^sinit | kiss a -
 
-	To completely replace busybox init programs,
-	you can do (while chrooted)
-
-	    kiss a | grep ^sinit | kiss a -
-
-	This should replace,
-
-	* /usr/bin/init
-	* /usr/bin/halt
-	* /usr/bin/poweroff
-	* /usr/bin/reboot
+NOTE: If swapping from busybox init on a 
+      running system, shutdown/reboot by 
+      invoking 'busybox poweroff'. sinit's 
+      poweroff/reboot utilities can't be of
+      use until it is actually running.
 
 EOF
