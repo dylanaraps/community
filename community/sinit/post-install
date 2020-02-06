@@ -4,8 +4,7 @@ cat <<EOF
 
 !! IMPORTANT !!
 
-If you want to start using sinit, you 
-need to edit
+To start using sinit, edit
 /etc/rc.d/sinit-launch-services.boot
 And uncomment the getty function, and
 Optionally uncomment the runit function
