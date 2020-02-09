@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm644 src/* -t "$1/usr/include"

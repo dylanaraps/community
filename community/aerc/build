@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+sed -i 's/conf doc/conf/' Makefile
+
+make PREFIX=/usr
+make DESTDIR="$1" PREFIX=/usr install

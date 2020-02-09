@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+export MKDIR_P="install -d"
+
+./configure \
+	--prefix=/usr \
+	--sysconfdir=/etc
+
+make
+make DESTDIR="$1" install

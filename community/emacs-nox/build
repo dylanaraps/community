@@ -1,0 +1,36 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-modules \
+    --without-all \
+    --without-x \
+    --with-x-toolkit=no \
+    --with-x=no \
+    --with-gnutls=yes \
+    --with-xml2=yes
+
+mkdir -p "$1/usr/share/emacs/site-lisp"
+cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
+;; Improve startup time
+(setq gc-cons-threshold 50000000
+      package-enable-at-startup nil)
+
+;; Fix ugly
+(menu-bar-mode -1)
+
+;; Better security defaults
+(with-eval-after-load 'gnutls
+  (setq
+   gnutls-verify-error t
+   gnutls-min-prime-bits 2048
+   gnutls-trustfiles '("/etc/ssl/cert.pem")))
+
+;; Better defaults when inside an X11 terminal
+(when (getenv "DISPLAY")
+  ;; Enable X11 mouse features
+  (xterm-mouse-mode 1))
+EOF
+
+make
+make DESTDIR="$1" install

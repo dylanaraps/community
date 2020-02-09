@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -static"
+
+./configure \
+    --prefix=/usr
+
+make DESTDIR="$1" install
+
+ln -s /usr/bin/dash "$1/usr/bin/sh"

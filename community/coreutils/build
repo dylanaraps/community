@@ -1,12 +1,11 @@
 #!/bin/sh -e
 
-export CC="gcc -static"
+export CFLAGS="$CFLAGS -static"
 
 export FORCE_UNSAFE_CONFIGURE=1
 
 ./configure \
-    --prefix=/usr \
-    --program-prefix=g \
-    --program-transform-name=s/stat/nustat/
+    --prefix=/usr
 
+make
 make DESTDIR="$1" install

@@ -1,5 +1,13 @@
 #!/bin/sh -e
 
-make CC="gcc -static" sbase-box
+sed -i \
+    -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
+    config.mk
 
-install -Dm 755 sbase-box "$1/usr/bin/sbase-box"
+make sbase-box
+make DESTDIR="$1" PREFIX=/usr sbase-box-install
+
+# Remove 'tar'/'sed' which won't work with kiss.
+unlink "$1/usr/bin/tar"
+unlink "$1/usr/bin/sed"

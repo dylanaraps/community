@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure.sh \
+    --prefix=/usr \
+    --pkg-config
+
+make -j1
+make DESTDIR="$1" install

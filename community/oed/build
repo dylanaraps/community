@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --mandir=/usr/share/man \
+    --prefix=/usr \
+    --program-name=ed
+
+make
+make DESTDIR="$1" install

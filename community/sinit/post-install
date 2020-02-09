@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+!! IMPORTANT !!
+
+To start using sinit, edit
+/etc/rc.d/sinit-launch-services.boot
+And uncomment the getty function, and
+Optionally uncomment the runit function
+If you deem necessary.
+
+sinit is installed as /usr/bin/sinit. It
+can fully replace busybox init by running
+the following command.
+
+      kiss a | grep ^sinit | kiss a -
+
+NOTE: If swapping from busybox init on a 
+      running system, shutdown/reboot by 
+      invoking 'busybox poweroff'. sinit's 
+      poweroff/reboot utilities can't be of
+      use until it is actually running.
+
+EOF

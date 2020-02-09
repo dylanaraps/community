@@ -1,2 +1,9 @@
-ncurses
 zlib
+ncurses
+libxaw3d
+gnutls
+libxml2
+libpng
+libjpeg-turbo
+tiff
+giflib

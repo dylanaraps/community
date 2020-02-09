@@ -14,6 +14,7 @@ More information: <https://getkiss.org/pages/package-system/>
 * [Pull requests](#pull-requests)
 * [Linting](#linting)
 * [Code style](#code-style)
+* [Git packages](#git-packages)
 
 <!-- vim-markdown-toc -->
 
@@ -59,3 +60,6 @@ All package `build` and `post-install` scripts are subject to checks using `shel
 - Use `#!/bin/sh -e`.
 - Use `/usr` as the prefix.
 
+## Git packages
+
+- Use `git+https://` and not `git+git://`.
