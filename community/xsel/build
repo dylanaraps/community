@@ -1,8 +1,7 @@
 #!/bin/sh -e
 
-patch -p1 < strncpy.patch
-
-autoreconf -i
+# Fix strncpy() error.
+sed -i 's/MAXFNAME)/MAXFNAME-1)/' xsel.c
 
 ./configure \
     --prefix=/usr
