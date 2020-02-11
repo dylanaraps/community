@@ -1,4 +1,5 @@
-alsa-lib
+alsa-lib autoconf
+autoconf
 expat
 libpng
 libX11
