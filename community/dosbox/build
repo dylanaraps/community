@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-sh autogen.sh
+./autogen.sh
 
 ./configure \
     --prefix=/usr
