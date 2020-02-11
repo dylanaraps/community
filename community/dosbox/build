@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+sh autogen.sh
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
+
