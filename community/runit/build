@@ -5,10 +5,10 @@ cd runit-2.1.2
 (
 cd src
 
-sed -e 's@sbin/runit@usr/bin/runit@g' -i runit.h
+sed 's@sbin/runit@usr/bin/runit@g' -i runit.h
 printf '%s -D_GNU_SOURCE -static\n' "${CC-cc}" "$CFLAGS" > conf-cc
 printf '%s %s -static -Wl,-z -Wl,noexecstack\n' "${CC-cc}" "$CFLAGS" > conf-ld
-sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
+sed -i 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
 
 make
 
