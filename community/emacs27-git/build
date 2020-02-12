@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+autoreconf
+
 ./configure \
     --prefix=/usr \
     --with-modules \
