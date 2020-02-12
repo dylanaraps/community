@@ -1,4 +1,0 @@
-#!/bin/sh
-
-[ -e /etc/runit/1 ] || ln -s /usr/lib/init/rc.boot /etc/runit/1
-[ -e /etc/runit/3 ] || ln -s /usr/lib/init/rc.shutdown /etc/runit/3

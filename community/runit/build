@@ -31,9 +31,7 @@ ln -s runit-init "$1/usr/bin/init"
 # Link to the default init scripts
 mkdir -p "$1/etc/runit"
 
-# I have added a post-install for this at the moment
-# see <https://github.com/kisslinux/kiss/issues/112>
-# ln -s /usr/lib/init/rc.boot "$1/etc/runit/1"
-# ln -s /usr/lib/init/rc.shutdown "$1/etc/runit/3"
+ln -s /usr/lib/init/rc.boot "$1/etc/runit/1"
+ln -s /usr/lib/init/rc.shutdown "$1/etc/runit/3"
 
 install -Dm755 ../2 "$1/etc/runit/2"
