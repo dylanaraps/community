@@ -17,12 +17,7 @@ for bin in chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset; d
 done
 )
 
-(
-cd man
-for man in ./*; do
-    install -Dm644 "$man" "$1/usr/share/man/man8/$man"
-done
-)
+install -Dm644 -t "$1/usr/share/man/man8" man/*
 
 
 mkdir -p "$1/var/service"
