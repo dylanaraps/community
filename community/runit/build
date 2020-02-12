@@ -30,3 +30,6 @@ ln -s /usr/lib/init/rc.boot "$1/etc/runit/1"
 ln -s /usr/lib/init/rc.shutdown "$1/etc/runit/3"
 
 install -Dm755 ../2 "$1/etc/runit/2"
+
+# Install poweroff and reboot scripts
+install -Dm755 -t "$1/usr/bin" ../poweroff ../reboot
