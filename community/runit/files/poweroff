@@ -1,2 +1,2 @@
 #!/bin/sh
-init 0
+runit-init 0

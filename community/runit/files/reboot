@@ -1,2 +1,2 @@
 #!/bin/sh
-init 6
+runit-init 6
