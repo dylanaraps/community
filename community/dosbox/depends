@@ -1,0 +1,15 @@
+alsa-lib
+expat
+libpng
+libX11
+libXau
+libxcb
+libdrm
+libXext
+libXfixes
+libXdamage
+libXxf86vm
+libxshmfence
+mesa
+sdl
+zlib
