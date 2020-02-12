@@ -11,6 +11,7 @@ autoreconf
     --without-dbus \
     --without-gconf \
     --without-gsettings \
+    --without-makeinfo \
     --with-xpm=no \
     --with-gnutls=yes \
     --with-json=yes
