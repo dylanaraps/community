@@ -20,7 +20,6 @@ done
 
 install -Dm644 -t "$1/usr/share/man/man8" man/*
 
-
 mkdir -p "$1/var/service"
 ln -s runit-init "$1/usr/bin/init"
 
