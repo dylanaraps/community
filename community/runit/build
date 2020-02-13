@@ -21,7 +21,6 @@ install -Dm644 -t "$1/usr/share/man/man8" man/*
 mkdir -p "$1/var/service"
 ln -s runit-init "$1/usr/bin/init"
 
-# Link to the default init scripts
 mkdir -p "$1/etc/runit"
 
 ln -s /usr/lib/init/rc.boot "$1/etc/runit/1"
@@ -29,5 +28,4 @@ ln -s /usr/lib/init/rc.shutdown "$1/etc/runit/3"
 
 install -Dm755 ../2 "$1/etc/runit/2"
 
-# Install poweroff and reboot scripts
 install -Dm755 -t "$1/usr/bin" ../poweroff ../reboot
