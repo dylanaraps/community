@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+unix/configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --enable-threads \
+    --enable-64bit
+
+make
+make -j1 INSTALL_ROOT="$1" install install-private-headers
+
+ln -sf tclsh?.? "$1/usr/bin/tclsh"
