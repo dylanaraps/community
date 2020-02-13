@@ -12,3 +12,4 @@ make DESTDIR="$1" PREFIX=/usr ubase-box-install
 
 # Remove 'su' which doesn't support '-c'.
 unlink "$1/usr/bin/su"
+unlink "$1/usr/bin/stat"
