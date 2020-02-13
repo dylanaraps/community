@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+IFS=. read -r ver1 ver2 _ < "${0%/*}/version"
+
 unix/configure \
     --prefix=/usr \
     --mandir=/usr/share/man \
@@ -9,4 +11,4 @@ unix/configure \
 make
 make -j1 INSTALL_ROOT="$1" install install-private-headers
 
-ln -sf tclsh?.? "$1/usr/bin/tclsh"
+ln -s "/usr/bin/tclsh${ver1}.${ver2}" "$1/usr/bin/tclsh"
