@@ -3,11 +3,10 @@
 patch -p1 < 0001-make-iproute2-fhs-compliant.patch
 
 ./configure \
-    --prefix=/usr \
-    --sbindir=/usr/bin
+    --prefix=/usr
 
 make
-make DESTDIR="$1" install
+make DESTDIR="$1" SBINDIR="/usr/bin" install
 
 install -Dm0644 include/libnetlink.h "$1/usr/include/libnetlink.h"
 install -Dm0644 lib/libnetlink.a "$1/usr/lib/libnetlink.a"
