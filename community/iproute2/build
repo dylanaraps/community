@@ -2,8 +2,6 @@
 
 patch -p1 < 0001-make-iproute2-fhs-compliant.patch
 
-sed -i 's/-Werror//' Makefile
-
 ./configure
 
 make
