@@ -6,8 +6,7 @@
 	--disable-nls \
 	--disable-rpath \
 	--disable-device-mapper \
-	--without-readline \
-	--program-prefix=gnu
+	--without-readline
 
 make
 make DESTDIR="$1" install
