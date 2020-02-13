@@ -2,8 +2,7 @@
 
 patch -p1 < 0001-make-iproute2-fhs-compliant.patch
 
-./configure \
-    --prefix=/usr
+./configure
 
 make
 make DESTDIR="$1" SBINDIR="/usr/bin" install
