@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 nnn-static "$1/usr/bin/nnn"
