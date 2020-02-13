@@ -4,16 +4,16 @@ for patch in ./*.patch ; do patch -p0 < "$patch" ; done
 cd runit-2.1.2
 
 (
-cd src
-
-sed 's@sbin/runit@usr/bin/runit@g' -i runit.h
-printf '%s -D_GNU_SOURCE -static\n' "${CC-cc}" "$CFLAGS" > conf-cc
-printf '%s %s -static -Wl,-z -Wl,noexecstack\n' "${CC-cc}" "$CFLAGS" > conf-ld
-sed -i 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
-
-make
-
-install -Dm755 -t "$1/usr/bin/" chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset
+    cd src
+    
+    sed 's@sbin/runit@usr/bin/runit@g' -i runit.h
+    printf '%s -D_GNU_SOURCE -static\n' "${CC-cc}" "$CFLAGS" > conf-cc
+    printf '%s %s -static -Wl,-z -Wl,noexecstack\n' "${CC-cc}" "$CFLAGS" > conf-ld
+    sed -i 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
+    
+    make
+    
+    install -Dm755 -t "$1/usr/bin/" chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset
 )
 
 install -Dm644 -t "$1/usr/share/man/man8" man/*
