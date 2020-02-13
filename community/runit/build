@@ -13,9 +13,7 @@ sed -i 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:
 
 make
 
-for bin in chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset; do
-    install -Dm755 "$bin" "$1/usr/bin/$bin"
-done
+install -Dm755 -t "$1/usr/bin/" chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset
 )
 
 install -Dm644 -t "$1/usr/share/man/man8" man/*
