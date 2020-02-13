@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+for patch in ./*.patch ; do patch -p0 < "$patch" ; done
+cd runit-2.1.2
+
+(
+    cd src
+    
+    sed 's@sbin/runit@usr/bin/runit@g' -i runit.h
+    printf '%s -D_GNU_SOURCE -static\n' "${CC-cc}" "$CFLAGS" > conf-cc
+    printf '%s %s -static -Wl,-z -Wl,noexecstack\n' "${CC-cc}" "$CFLAGS" > conf-ld
+    sed -i 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
+    
+    make
+    
+    install -Dm755 -t "$1/usr/bin/" chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset
+)
+
+install -Dm644 -t "$1/usr/share/man/man8" man/*
+
+mkdir -p "$1/var/service" "$1/etc/runit"
+ln -s runit-init "$1/usr/bin/init"
+ln -s /usr/lib/init/rc.boot "$1/etc/runit/1"
+ln -s /usr/lib/init/rc.shutdown "$1/etc/runit/3"
+
+install -Dm755 ../2 "$1/etc/runit/2"
+install -Dm755 -t "$1/usr/bin" ../poweroff ../reboot
