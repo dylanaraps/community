@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --without-seccomp \
+    --without-xpm
+
+make
+make DESTDIR="$1" install
