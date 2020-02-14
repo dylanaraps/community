@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dlink-external=true \
+    . output
+
+ninja -C output
+ninja -C output install
