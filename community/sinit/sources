@@ -1,6 +1,5 @@
 https://dl.suckless.org/sinit/sinit-1.0.tar.gz
-files/config.def.h
-files/etc/rc.d/sinit.getty.boot
-files/etc/rc.d/sinit.runit.boot
-files/etc/rc.d/sinit.pre.shutdown
-files/etc/rc.d/sinit.post.shutdown
+files/config.h
+files/reboot
+files/poweroff
+files/sinit-launch-services.boot

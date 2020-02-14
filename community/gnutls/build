@@ -1,7 +1,10 @@
 #!/bin/sh -e
 
+sed -i 's|<gmp.h>|<nettle/bignum.h>|' lib/nettle/curve448/eccdata.c
+
 ./configure \
     --prefix=/usr \
+    --disable-nls \
     --with-nettle-mini \
     --with-included-libtasn1 \
     --with-included-unistring \

@@ -4,4 +4,4 @@
 sed -i -e '/CFLAGS = /c\' -e 'CFLAGS += -Wall' Makefile
 
 make
-install -Dm 755 vi "$1"/usr/bin/neatvi
+install -Dm 755 vi "$1"/usr/bin/vi

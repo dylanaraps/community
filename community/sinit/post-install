@@ -2,32 +2,24 @@
 
 cat <<EOF
 
-IMPORTANT:
-        This package is installed as /usr/bin/sinit
-        Please update your kernel parameters
-        accordingly,
+!! IMPORTANT !!
 
-        -> init=/usr/bin/sinit
+To start using sinit, edit
+/etc/rc.d/sinit-launch-services.boot
+And uncomment the getty function, and
+Optionally uncomment the runit function
+If you deem necessary.
 
-        Please keep in mind that sinit does not use
-        the /etc/inittab file. The default busybox
-        runit service supervisor may (optionally)
-        still be initialized.
+sinit is installed as /usr/bin/sinit. It
+can fully replace busybox init by running
+the following command.
 
-        The following options should be added to
-        /etc/rc.conf:
+      kiss a | grep ^sinit | kiss a -
 
-        -> SINIT_ENABLE_SHUTDOWN_HOOKS=1   # <- (required)
-        -> SINIT_ENABLE_GETTY=1            # <- (required)
-        -> SINIT_ENABLE_RUNIT=1            # <- (optional)
-
-USAGE:
-        To shutdown:
-
-        -> # kill -s USR1 1
-
-        To reboot:
-
-        -> # kill -s INT 1
+NOTE: If swapping from busybox init on a 
+      running system, shutdown/reboot by 
+      invoking 'busybox poweroff'. sinit's 
+      poweroff/reboot utilities can't be of
+      use until it is actually running.
 
 EOF

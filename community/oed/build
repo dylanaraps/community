@@ -2,7 +2,8 @@
 
 ./configure \
     --mandir=/usr/share/man \
-    --prefix=/usr
+    --prefix=/usr \
+    --program-name=ed
 
 make
 make DESTDIR="$1" install

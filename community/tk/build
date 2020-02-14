@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+IFS=. read -r maj min _ < "${0%/*}/version"
+
+unix/configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --enable-threads \
+    --disable-rpath \
+    --enable-64bit
+
+make
+make INSTALL_ROOT="$1" install install-private-headers
+
+ln -s "/usr/bin/wish${maj}.${min}" "$1/usr/bin/wish"
+ln -s "/usr/lib/libtk${maj}.${min}.so" "$1/usr/lib/libtk.so"
+
+# Finish installing private headers.
+for dir in compat generic generic/ttk unix; do
+    install -dm755 "$1/usr/include/tk-private/$dir"
+    install -m644 -t "$1/usr/include/tk-private/$dir" "$dir/"*.h
+done

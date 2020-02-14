@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-rpath \
+    --disable-doxygen-docs \
+    --disable-xmms-plugin \
+    --disable-thorough-tests \
+    --with-pic
+
+make
+make DESTDIR="$1" install
