@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p0 < e3647f5b6b52996bf30d0c2c1d1248e4182e1c1c.patch
+
+NOCONFIGURE=1 ./autogen.sh
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
