@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-error-on-warning \
+    --disable-static \
+    --disable-nls
+
+make
+make DESTDIR="$1" install
