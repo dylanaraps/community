@@ -2,9 +2,7 @@
 
 IFS=. read -r maj min _ < "${0%/*}/version"
 
-cd unix
-
-./configure \
+unix/configure \
     --prefix=/usr \
     --mandir=/usr/share/man \
     --enable-threads \
