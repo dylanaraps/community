@@ -2,8 +2,6 @@
 
 IFS=. read -r maj min _ < "${0%/*}/version"
 
-rm -rf pkgs/sqlite3*
-
 cd unix
 
 ./configure \
