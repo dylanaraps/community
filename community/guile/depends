@@ -1,0 +1,5 @@
+libtool make
+ncurses make
+gmp
+libunistring
+gc
