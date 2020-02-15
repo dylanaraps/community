@@ -1,4 +1,10 @@
 #!/bin/sh -e
 
-make
-make DESTDIR="$1" install
+IFS=. read -r maj min _ < "${0%/*}/version"
+
+sed -i "/SBINDIR/s#sbin#bin#" Make.Rules
+sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
+sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
+
+make KERNEL_HEADERS=/usr/include
+make prefix=/usr lib=/lib DESTDIR="$1" RAISE_SETFCAP=no install
