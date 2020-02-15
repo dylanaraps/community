@@ -2,7 +2,7 @@
 
 This repository is for packages maintained by the community.
 
-More information: <https://getkiss.org/pages/package-system/>
+More information: <https://k1ss.org/pages/package-system/>
 
 ## Index
 

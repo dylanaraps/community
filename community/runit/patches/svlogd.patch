@@ -1,0 +1,14 @@
+Taken from void
+Initialize all fields of sockaddr_in.
+http://skarnet.org/cgi-bin/archive.cgi?2:mss:1163:201602:gpiglpbjdemlioaeabbn
+
+--- runit-2.1.2/src/svlogd.c
++++ runit-2.1.2/src/svlogd.c
+@@ -430,6 +430,7 @@
+   ld->name =(char*)fn;
+   ld->ppid =0;
+   ld->match ='+';
++  ld->udpaddr.sin_family =AF_INET;
+   ld->udpaddr.sin_port =0;
+   ld->udponly =0;
+   while (! stralloc_copys(&ld->prefix, "")) pause_nomem();
