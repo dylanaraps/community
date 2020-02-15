@@ -1,4 +1,4 @@
-Read: <getkiss.org/guidestones.txt>
+Read: https://k1ss.org/guidestones.txt
 
 ## Description of package
 
