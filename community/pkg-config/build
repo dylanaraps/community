@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-./configure
-
-make
-make DESTDIR="$(realpath $1)" PREFIX=/usr install
