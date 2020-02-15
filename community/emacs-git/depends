@@ -1,9 +1,9 @@
-zlib
-ncurses
-libxaw3d
-gnutls
-libxml2
-libpng
-libjpeg-turbo
-tiff
 giflib
+gnutls
+libjpeg-turbo
+libpng
+libxaw3d
+libxml2
+ncurses
+tiff
+zlib
