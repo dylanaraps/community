@@ -2,4 +2,3 @@
 
 make
 make DESTDIR="$1" PREFIX=/usr install
-
