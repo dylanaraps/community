@@ -9,7 +9,7 @@ make \
 make \
     prefix=/usr \
     SBINDIR=/usr/bin \
-    lib=/usr/lib \
+    LIBDIR=/usr/lib \
     DESTDIR="$1" \
     RAISE_SETFCAP=no \
     install
