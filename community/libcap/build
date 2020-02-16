@@ -1,7 +1,6 @@
 #!/bin/sh -e
 
-sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
-sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
+sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
 
 make
 make \
