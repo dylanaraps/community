@@ -13,4 +13,7 @@ jobs:
       run: |
         shopt -s nullglob
         shellcheck */*/build */*/post-install
+        wget https://raw.githubusercontent.com/dylanaraps/bin/master/shame
+        chmod +x shame
+        ./shame
         curl -X POST -d {} "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY }}"
