@@ -8,7 +8,6 @@ meson \
     --prefix=/usr \
     -DUSE_CAP=true \
     -DNO_SETCAP_OR_SUID=true \
-    -DUSE_IDN=true \
     -DBUILD_MANS=false \
     -Duse_gettext=false \
     . output
@@ -18,4 +17,4 @@ ninja -C output
 ninja -C output install
 
 ln -s tracepath "$1/usr/bin/tracepath6"
-ln -s ping "$1/usr/bin/ping6"
+ln -s ping      "$1/usr/bin/ping6"
