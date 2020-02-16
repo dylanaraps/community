@@ -1,4 +1,4 @@
-name: Shellcheck
+name: Shame
 
 on: [pull_request]
 
