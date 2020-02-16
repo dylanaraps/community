@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-IFS=. read -r maj min _ < "${0%/*}/version"
-
 sed -i "/SBINDIR/s#sbin#bin#" Make.Rules
 sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
 sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
