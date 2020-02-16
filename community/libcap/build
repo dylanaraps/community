@@ -3,5 +3,13 @@
 sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
 sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
 
-make KERNEL_HEADERS=/usr/include
-make prefix=/usr SBINDIR=/usr/bin lib=/lib DESTDIR="$1" RAISE_SETFCAP=no install
+make \
+    KERNEL_HEADERS=/usr/include
+
+make \
+    prefix=/usr \
+    SBINDIR=/usr/bin \
+    lib=/usr/lib \
+    DESTDIR="$1" \
+    RAISE_SETFCAP=no \
+    install
