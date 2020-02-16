@@ -13,7 +13,6 @@ meson \
     . output
 
 ninja -C output
-
 ninja -C output install
 
 ln -s tracepath "$1/usr/bin/tracepath6"
