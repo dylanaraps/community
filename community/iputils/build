@@ -2,7 +2,7 @@
 
 export DESTDIR="$1"
 
-sed -i 's/cap_setuid/cap_setuserid/g'  ninfod/ninfod.c
+sed -i 's/cap_setuid/cap_setuserid/g' ninfod/ninfod.c
 
 meson \
     --prefix=/usr \
