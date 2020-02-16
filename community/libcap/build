@@ -1,8 +1,7 @@
 #!/bin/sh -e
 
-sed -i "/SBINDIR/s#sbin#bin#" Make.Rules
 sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
 sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
 
 make KERNEL_HEADERS=/usr/include
-make prefix=/usr lib=/lib DESTDIR="$1" RAISE_SETFCAP=no install
+make prefix=/usr SBINDIR=/usr/bin lib=/lib DESTDIR="$1" RAISE_SETFCAP=no install
