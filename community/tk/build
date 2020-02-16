@@ -11,6 +11,7 @@ unix/configure \
 
 make
 make INSTALL_ROOT="$1" install install-private-headers
+sh
 
 ln -s "/usr/bin/wish${maj}.${min}" "$1/usr/bin/wish"
 ln -s "/usr/lib/libtk${maj}.${min}.so" "$1/usr/lib/libtk.so"
