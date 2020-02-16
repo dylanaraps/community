@@ -1,8 +1,7 @@
 #!/bin/sh -e
 
 ./configure \
-    --prefix=/usr \
-    --disable-opengl
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
