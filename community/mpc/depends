@@ -1,0 +1,4 @@
+libmpdclient
+meson make
+mpd
+samurai make
