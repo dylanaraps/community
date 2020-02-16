@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+sh
 for patch in ./*.patch ; do patch -p0 < "$patch" ; done
 cd runit-2.1.2
 
