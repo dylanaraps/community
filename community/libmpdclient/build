@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    . output
+
+ninja -C output
+DESTDIR="$1" ninja -C output install
