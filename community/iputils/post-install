@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+setcap cap_net_raw+p /usr/bin/ping
+setcap cap_net_raw+p /usr/bin/clockdiff
+setcap cap_net_raw+p /usr/bin/arping
