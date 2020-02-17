@@ -6,5 +6,7 @@
     --sysconfdir=/etc \
     --disable-nls
 
+patch -p1 < glib.patch
+
 make
 make DESTDIR="$1" install
