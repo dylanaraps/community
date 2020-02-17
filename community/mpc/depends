@@ -1,0 +1,3 @@
+libmpdclient
+meson make
+mpd
