@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-./autogen.sh
+autoreconf -i
+
 ./configure \
     --prefix=/usr \
     --enable-taglib=no
