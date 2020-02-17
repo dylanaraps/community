@@ -1,0 +1,4 @@
+automake make
+libmpdclient
+ncurses
+pcre
