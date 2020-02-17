@@ -1,5 +1,5 @@
-Read: https://k1ss.org/style.txt
-Read: https://k1ss.org/guidestones.txt
+Read: https://k1ss.org/style
+Read: https://k1ss.org/guidestones
 
 ---
 
