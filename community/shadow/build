@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --bindir=/usr/bin \
+    --sbindir=/usr/bin \
+    --libdir=/usr/lib \
+    --mandir=/usr/share/man \
+    --sysconfdir=/etc \
+    --disable-man \
+    --disable-account-tools-setuid \
+    --with-group-name-max-length=32 \
+    --without-audit \
+    --without-selinux \
+    --without-libpam
+
+make
+make DESTDIR="$1" install
+
+# Fix broken --sbindir.
+mv -f "$1/usr/sbin/"* "$1/usr/bin"
+rmdir "$1/usr/sbin"

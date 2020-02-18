@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--sbindir=/usr/bin \
+	--disable-nls \
+	--disable-rpath \
+	--disable-device-mapper \
+	--without-readline
+
+make
+make DESTDIR="$1" install

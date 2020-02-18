@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-default-crypto=openssl \
+    --without-gcrypt \
+    --without-gnutls \
+    --without-nss \
+    --without-libxslt
+
+make
+make DESTDIR="$1" install

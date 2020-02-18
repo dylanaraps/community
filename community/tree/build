@@ -1,4 +1,7 @@
 #!/bin/sh -e
 
 make
-make prefix="$1/usr" install
+make \
+    prefix="$1/usr" \
+    MANDIR="$1/usr/share/man/man1" \
+    install

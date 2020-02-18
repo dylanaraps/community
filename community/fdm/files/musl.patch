@@ -1,0 +1,37 @@
+Only in b: .Makefile.am.un~
+Only in b: .fdm.h.un~
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -111,9 +111,6 @@
+ 	lex.c
+ 
+ nodist_fdm_SOURCES =
+-if NO_B64_NTOP
+-nodist_fdm_SOURCES += compat/base64.c
+-endif
+ if NO_STRLCAT
+ nodist_fdm_SOURCES += compat/strlcat.c
+ endif
+Only in b: Makefile.am~
+--- a/fdm.h
++++ b/fdm.h
+@@ -20,7 +20,6 @@
+ #define FDM_H
+ 
+ #include <sys/param.h>
+-#include <sys/cdefs.h>
+ #include <sys/stat.h>
+ 
+ #ifdef HAVE_QUEUE_H
+@@ -725,8 +724,8 @@
+ 
+ #ifndef HAVE_B64_NTOP
+ /* base64.c */
+-int b64_ntop(src, srclength, target, targsize);
+-int b64_pton(src, target, targsize);
++int b64_ntop(u_char const *, size_t, char *, size_t);
++int b64_pton(char const *, u_char *, size_t);
+ #endif
+ 
+ /* shm.c */
+Only in b: fdm.h~

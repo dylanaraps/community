@@ -1,4 +1,4 @@
-44d5ab0d5f1195166b351ec59680cc8f4c0eb45da4d44263b138be0a91a512a1  0.3.0.tar.gz
+git  git+https://git.sr.ht/~sircmpwn/aerc/
 322f66a42f7f86a5f784151b05bfcd834873f7e97a9f45dd599282e2d36ad2de  aerc-config.5
 003aad6b3b42e07f4234901855724822884b0c4b57e743ebd15ed8fbac361057  aerc-imap.5
 3eebcd29fb7f6ce02fee2b8a0412df1872d783590b5d72b2d65cc6a4fbf52646  aerc-maildir.5

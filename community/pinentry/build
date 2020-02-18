@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 ./configure \
+    --prefix=/usr \
     --disable-pinentry-qt \
     --disable-pinentry-gtk2 \
     --disable-inside-emacs \

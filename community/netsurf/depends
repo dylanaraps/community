@@ -4,3 +4,4 @@ perl
 perl-html-parser
 perl-html-tagset
 vim make
+gperf make

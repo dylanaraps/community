@@ -1,4 +1,4 @@
-https://git.sr.ht/~sircmpwn/aerc/archive/0.3.0.tar.gz
+git+https://git.sr.ht/~sircmpwn/aerc/
 files/aerc-config.5
 files/aerc-imap.5
 files/aerc-maildir.5

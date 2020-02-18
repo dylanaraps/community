@@ -6,5 +6,4 @@ export CFLAGS="$CFLAGS -static"
     --prefix=/usr
 
 make
-
-install -Dm755 gawk "$1/usr/bin/gawk"
+make DESTDIR="$1" install

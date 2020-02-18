@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -static"
+
+cat > makeinfo <<EOF
+#!/bin/sh
+printf 'makeinfo (GNU texinfo) 5.2\n'
+EOF
+
+chmod +x makeinfo
+export PATH=$PATH:$PWD
+
+./configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man
+
+make -j1
+make DESTDIR="$1" install

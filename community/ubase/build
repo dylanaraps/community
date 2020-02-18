@@ -1,5 +1,15 @@
 #!/bin/sh -e
 
-make CFLAGS="$CFLAGS -static" ubase-box
+patch -p1 < f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
 
-install -Dm 755 ubase-box "$1/usr/bin/ubase-box"
+sed -i \
+    -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
+    config.mk
+
+make ubase-box
+make DESTDIR="$1" PREFIX=/usr ubase-box-install
+
+# Remove 'su' which doesn't support '-c'.
+unlink "$1/usr/bin/su"
+unlink "$1/usr/bin/stat"

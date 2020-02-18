@@ -1,0 +1,34 @@
+#!/bin/sh -e
+
+gunzip urlview_0.9-21.diff.gz
+patch -p1 < urlview_0.9-21.diff
+
+# Move user config to ~/.config/urlview/conf
+sed -i 's|%s/\.urlview|%s/\.config/urlview/conf|' urlview.c
+sed -i 's|~/.urlview|~/.config/urlview/conf|g' urlview.man
+
+# The included url_handler.sh is extremely outdated -- use $BROWSER by default.
+# We don't want $BROWSER to expand.
+# shellcheck disable=SC2016
+sed -i 's|COMMAND url_handler\.sh|COMMAND \$BROWSER %s|' sample.urlview
+
+aclocal
+automake \
+    --foreign \
+    --ignore-deps \
+    --add-missing
+
+./configure \
+    --prefix=/usr
+
+make
+
+# Need to create dirs before `make install`.
+install -d "$1/etc/urlview" "$1/usr/share/man/man1"
+
+make \
+    prefix="$1/usr" \
+    mandir="$1/usr/share/man" \
+    install
+
+install -Dm644 sample.urlview "$1/etc/urlview/system.urlview"

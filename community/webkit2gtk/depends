@@ -1,10 +1,11 @@
-gtk+3
-glib-networking
 cairo
 cmake  make
+glib-networking
 gperf  make
+gtk+3
 harfbuzz-icu
 libXslt
+libXt
 libgcrypt
 libsoup
 libwebp

@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make CC="${CC:-cc}" OPT="$CFLAGS" all
+make PREFIX=/usr SBINDIR=/usr/bin DESTDIR="$1" install install-lib

@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+cat > makeinfo <<EOF
+#!/bin/sh
+printf 'makeinfo (GNU texinfo) 5.2\n'
+EOF
+
+chmod +x makeinfo
+export PATH=$PATH:$PWD
+
+mkdir _build
+cd _build
+
+../configure \
+    --prefix=/usr \
+    --without-installed-readline \
+    --disable-nls
+
+make
+make DESTDIR="$1" install
