@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fPIC"
+
+patch -p1 < pkcs7-fix.patch
+
+make \
+    prefix="$1/usr" \
+    USE_SYSTEM_LIBS="yes" \
+    HAVE_X11=no \
+    HAVE_GLUT=no \
+    install

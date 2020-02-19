@@ -1,5 +1,5 @@
-zlib
-xz
-ncurses
 gnutls
 libxml2
+ncurses
+xz
+zlib
