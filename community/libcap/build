@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
+
+make
+make \
+    PREFIX=/usr \
+    SBINDIR=/usr/bin \
+    LIBDIR=/usr/lib \
+    DESTDIR="$1" \
+    RAISE_SETFCAP=no \
+    install
