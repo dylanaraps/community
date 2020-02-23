@@ -1,0 +1,127 @@
+From ab54fc2de5068db49085aa9bf5440f7d7d201bea Mon Sep 17 00:00:00 2001
+From: Stefan Strogin <steils@gentoo.org>
+Date: Wed, 29 Jan 2020 23:28:05 +0200
+Subject: [PATCH] Add LibreSSL support
+
+Bug: https://bugs.gentoo.org/562050
+Upstream-Status: Denied
+[Upstream is not willing to accept any patches for LibreSSL support]
+Signed-off-by: Stefan Strogin <steils@gentoo.org>
+---
+ src/network/configure.json                          | 2 +-
+ src/network/ssl/qsslcontext_openssl.cpp             | 2 +-
+ src/network/ssl/qsslsocket_openssl.cpp              | 2 +-
+ src/network/ssl/qsslsocket_openssl_symbols.cpp      | 9 +++++++--
+ src/network/ssl/qsslsocket_openssl_symbols_p.h      | 2 +-
+ src/network/ssl/qsslsocket_opensslpre11_symbols_p.h | 5 +++++
+ 6 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/src/network/configure.json b/src/network/configure.json
+index ddf8f4c7..4c82fda1 100644
+--- a/src/network/configure.json
++++ b/src/network/configure.json
+@@ -195,7 +195,7 @@
+             "test": {
+                 "include": "openssl/opensslv.h",
+                 "tail": [
+-                    "#if !defined(OPENSSL_VERSION_NUMBER) || OPENSSL_VERSION_NUMBER-0 < 0x10100000L",
++                    "#if !defined(OPENSSL_VERSION_NUMBER) || OPENSSL_VERSION_NUMBER-0 < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)",
+                     "#  error OpenSSL >= 1.1 is required",
+                     "#endif"
+                 ]
+diff --git a/src/network/ssl/qsslcontext_openssl.cpp b/src/network/ssl/qsslcontext_openssl.cpp
+index 8566d78a..fda2908f 100644
+--- a/src/network/ssl/qsslcontext_openssl.cpp
++++ b/src/network/ssl/qsslcontext_openssl.cpp
+@@ -269,7 +269,7 @@ void QSslContext::applyBackendConfig(QSslContext *sslContext)
+     }
+ #endif // ocsp
+ 
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER)
+     if (QSslSocket::sslLibraryVersionNumber() >= 0x10002000L) {
+         QSharedPointer<SSL_CONF_CTX> cctx(q_SSL_CONF_CTX_new(), &q_SSL_CONF_CTX_free);
+         if (cctx) {
+diff --git a/src/network/ssl/qsslsocket_openssl.cpp b/src/network/ssl/qsslsocket_openssl.cpp
+index 51510f1c..8ab5b4c5 100644
+--- a/src/network/ssl/qsslsocket_openssl.cpp
++++ b/src/network/ssl/qsslsocket_openssl.cpp
+@@ -600,7 +600,7 @@ bool QSslSocketBackendPrivate::initSslContext()
+             q_SSL_set_psk_server_callback(ssl, &q_ssl_psk_server_callback);
+     }
+ #endif
+-#if OPENSSL_VERSION_NUMBER >= 0x10101006L
++#if OPENSSL_VERSION_NUMBER >= 0x10101006L && !defined(LIBRESSL_VERSION_NUMBER)
+     // Set the client callback for TLSv1.3 PSK
+     if (mode == QSslSocket::SslClientMode
+         && QSslSocket::sslLibraryBuildVersionNumber() >= 0x10101006L) {
+diff --git a/src/network/ssl/qsslsocket_openssl_symbols.cpp b/src/network/ssl/qsslsocket_openssl_symbols.cpp
+index 1fcfdf9f..27152d17 100644
+--- a/src/network/ssl/qsslsocket_openssl_symbols.cpp
++++ b/src/network/ssl/qsslsocket_openssl_symbols.cpp
+@@ -248,8 +248,13 @@ DEFINEFUNC3(void *, ASN1_dup, i2d_of_void *a, a, d2i_of_void *b, b, char *c, c,
+ #endif
+ DEFINEFUNC2(BIO *, BIO_new_file, const char *filename, filename, const char *mode, mode, return nullptr, return)
+ DEFINEFUNC(void, ERR_clear_error, DUMMYARG, DUMMYARG, return, DUMMYARG)
++#ifdef LIBRESSL_VERSION_NUMBER
++DEFINEFUNC(BIO *, BIO_new, const BIO_METHOD *a, a, return nullptr, return)
++DEFINEFUNC(const BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return nullptr, return)
++#else
+ DEFINEFUNC(BIO *, BIO_new, BIO_METHOD *a, a, return nullptr, return)
+ DEFINEFUNC(BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return nullptr, return)
++#endif
+ DEFINEFUNC(int, CRYPTO_num_locks, DUMMYARG, DUMMYARG, return 0, return)
+ DEFINEFUNC(void, CRYPTO_set_locking_callback, void (*a)(int, int, const char *, int), a, return, DUMMYARG)
+ DEFINEFUNC(void, CRYPTO_set_id_callback, unsigned long (*a)(), a, return, DUMMYARG)
+@@ -448,7 +453,7 @@ DEFINEFUNC2(int, SSL_CTX_use_PrivateKey, SSL_CTX *a, a, EVP_PKEY *b, b, return -
+ DEFINEFUNC2(int, SSL_CTX_use_RSAPrivateKey, SSL_CTX *a, a, RSA *b, b, return -1, return)
+ DEFINEFUNC3(int, SSL_CTX_use_PrivateKey_file, SSL_CTX *a, a, const char *b, b, int c, c, return -1, return)
+ DEFINEFUNC(X509_STORE *, SSL_CTX_get_cert_store, const SSL_CTX *a, a, return nullptr, return)
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER)
+ DEFINEFUNC(SSL_CONF_CTX *, SSL_CONF_CTX_new, DUMMYARG, DUMMYARG, return nullptr, return);
+ DEFINEFUNC(void, SSL_CONF_CTX_free, SSL_CONF_CTX *a, a, return ,return);
+ DEFINEFUNC2(void, SSL_CONF_CTX_set_ssl_ctx, SSL_CONF_CTX *a, a, SSL_CTX *b, b, return, return);
+@@ -1279,7 +1284,7 @@ bool q_resolveOpenSslSymbols()
+     RESOLVEFUNC(SSL_CTX_use_RSAPrivateKey)
+     RESOLVEFUNC(SSL_CTX_use_PrivateKey_file)
+     RESOLVEFUNC(SSL_CTX_get_cert_store);
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER)
+     RESOLVEFUNC(SSL_CONF_CTX_new);
+     RESOLVEFUNC(SSL_CONF_CTX_free);
+     RESOLVEFUNC(SSL_CONF_CTX_set_ssl_ctx);
+diff --git a/src/network/ssl/qsslsocket_openssl_symbols_p.h b/src/network/ssl/qsslsocket_openssl_symbols_p.h
+index 69b2b90f..3227764e 100644
+--- a/src/network/ssl/qsslsocket_openssl_symbols_p.h
++++ b/src/network/ssl/qsslsocket_openssl_symbols_p.h
+@@ -378,7 +378,7 @@ int q_SSL_CTX_use_PrivateKey(SSL_CTX *a, EVP_PKEY *b);
+ int q_SSL_CTX_use_RSAPrivateKey(SSL_CTX *a, RSA *b);
+ int q_SSL_CTX_use_PrivateKey_file(SSL_CTX *a, const char *b, int c);
+ X509_STORE *q_SSL_CTX_get_cert_store(const SSL_CTX *a);
+-#if OPENSSL_VERSION_NUMBER >= 0x10002000L
++#if OPENSSL_VERSION_NUMBER >= 0x10002000L && !defined(LIBRESSL_VERSION_NUMBER)
+ SSL_CONF_CTX *q_SSL_CONF_CTX_new();
+ void q_SSL_CONF_CTX_free(SSL_CONF_CTX *a);
+ void q_SSL_CONF_CTX_set_ssl_ctx(SSL_CONF_CTX *a, SSL_CTX *b);
+diff --git a/src/network/ssl/qsslsocket_opensslpre11_symbols_p.h b/src/network/ssl/qsslsocket_opensslpre11_symbols_p.h
+index f5626d5d..5b626ad6 100644
+--- a/src/network/ssl/qsslsocket_opensslpre11_symbols_p.h
++++ b/src/network/ssl/qsslsocket_opensslpre11_symbols_p.h
+@@ -78,8 +78,13 @@
+ unsigned char * q_ASN1_STRING_data(ASN1_STRING *a);
+ BIO *q_BIO_new_file(const char *filename, const char *mode);
+ void q_ERR_clear_error();
++#ifdef LIBRESSL_VERSION_NUMBER
++Q_AUTOTEST_EXPORT BIO *q_BIO_new(const BIO_METHOD *a);
++Q_AUTOTEST_EXPORT const BIO_METHOD *q_BIO_s_mem();
++#else
+ Q_AUTOTEST_EXPORT BIO *q_BIO_new(BIO_METHOD *a);
+ Q_AUTOTEST_EXPORT BIO_METHOD *q_BIO_s_mem();
++#endif
+ int q_CRYPTO_num_locks();
+ void q_CRYPTO_set_locking_callback(void (*a)(int, int, const char *, int));
+ void q_CRYPTO_set_id_callback(unsigned long (*a)());
+-- 
+2.25.0
+
