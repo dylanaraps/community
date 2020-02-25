@@ -1,0 +1,94 @@
+diff --git a/src/config_libconfig.c b/src/config_libconfig.c
+index 6389aa4..3430582 100644
+--- a/src/config_libconfig.c
++++ b/src/config_libconfig.c
+@@ -6,7 +6,6 @@
+ #include <string.h>
+ #include <unistd.h>
+ 
+-#include <basedir_fs.h>
+ #include <libconfig.h>
+ #include <libgen.h>
+ 
+@@ -37,6 +36,24 @@ static inline int lcfg_lookup_bool(const config_t *config, const char *path, boo
+ 	return ret;
+ }
+ 
++const char *xdgConfigHome(void) {
++	char *xdgh = getenv("XDG_CONFIG_HOME");
++	char *home = getenv("HOME");
++
++	if (!xdgh) {
++		if (!home) return NULL;
++
++		xdgh = malloc(strlen(home) + 8 + 1);
++
++		if (!xdgh) return NULL;
++
++		strcpy(xdgh, home);
++		strcat(xdgh, "/.config");
++	}
++
++	return xdgh;
++}
++
+ /// Search for config file under a base directory
+ FILE *open_config_file_at(const char *base, char **out_path) {
+ 	static const char *config_paths[] = {"/picom.conf", "/picom/picom.conf",
+@@ -78,7 +95,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
+ 	}
+ 
+ 	// First search for config file in user config directory
+-	auto config_home = xdgConfigHome(NULL);
++	auto config_home = xdgConfigHome();
+ 	auto ret = open_config_file_at(config_home, ppath);
+ 	free((void *)config_home);
+ 	if (ret) {
+@@ -100,16 +117,22 @@ FILE *open_config_file(const char *cpath, char **ppath) {
+ 		}
+ 	}
+ 
+-	// Fall back to config file in system config directory
+-	auto config_dirs = xdgConfigDirectories(NULL);
+-	for (int i = 0; config_dirs[i]; i++) {
+-		ret = open_config_file_at(config_dirs[i], ppath);
+-		if (ret) {
+-			free((void *)config_dirs);
+-			return ret;
+-		}
+-	}
+-	free((void *)config_dirs);
++	char *dir = getenv("XDG_CONFIG_DIRS");
++	// Check system configuration file in $XDG_CONFIG_DIRS at last
++	if (dir && strlen(dir)) {
++		char *part = strtok(dir, ":");
++		while (part) {
++			auto path = mstrjoin(part, "picom.conf");
++			ret = fopen(path, "r");
++			if (ret && ppath)
++				*ppath = path;
++			else
++				free(path);
++			if (ret)
++				return ret;
++			part = strtok(NULL, ":");
++		}
++	}
+ 
+ 	return NULL;
+ }
+diff --git a/src/meson.build b/src/meson.build
+index 05626f5..4f6ac9a 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -38,8 +38,8 @@ endif
+ deps = []
+ 
+ if get_option('config_file')
+-	deps += [dependency('libconfig', version: '>=1.4', required: true),
+-	         dependency('libxdg-basedir', required: true)]
++	deps += [dependency('libconfig', version: '>=1.4', required: true)]
++
+ 	cflags += ['-DCONFIG_LIBCONFIG']
+ 	srcs += [ 'config_libconfig.c' ]
+ endif
