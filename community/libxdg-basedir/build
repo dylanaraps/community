@@ -1,16 +1,7 @@
 #!/bin/sh -e
 
-autoreconf -fi
-
 ./configure \
-    --prefix=/usr \
-    --enable-unicode-properties \
-    --enable-pcre16 \
-    --enable-pcre32 \
-    --enable-jit \
-    --enable-pcregrep-libz \
-    --enable-pcregrep-libbz2 \
-    --enable-pcretest-libreadline
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
