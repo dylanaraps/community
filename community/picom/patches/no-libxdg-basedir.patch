@@ -1,5 +1,11 @@
+From 2dc9118a0ab76a6eedeadbbade173edc758025d7 Mon Sep 17 00:00:00 2001
+From: Dylan Araps <dylan.araps@gmail.com>
+Date: Tue, 25 Feb 2020 13:38:28 +0200
+Subject: [PATCH] picom: Drop libxdg-basedir
+
+---
 diff --git a/src/config_libconfig.c b/src/config_libconfig.c
-index 6389aa4..3430582 100644
+index 6389aa40..12955095 100644
 --- a/src/config_libconfig.c
 +++ b/src/config_libconfig.c
 @@ -6,7 +6,6 @@
@@ -10,7 +16,7 @@ index 6389aa4..3430582 100644
  #include <libconfig.h>
  #include <libgen.h>
  
-@@ -37,6 +36,24 @@ static inline int lcfg_lookup_bool(const config_t *config, const char *path, boo
+@@ -37,6 +36,48 @@ static inline int lcfg_lookup_bool(const config_t *config, const char *path, boo
  	return ret;
  }
  
@@ -32,10 +38,34 @@ index 6389aa4..3430582 100644
 +	return xdgh;
 +}
 +
++const char * const * xdgConfigDirectories(void) {
++	char *dirs, *path, *xdgd = getenv("XDG_CONFIG_DIRS");
++	char **dir_list = {0};
++	unsigned int sep = 0;
++
++	if (!xdgd) xdgd = ":/etc/xdg:";
++
++	dirs = malloc(strlen(xdgd) + 1);
++	strcpy(dirs, xdgd);
++	path = strtok(dirs, ":");
++
++	while (path) {
++		dir_list = realloc(dir_list, sizeof(char*) * ++sep);
++
++		if (!dir_list) exit(-1);
++
++		dir_list[sep-1] = path;
++
++		path = strtok(NULL, ":");
++	}
++
++	return (const char * const *)dir_list;
++}
++
  /// Search for config file under a base directory
  FILE *open_config_file_at(const char *base, char **out_path) {
  	static const char *config_paths[] = {"/picom.conf", "/picom/picom.conf",
-@@ -78,7 +95,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
+@@ -78,7 +119,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
  	}
  
  	// First search for config file in user config directory
@@ -44,41 +74,17 @@ index 6389aa4..3430582 100644
  	auto ret = open_config_file_at(config_home, ppath);
  	free((void *)config_home);
  	if (ret) {
-@@ -100,16 +117,22 @@ FILE *open_config_file(const char *cpath, char **ppath) {
- 		}
+@@ -101,7 +142,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
  	}
  
--	// Fall back to config file in system config directory
+ 	// Fall back to config file in system config directory
 -	auto config_dirs = xdgConfigDirectories(NULL);
--	for (int i = 0; config_dirs[i]; i++) {
--		ret = open_config_file_at(config_dirs[i], ppath);
--		if (ret) {
--			free((void *)config_dirs);
--			return ret;
--		}
--	}
--	free((void *)config_dirs);
-+	char *dir = getenv("XDG_CONFIG_DIRS");
-+	// Check system configuration file in $XDG_CONFIG_DIRS at last
-+	if (dir && strlen(dir)) {
-+		char *part = strtok(dir, ":");
-+		while (part) {
-+			auto path = mstrjoin(part, "picom.conf");
-+			ret = fopen(path, "r");
-+			if (ret && ppath)
-+				*ppath = path;
-+			else
-+				free(path);
-+			if (ret)
-+				return ret;
-+			part = strtok(NULL, ":");
-+		}
-+	}
- 
- 	return NULL;
- }
++	auto config_dirs = xdgConfigDirectories();
+ 	for (int i = 0; config_dirs[i]; i++) {
+ 		ret = open_config_file_at(config_dirs[i], ppath);
+ 		if (ret) {
 diff --git a/src/meson.build b/src/meson.build
-index 05626f5..4f6ac9a 100644
+index 05626f5d..4f6ac9af 100644
 --- a/src/meson.build
 +++ b/src/meson.build
 @@ -38,8 +38,8 @@ endif
