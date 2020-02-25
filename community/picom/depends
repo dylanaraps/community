@@ -1,6 +1,5 @@
 libconfig
 libev
-libxdg-basedir
 meson make
 pixman
 uthash make
