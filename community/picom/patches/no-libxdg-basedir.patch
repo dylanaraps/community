@@ -1,11 +1,10 @@
-From 2dc9118a0ab76a6eedeadbbade173edc758025d7 Mon Sep 17 00:00:00 2001
+From 20226f457495ef815aa966fda7cc3e3d8ef406af Mon Sep 17 00:00:00 2001
 From: Dylan Araps <dylan.araps@gmail.com>
 Date: Tue, 25 Feb 2020 13:38:28 +0200
 Subject: [PATCH] picom: Drop libxdg-basedir
 
----
 diff --git a/src/config_libconfig.c b/src/config_libconfig.c
-index 6389aa40..12955095 100644
+index 6389aa40..6b0316ac 100644
 --- a/src/config_libconfig.c
 +++ b/src/config_libconfig.c
 @@ -6,7 +6,6 @@
@@ -16,7 +15,7 @@ index 6389aa40..12955095 100644
  #include <libconfig.h>
  #include <libgen.h>
  
-@@ -37,6 +36,48 @@ static inline int lcfg_lookup_bool(const config_t *config, const char *path, boo
+@@ -37,6 +36,46 @@ static inline int lcfg_lookup_bool(const config_t *config, const char *path, boo
  	return ret;
  }
  
@@ -27,9 +26,7 @@ index 6389aa40..12955095 100644
 +	if (!xdgh) {
 +		if (!home) return NULL;
 +
-+		xdgh = malloc(strlen(home) + 8 + 1);
-+
-+		if (!xdgh) return NULL;
++		xdgh = cvalloc(strlen(home) + 8 + 1);
 +
 +		strcpy(xdgh, home);
 +		strcat(xdgh, "/.config");
@@ -45,14 +42,14 @@ index 6389aa40..12955095 100644
 +
 +	if (!xdgd) xdgd = ":/etc/xdg:";
 +
-+	dirs = malloc(strlen(xdgd) + 1);
-+	strcpy(dirs, xdgd);
++	dirs = strdup(xdgd);
++	CHECK(dirs != NULL);
 +	path = strtok(dirs, ":");
 +
 +	while (path) {
 +		dir_list = realloc(dir_list, sizeof(char*) * ++sep);
 +
-+		if (!dir_list) exit(-1);
++		CHECK(dir_list);
 +
 +		dir_list[sep-1] = path;
 +
@@ -65,7 +62,7 @@ index 6389aa40..12955095 100644
  /// Search for config file under a base directory
  FILE *open_config_file_at(const char *base, char **out_path) {
  	static const char *config_paths[] = {"/picom.conf", "/picom/picom.conf",
-@@ -78,7 +119,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
+@@ -78,7 +117,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
  	}
  
  	// First search for config file in user config directory
@@ -74,7 +71,7 @@ index 6389aa40..12955095 100644
  	auto ret = open_config_file_at(config_home, ppath);
  	free((void *)config_home);
  	if (ret) {
-@@ -101,7 +142,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
+@@ -101,7 +140,7 @@ FILE *open_config_file(const char *cpath, char **ppath) {
  	}
  
  	// Fall back to config file in system config directory
