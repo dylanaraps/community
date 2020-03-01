@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-python -m pip install docutils
-
-make PREFIX="$1/usr/" install
