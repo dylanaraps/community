@@ -4,6 +4,7 @@
 # This breaks Go.
 :> nostrip
 
+export CC="${CC:-cc}"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 

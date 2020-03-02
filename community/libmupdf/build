@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -fPIC"
+
 patch -p1 < pkcs7-fix.patch
 
 make \

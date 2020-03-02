@@ -1,0 +1,3 @@
+cmake make
+libX11
+libxkbfile
