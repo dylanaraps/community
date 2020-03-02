@@ -1,4 +1,15 @@
 #!/bin/sh -e
 
-make CC="${CC:-cc}" OPT="$CFLAGS" all
-make PREFIX=/usr SBINDIR=/usr/bin DESTDIR="$1" install install-lib
+mk() {
+    make \
+        CC="${CC:-cc}" \
+        OPT="$CFLAGS -fPIC" \
+        ZLIB=yes \
+        PREFIX=/usr \
+        SBINDIR=/usr/bin \
+        SHAREDIR=/usr/share/hwdata \
+        "$@"
+}
+
+mk
+mk DESTDIR="$1" install install-lib
