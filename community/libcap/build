@@ -10,6 +10,7 @@ mk() {
         PREFIX=/usr \
         SBINDIR=/usr/bin \
         LIBDIR=/usr/lib \
+        PKGCONFIGDIR=/usr/lib \
         RAISE_SETFCAP=no \
         "$@"
 }
