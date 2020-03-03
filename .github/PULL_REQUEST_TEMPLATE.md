@@ -1,3 +1,5 @@
+Please fill out the template.
+
 Read: https://k1ss.org/style
 Read: https://k1ss.org/guidestones
 
@@ -5,6 +7,14 @@ Read: https://k1ss.org/guidestones
 
 ## Description of package
 
+
+## Installed manifest of package
+
+(`cat /var/db/kiss/installed/<pkg_name>/manifest`)
+
+```
+MANIFEST HERE
+```
 
 ## New package
 
