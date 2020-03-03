@@ -1,1 +1,2 @@
-https://kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.32.tar.xz
+https://kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.33.tar.xz
+patches/use_sched_not_pthread.patch

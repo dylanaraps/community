@@ -2,6 +2,8 @@
 
 sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
 
+patch -p1 < use_sched_not_pthread.patch
+
 make
 make \
     PREFIX=/usr \
