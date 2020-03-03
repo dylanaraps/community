@@ -6,6 +6,7 @@ sed -i 's/pthread_yield/sched_yield/'                    libcap/psx.c
 
 make
 make \
+    GOLANG=no \
     PREFIX=/usr \
     SBINDIR=/usr/bin \
     LIBDIR=/usr/lib \
