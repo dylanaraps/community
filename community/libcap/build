@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
-
-patch -p1 < use_sched_not_pthread.patch
+sed -i 's/pthread\.h>/\0 #include <sched.h>/'            libcap/psx.c
+sed -i 's/pthread_yield/sched_yield/'                    libcap/psx.c
 
 make
 make \
