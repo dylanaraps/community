@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-make IMLIB_LIBS="$(imlib2-config --libs) -lX11"
-
-install -Dm755 Esetroot "$1/usr/bin/esetroot"
