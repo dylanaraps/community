@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+cat <<EOF
+IMPORTANT:
+
+  In order to enable sysmgr you need to
+  uncomment the line on '/etc/rc.d/sysmgr.boot'
+
+EOF

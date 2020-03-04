@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make DESTDIR="$1" PREFIX=/usr install
+install -Dm644 -t "$1/etc/rc.d" sysmgr.boot
