@@ -1,11 +1,7 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
+./configure \
+    --prefix=/usr
 
-cmake -B build \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DENABLE_RDRAND=ON \
-    -DENABLE_THREADING=ON
-
-cmake --build   build
-cmake --install build
+make
+make DESTDIR="$1" install
