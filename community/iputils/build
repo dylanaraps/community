@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+sed -i 's/cap_setuid/cap_setuserid/g' ninfod/ninfod.c
+
+meson \
+    --prefix=/usr \
+    -DUSE_CAP=true \
+    -DNO_SETCAP_OR_SUID=true \
+    -DBUILD_MANS=false \
+    -Duse_gettext=false \
+    . output
+
+ninja -C output
+ninja -C output install
+
+ln -s tracepath "$1/usr/bin/tracepath6"
+ln -s ping      "$1/usr/bin/ping6"

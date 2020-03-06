@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+cargo build --release
+
+install -Dm755 target/release/exa "$1/usr/bin/exa"
+install -Dm644 contrib/man/exa.1 "$1/usr/share/man/man1/exa.1"

@@ -2,9 +2,12 @@
 
 export DESTDIR="$1"
 
+patch -p1 < no-libxdg-basedir.patch
+
 meson \
     --prefix=/usr \
     -Ddbus=false \
+    -Dregex=false \
     . build
 
 ninja -C build
