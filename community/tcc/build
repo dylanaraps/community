@@ -2,6 +2,7 @@
 
 ./configure \
     --prefix=/usr \
+    --cc="${CC:-cc}" \
     --config-musl
 
 make
