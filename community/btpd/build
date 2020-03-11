@@ -2,7 +2,7 @@
 
 autoreconf --verbose --install --force
 
-./configure
+./configure --prefix=/usr
 
 make
-make PREFIX=/usr DESTDIR="$1" install
+make DESTDIR="$1" install
