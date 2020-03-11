@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
 ./bootstrap.sh --prefix="$1/usr"
-./b2 stage threading=multi link=static
-./b2 install threading=multi link=static
+./b2 stage threading=multi
+./b2 install threading=multi
