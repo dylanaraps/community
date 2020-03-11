@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-autoreconf --verbose --install --force
+autoreconf -fis
 
 ./configure --prefix=/usr
 
