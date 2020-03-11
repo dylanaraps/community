@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-mkdir -p build
-cd build
+# 'cmake' doesn't create the directory.
+mkdir -p "$1/build"
+cd "$1/build"
 
 cmake .. -DUTF8_TESTS=Off -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
 
