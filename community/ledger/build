@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+    -DCMAKE_INSTALL_LIBDIR:PATH=lib \
+    -DUSE_PYTHON:BOOL=FALSE \
+    -DBoost_USE_STATIC_LIBS=OFF
+
+cmake --build   build
+cmake --install build
