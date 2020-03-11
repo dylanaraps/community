@@ -1,8 +1,9 @@
 #!/bin/sh -e
 
+autoreconf -fis
+
 ./configure \
-    --prefix=/usr \
-    --sbindir=/usr/bin
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install

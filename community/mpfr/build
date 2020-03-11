@@ -2,7 +2,7 @@
 
 ./configure \
     --prefix=/usr \
-    --localstatedir=/var
+    --enable-shared
 
 make
 make DESTDIR="$1" install
