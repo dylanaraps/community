@@ -3,9 +3,9 @@
 export DESTDIR="$1"
 
 cmake -B build \
-    -DUTF8_TESTS=off \
+    -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr
+    -DUTF8_TESTS=off
 
 cmake --build   build
 cmake --install build
