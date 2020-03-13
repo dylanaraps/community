@@ -2,6 +2,7 @@
 
 patch -p1 < fix-stdio-usage.patch
 patch -p1 < disable-symver.patch
+patch -p1 < bashism.patch
 
 # LVM2 calls 'fmt -1' throughout the build process.
 # Busybox doesn't provide this command, however
@@ -14,9 +15,8 @@ sed -i 's/fmt -1/tr " " "\\n"/' \
 # swap to using 'install -d' instead which works.
 export MKDIR_P="install -d"
 
-# Build system requires bash
-# https://www.redhat.com/archives/linux-lvm/2020-January/msg00004.html
-export CONFIG_SHELL=/bin/bash
+# Bashism banished.
+export CONFIG_SHELL=/bin/sh
 
 ./configure \
     --prefix=/usr \
