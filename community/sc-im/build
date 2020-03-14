@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+cd src
+
+make
+make DESTDIR="$1" PREFIX=/usr install
+
+mv -f "$1/usr/local/bin" "$1/usr/bin"
+mv -f "$1/usr/local/share" "$1/usr/share"
