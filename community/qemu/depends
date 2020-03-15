@@ -1,4 +1,6 @@
 ncurses
 python
 sdl2
+glib
+pixman
 perl make
