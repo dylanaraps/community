@@ -1,6 +1,6 @@
+glib
 ncurses
+perl make
+pixman
 python
 sdl2
-glib
-pixman
-perl make
