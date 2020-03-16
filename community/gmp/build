@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --localstatedir=/var/state/gmp \
+    --enable-cxx \
+    --enable-fat \
+    --with-pic
+
+make
+make DESTDIR="$1" install
