@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+IFS=. read -r maj min _ < "${0%/*}/version"
+
+rm -rf pkgs/sqlite3*
+
+unix/configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --enable-threads \
+    --enable-64bit \
+    --with-system-sqlite
+
+make
+make INSTALL_ROOT="$1" install install-private-headers
+
+ln -s "/usr/bin/tclsh${maj}.${min}" "$1/usr/bin/tclsh"
+ln -s "/usr/lib/libtcl${maj}.${min}.so" "$1/usr/lib/libtcl.so"
+install -Dm644 unix/tcl.m4 -t "$1/usr/share/aclocal"

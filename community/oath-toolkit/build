@@ -3,7 +3,8 @@
 patch -p1 < intprops.patch
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --disable-pam
 
 make
 make DESTDIR="$1" install
