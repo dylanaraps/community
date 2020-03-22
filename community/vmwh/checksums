@@ -1,0 +1,5 @@
+git  git+https://github.com/jcs/vmwh
+4bdcc6fbae455f494b539bce3b1bf27d4d8add65f2d2be8bcb36208e22522ae5  makefile.patch
+17570fdb7557fedcd3ce8162cf8ff22e6222da6d7585bb6d7464d1a5c59f7834  no-strnvis.patch
+0aa82ae6e8f984ba07637f97fc5a641826e6f810940b162736d1917c15fd4beb  packed-attr.patch
+802aacfe845765b06be964eefafe2ee39196ac386ca7927ac300c8ef0696a2d6  stdint.patch
