@@ -1,6 +1,2 @@
 libpng
 sdl2
-autoconf make
-automake make
-libtool make
-pkgconf make
