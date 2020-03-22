@@ -1,9 +1,4 @@
 #!/bin/sh -e
 
-cc -I/usr/include/freetype2 -I/usr/include src/utils.c src/wm.c -L/usr/lib -lX11 -lm -lXinerama -lXft -lXext -o berry
-cc -I/usr/include/freetype2 -I/usr/include src/client.c -L/usr/lib -lX11 -o berryc
-
-install -Dm 755 berry        "$1/usr/bin/berry"
-install -Dm 755 berryc       "$1/usr/bin/berryc"
-install -Dm 644 man/berry.1  "$1/usr/share/man/man1/berry.1"
-install -Dm 644 man/berryc.1 "$1/usr/share/man/man1/berryc.1"
+make
+make DESTDIR="$1" PREFIX=/usr install
