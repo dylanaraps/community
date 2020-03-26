@@ -2,6 +2,7 @@
 
 ./configure \
 	--prefix=/usr \
+	--bindir=/usr/bin \
 	--disable-documentation \
 	--disable-backtrace \
 	--disable-zstd
