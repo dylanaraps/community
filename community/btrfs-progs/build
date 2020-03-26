@@ -2,15 +2,7 @@
 
 ./configure \
 	--prefix=/usr \
-<<<<<<< HEAD
-<<<<<<< HEAD
 	--bindir=/usr/bin \
-=======
-	--bindir=/bin \
-	--libdir=/lib \
->>>>>>> 7458507... build changes
-=======
->>>>>>> 5d8149c... btrfs-progs: build change
 	--disable-documentation \
 	--disable-backtrace \
 	--disable-zstd
