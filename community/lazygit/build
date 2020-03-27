@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-go build
-install -Dm755 lazygit "$1/usr/bin/lazygit"
