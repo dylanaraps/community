@@ -10,7 +10,6 @@ index 7c1f00a..8277b15 100644
 -#include <libsn/sn-launchee.h>
  
  #include <X11/Xlib.h>
- #include <X11/keysym.h>
 @@ -851,9 +849,6 @@ int main(int argc, char *argv[]) {
  #undef xmacro
  
