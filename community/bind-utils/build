@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 ./configure \
-	--prefix=/usr \
-	--without-python
+    --prefix=/usr \
+    --without-python
 
 make
 make DESTDIR="$1" install
