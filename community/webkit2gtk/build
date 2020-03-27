@@ -4,7 +4,7 @@ patch -p1 < fix-musl.patch
 
 # Remove gettext requirement.
 sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
-sed -i '/po_files *.po/d'    Source/WebCore/platform/gtk/po/CMakeLists.txt
+sed -i '/po_files \*\.po/d'  Source/WebCore/platform/gtk/po/CMakeLists.txt
 sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 
 export DESTDIR="$1"
@@ -16,6 +16,7 @@ cmake -B build \
     -DPORT=GTK \
     -DCMAKE_SKIP_RPATH=ON \
     -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+    -DENABLE_SAMPLING_PROFILER=OFF \
     -DENABLE_GEOLOCATION=OFF \
     -DENABLE_GLES2=ON \
     -DENABLE_INTL=OFF \
