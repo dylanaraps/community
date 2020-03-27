@@ -2,8 +2,8 @@
 
 ./autogen.sh
 ./configure \
-	--prefix=/usr \
-	--disable-static 
+    --prefix=/usr \
+    --disable-static 
 
 make
 make DESTDIR="$1" install
