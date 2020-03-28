@@ -1,2 +1,2 @@
-automake
-libtool
+automake make
+libtool  make	
