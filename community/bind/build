@@ -2,6 +2,7 @@
 
 ./configure \
     --prefix=/usr \
+    --sbindir=/usr/bin \
     --without-python
 
 make
