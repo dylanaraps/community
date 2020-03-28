@@ -4,8 +4,14 @@
     --prefix=/usr \
     --sysconfdir=/etc \
     --mandir=/usr/share/man \
+    --disable-shared \
     --disable-nls \
+    --without-modules \
+    --without-magick-plus-plus \
     --without-perl
 
 make
-make DESTDIR="$1" install
+make DESTDIR="$1" install-binPROGRAMS install-exec-local
+
+# Remove the rarely used library.
+rm -rf "$1/usr/lib"
