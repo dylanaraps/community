@@ -1,6 +1,0 @@
-cmake     make
-gnutls
-libgcrypt
-libressl
-ncurses
-zlib
