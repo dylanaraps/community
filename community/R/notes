@@ -1,0 +1,24 @@
+libiconv might be necessary, although it doesn't seem it 
+
+TK, JRE might be requirements for particular R packages, so we won't 
+worry about them for now: 
+
+# Some specific R packages themselves require TK and JRE. R CMD javareconf 
+# may be a useful command. 
+
+BLAS and LAPACK / MKL will just make R process data *faster*, so it isn't 
+necessary that we have a working implementation yet: 
+
+# BLAS and LAPACK may be useful. --with-blas at configure enables support.
+# OpenBLAS would probably be the go-to:
+# http://www.openblas.net
+# 
+# We can link against Intel's MKL. Refer to:
+# https://software.intel.com/en-us/articles/intel-mkl-link-line-adavisor
+# 
+# MKL_LIB_PATH=/path/to/intel_mkl/mkl/lib/intel64
+# export LD_LIBRARY-PATH=$MKL_LIB_PATH
+# MKL="-L${MKL_LIB_PATH} -lmkl_gf_lp64 -lmkl_core -lmkl_sequential" 
+# ./conifgure --with-blas="$MKL" --with-lapack
+# 
+# (Don't need OpenBLAS with Intel MKL, I guess!)

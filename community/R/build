@@ -1,0 +1,10 @@
+#!/bin/sh -e 
+
+# Required for some packages to build (Rcpp)
+export CXXFLAGS="$CXXFLAGS -D__MUSL__"
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install

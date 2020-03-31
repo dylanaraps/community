@@ -1,0 +1,18 @@
+#!/bin/sh -e 
+
+# -D__MUSL__ required for some packages to build (Rcpp)
+export CFLAGS="-I/usr/include/blis -fopenmp $CFLAGS"
+export CXXFLAGS="-I/usr/include/blis -fopenmp $CXXFLAGS -D__MUSL__"
+export FFLAGS="-I/usr/include/blis -fopenmp $FFLAGS"
+export FCFLAGS="-I/usr/include/blis -fopenmp $FCFLAGS"
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --enable-R-shlib \
+    --without-recommended-packages \
+    --with-blas="/usr/lib/libblis.so /usr/lib/libblis.so.3" \
+    --with-lapack
+
+make
+make DESTDIR="$1" install
