@@ -6,4 +6,4 @@ export DESTDIR="$1"
 sed -i 's/mpdasrc/mpdas.conf/g' *
 
 make
-make DESTDIR=$i PREFIX=/usr CONFIG=/etc MANPREFIX=/usr/share/man/man1 install
+make DESTDIR=$1 PREFIX=/usr CONFIG=/etc MANPREFIX=/usr/share/man/man1 install
