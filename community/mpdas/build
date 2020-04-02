@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+# Use more consistent config filename
+sed -i 's/mpdasrc/mpdas.conf/g' *
+
+make
+make DESTDIR=$i PREFIX=/usr CONFIG=/etc MANPREFIX=/usr/share/man/man1 install
