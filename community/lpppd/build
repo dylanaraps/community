@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+patch -p1 < musl.patch
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_BUILD_TYPE=Release
+
+cmake --build   build
+cmake --install build
+
+install -Dm 755 ip-down                   "$1/etc/ppp/ip-down"
+install -Dm 755 ip-down.d.dns.sh          "$1/etc/ppp/ip-down.d/00-dns.sh"
+install -Dm 755 ip-up                     "$1/etc/ppp/ip-up"
+install -Dm 755 ip-up.d.dns.sh            "$1/etc/ppp/ip-up.d/00-dns.sh"
+install -Dm 755 ipv6-down                 "$1'/etc/ppp/ipv6-down"
+install -Dm 755 ipv6-up                   "$1/etc/ppp/ipv6-up"
+install -Dm 755 ipv6-up.d.iface-config.sh "$1/etc/ppp/ipv6-up.d/00-iface-config.sh"
+install -Dm 644 options                   "$1/etc/ppp/options"
+install -dm 755                           "$1/etc/ppp/ipv6-down.d"

@@ -1,0 +1,10 @@
+https://github.com/snickl/lpppd/archive/v2.tar.gz
+files/ip-down
+files/ip-down.d.dns.sh
+files/ip-up
+files/ip-up.d.dns.sh
+files/ipv6-down
+files/ipv6-up
+files/ipv6-up.d.iface-config.sh
+files/options
+patches/musl.patch
