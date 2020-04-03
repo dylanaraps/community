@@ -3,7 +3,7 @@
 export GOPATH="$PWD/go"
 export GO111MODULE=on
 
-# More verbose building
+# More verbose building.
 sed -i "s/go build/go build -v/" Makefile
 
 make GOBIN="$1/usr/bin" install
