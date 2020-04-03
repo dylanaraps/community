@@ -2,7 +2,7 @@
 
 export DESTDIR="$1"
 
-# Use more consistent config filename
+# Use more consistent config filename.
 sed -i 's/mpdasrc/mpdas.conf/g' ./*
 
 make
