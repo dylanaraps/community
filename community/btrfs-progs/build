@@ -2,7 +2,12 @@
 
 ./configure \
 	--prefix=/usr \
+<<<<<<< HEAD
 	--bindir=/usr/bin \
+=======
+	--bindir=/bin \
+	--libdir=/lib \
+>>>>>>> 7458507... build changes
 	--disable-documentation \
 	--disable-backtrace \
 	--disable-zstd
