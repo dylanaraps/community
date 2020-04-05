@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --cc="${CC:-cc}" \
+    --config-musl
+
+make
+make DESTDIR="$1" install

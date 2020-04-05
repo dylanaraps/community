@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
+make
+
+install -Dm755 vmwh "$1/usr/bin/vmwh"

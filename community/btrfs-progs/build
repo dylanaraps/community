@@ -1,11 +1,11 @@
 #!/bin/sh -e
 
 ./configure \
-    --prefix=/usr \
-    --disable-python \
-    --disable-backtrace \
-    --disable-documentation \
-    --disable-zstd
+	--prefix=/usr \
+	--bindir=/usr/bin \
+	--disable-documentation \
+	--disable-backtrace \
+	--disable-zstd
 
 make
 make DESTDIR="$1" install

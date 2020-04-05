@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure
+
+make
+make \
+    DESTDIR="$1" \
+    EXDIR="$1/usr/bin" \
+    LIBDIR="$1/usr/lib" \
+    MANDIR="$1/usr/share/man" \
+    PREFIX=/usr \
+    install

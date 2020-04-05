@@ -1,0 +1,5 @@
+git+https://github.com/jcs/vmwh
+patches/makefile.patch
+patches/no-strnvis.patch
+patches/packed-attr.patch
+patches/stdint.patch

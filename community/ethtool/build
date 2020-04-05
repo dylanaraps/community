@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -static"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin
+
+make
+make DESTDIR="$1" install

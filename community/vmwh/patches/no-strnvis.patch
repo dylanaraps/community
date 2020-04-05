@@ -1,0 +1,78 @@
+ Remove debugging code that uses bsd strnvis(3).
+
+--- a/vmware.c
++++ b/vmware.c
+@@ -20,7 +20,6 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <err.h>
+-#include <vis.h>
+ 
+ #include "vmwh.h"
+ 
+@@ -283,12 +282,6 @@
+ 			left -= 4;
+ 	}
+ 
+-	if (debug) {
+-		char visbuf[strlen(*buf) * 4];
+-		strnvis(visbuf, *buf, sizeof(visbuf), VIS_TAB | VIS_NL | VIS_CSTYLE);
+-		printf("vmware_get_clipboard: \"%s\"\n", visbuf);
+-	}
+-
+ 	return (1);
+ }
+ 
+@@ -297,12 +290,6 @@
+ {
+ 	struct vm_backdoor frame;
+ 	uint32_t total, left;
+-
+-	if (debug) {
+-		char visbuf[strlen(buf) * 4];
+-		strnvis(visbuf, buf, sizeof(visbuf), VIS_TAB | VIS_NL | VIS_CSTYLE);
+-		printf("vmware_set_clipboard: \"%s\"\n", visbuf);
+-	}
+ 
+ 	if (!strlen(buf))
+ 		return;
+--- a/x11.c
++++ b/x11.c
+@@ -18,7 +18,6 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <err.h>
+-#include <vis.h>
+ 
+ #include <X11/Xlib.h>
+ #include <X11/Xatom.h>
+@@ -79,12 +78,6 @@
+ {
+ 	FILE *xclip;
+ 
+-	if (debug) {
+-		char visbuf[strlen(buf) * 4];
+-		strnvis(visbuf, buf, sizeof(visbuf), VIS_TAB | VIS_NL | VIS_CSTYLE);
+-		printf("x11_set_clipboard: \"%s\"\n", visbuf);
+-	}
+-
+ 	xclip = popen(XCLIP_WRITE, "w");
+ 	if (xclip == NULL) {
+ 		warn("couldn't write to xclip (" XCLIP_WRITE ")");
+@@ -127,16 +120,6 @@
+ 		buf[0][buflen] = '\0';
+ 	
+ 	pclose(xclip);
+-
+-	if (debug) {
+-		if (*buf == NULL)
+-			printf("x11_get_clipboard: nothing there\n");
+-		else {
+-			char visbuf[strlen(*buf) * 4];
+-			strnvis(visbuf, *buf, sizeof(visbuf), VIS_TAB | VIS_NL | VIS_CSTYLE);
+-			printf("x11_get_clipboard: \"%s\"\n", visbuf);
+-		}
+-	}
+ 
+ 	if (*buf == NULL)
+ 		return (0);
