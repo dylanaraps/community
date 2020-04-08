@@ -11,3 +11,7 @@ cmake -B build \
 
 cmake --build   build
 cmake --install build
+
+install -Dm 644 cdp.completion.fish  "$1/usr/share/fish/completions/cdp.fish"
+install -Dm 644 kiss.completion.fish "$1/usr/share/fish/completions/kiss.fish"
+install -Dm 644 cdp.function.fish    "$1/usr/share/fish/functions/cdp.fish"
