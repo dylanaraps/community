@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+sed -i "s/sbin/bin/g" Makefile
+
+mk() {
+    make \
+        PREFIX=/usr \
+        CONFIG_ENABLE_LIBUSB0_PROGRAMMERS=no \
+        CONFIG_ENABLE_LIBUSB1_PROGRAMMERS=no \
+        "$@"
+}
+
+mk
+mk DESTDIR="$1" install

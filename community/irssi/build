@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --with-perl=module \
+    --with-proxy \
+    --enable-true-color
+
+make
+make DESTDIR="$1" install

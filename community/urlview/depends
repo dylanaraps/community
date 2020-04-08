@@ -1,0 +1,4 @@
+autoconf make
+automake make
+gzip make
+ncurses

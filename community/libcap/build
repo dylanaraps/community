@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
+sed -i 's/pthread\.h>/\0 #include <sched.h>/'            libcap/psx.c
+sed -i 's/pthread_yield/sched_yield/'                    libcap/psx.c
+
+mk() {
+    make \
+        GOLANG=no \
+        PREFIX=/usr \
+        SBINDIR=/usr/bin \
+        LIBDIR=/usr/lib \
+        PKGCONFIGDIR=/usr/lib/pkgconfig \
+        RAISE_SETFCAP=no \
+        "$@"
+}
+
+mk
+mk DESTDIR="$1" install

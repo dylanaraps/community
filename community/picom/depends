@@ -1,9 +1,7 @@
 libconfig
 libev
-libxdg-basedir
 meson make
 pixman
-pcre
 uthash make
 xcb-util-image
 xcb-util-renderutil
