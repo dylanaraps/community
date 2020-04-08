@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--without-pam \
+	--with-timestamp
+
+make
+make DESTDIR="$1" install
+
+install -Dm 440 doas.conf "$1/etc/doas.conf"
