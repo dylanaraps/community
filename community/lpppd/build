@@ -12,6 +12,8 @@ cmake -B build \
 cmake --build   build
 cmake --install build
 
+mv "$1/usr/sbin" "$1/usr/bin"
+
 install -Dm 755 ip-down                   "$1/etc/ppp/ip-down"
 install -Dm 755 ip-down.d.dns.sh          "$1/etc/ppp/ip-down.d/00-dns.sh"
 install -Dm 755 ip-up                     "$1/etc/ppp/ip-up"
