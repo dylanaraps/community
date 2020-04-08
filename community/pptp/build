@@ -4,4 +4,4 @@ sed -i '/pod2man/d'     Makefile
 sed -i '/pptpsetup.8/d' Makefile
 
 make
-make DESTDIR="$1" install
+make BINDIR="$1/usr/bin" DESTDIR="$1" install
