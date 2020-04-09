@@ -67,7 +67,7 @@ index 3d3bf4e..b5f82d3 100644
  #include <asm/types.h>
  #endif
 @@ -65,6 +65,8 @@
- 	va_end(pvar);
+     va_end(pvar);
  }
  
 +#define error(x...) fprintf(stderr, x)

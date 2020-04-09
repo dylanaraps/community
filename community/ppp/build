@@ -30,12 +30,13 @@ sed -i "s:^#CBCP=y:CBCP=y:" pppd/Makefile.linux
 sed -i "s:^#USE_CRYPT=y:USE_CRYPT=y:" pppd/Makefile.linux
 
 ./configure \
-	--prefix=/usr \
-	--localstatedir=/var
+    --prefix=/usr \
+    --localstatedir=/var
 
 make COPTS="$CFLAGS"
 make INSTROOT="$1" install
 
+# `--bindir` doesn't work.
 mv "$1/usr/sbin" "$1/usr/bin"
 
 install -Dm 644 include/net/ppp_defs.h "$1/usr/include/net/ppp_defs.h"
@@ -44,7 +45,6 @@ install -Dm 644 include/net/ppp_defs.h "$1/usr/include/net/ppp_defs.h"
 install -Dm 644 scripts/pon.1 "$1/usr/share/man/man1/pon.1"
 install -Dm 755 scripts/pon   "$1/usr/bin/pon"
 install -Dm 755 scripts/poff  "$1/usr/bin/poff"
-
 
 install -Dm 755 ip-down                   "$1/etc/ppp/ip-down"
 install -Dm 755 ip-down.d.dns.sh          "$1/etc/ppp/ip-down.d/00-dns.sh"
