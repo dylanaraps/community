@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+sed -i 's/bash/sh' usbhid-dump/bootstrap
+
 ./autogen.sh
 
 ./configure \
