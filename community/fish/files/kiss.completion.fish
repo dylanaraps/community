@@ -1,7 +1,7 @@
 function __fish_kiss_all_packages -d 'Obtain a list of all available packages'
     for p in $KISS_PATH
         find "$p/" -maxdepth 1 -type d -exec basename {} \;
-    end | sort | uniq
+    end | sort -u
 end
 
 function __fish_kiss_build_packages -d 'Obtain a list of build packages'

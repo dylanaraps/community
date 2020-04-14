@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-if ! grep -q '^/bin/fish$' /etc/shells; then
-    echo /bin/fish >> /etc/shells
-fi
