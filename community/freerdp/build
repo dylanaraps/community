@@ -3,7 +3,6 @@
 export DESTDIR="$1"
 
 patch -p1 < libressl.patch
-patch -p1 < bitmap-endian.patch
 
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
