@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
+
+install -Dm 755 scripts/rew_to_dsp.sh "$1/usr/bin/rew_to_dsp"
