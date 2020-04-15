@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
+for patch in *.patch; do
+    patch -p1 < $patch
+done
 
 sed -i \
     -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
