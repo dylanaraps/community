@@ -9,4 +9,4 @@ make \
     WITH_BASHCOMPLETION=no \
     WITH_WGQUICK=no \
     WITH_SYSTEMDUNITS=no \
-    install \
+    install
