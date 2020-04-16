@@ -3,10 +3,4 @@
 cd src
 
 make
-make \
-    DESTDIR="$1" \
-    PREFIX=/usr \
-    WITH_BASHCOMPLETION=no \
-    WITH_WGQUICK=no \
-    WITH_SYSTEMDUNITS=no \
-    install
+make DESTDIR="$1" PREFIX=/usr install
