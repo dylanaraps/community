@@ -1,0 +1,57 @@
+#!/bin/sh -e
+
+patch -p1 < musl-fix-headers.patch
+patch -p1 < fix-paths.patch
+patch -p1 < 0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
+patch -p1 < fix-pppd-magic.h.patch
+patch -p1 < fix-pppd-pppoe.h.patch
+patch -p1 < radius-Prevent-buffer-overflow-in-rc_mksid.patch
+patch -p1 < fix-bound-check-eap.patch
+patch -p1 < pppd-Ignore-received-EAP-messages-when-not-doing-EAP.patch
+
+# Fix CFLAGS.
+# -D_GNU_SOURCE is needed for IPv6 to work apparently.
+export CFLAGS="$CFLAGS -D_GNU_SOURCE"
+sed -i "s:-O2 -pipe -Wall -g:${CFLAGS}:" pppd/Makefile.linux
+sed -i "s:-g -O2:${CFLAGS}:" pppd/plugins/Makefile.linux
+sed -i "s:-O2:${CFLAGS}:" pppstats/Makefile.linux
+sed -i "s:-O2 -g -pipe:${CFLAGS}:" chat/Makefile.linux
+sed -i "s:-O:${CFLAGS}:" pppdump/Makefile.linux
+
+# Enable active filter,
+sed -i "s:^#FILTER=y:FILTER=y:" pppd/Makefile.linux
+
+# Enable ipv6 support.
+sed -i "s:^#HAVE_INET6=y:HAVE_INET6=y:" pppd/Makefile.linux
+
+# Enable Microsoft proprietary Callback Control Protocol.
+sed -i "s:^#CBCP=y:CBCP=y:" pppd/Makefile.linux
+sed -i "s:^#CBCP=y:CBCP=y:" pppd/Makefile.linux
+sed -i "s:^#USE_CRYPT=y:USE_CRYPT=y:" pppd/Makefile.linux
+
+./configure \
+    --prefix=/usr \
+    --localstatedir=/var
+
+make COPTS="$CFLAGS"
+make INSTROOT="$1" install
+
+# `--bindir` doesn't work.
+mv "$1/usr/sbin" "$1/usr/bin"
+
+install -Dm 644 include/net/ppp_defs.h "$1/usr/include/net/ppp_defs.h"
+
+# BusyBox ifup/ifdown needs pon/poff.
+install -Dm 644 scripts/pon.1 "$1/usr/share/man/man1/pon.1"
+install -Dm 755 scripts/pon   "$1/usr/bin/pon"
+install -Dm 755 scripts/poff  "$1/usr/bin/poff"
+
+install -Dm 755 ip-down                   "$1/etc/ppp/ip-down"
+install -Dm 755 ip-down.d.dns.sh          "$1/etc/ppp/ip-down.d/00-dns.sh"
+install -Dm 755 ip-up                     "$1/etc/ppp/ip-up"
+install -Dm 755 ip-up.d.dns.sh            "$1/etc/ppp/ip-up.d/00-dns.sh"
+install -Dm 755 ipv6-down                 "$1'/etc/ppp/ipv6-down"
+install -Dm 755 ipv6-up                   "$1/etc/ppp/ipv6-up"
+install -Dm 755 ipv6-up.d.iface-config.sh "$1/etc/ppp/ipv6-up.d/00-iface-config.sh"
+install -Dm 644 options                   "$1/etc/ppp/options"
+install -dm 755                           "$1/etc/ppp/ipv6-down.d"
