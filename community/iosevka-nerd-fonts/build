@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-unzip Iosevka.zip
-
 find ./ -name '*Windows*' -exec rm -rf {} +
 
 install -dm755          "$1/usr/share/fonts/TTF"
