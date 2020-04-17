@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+make DESTDIR="$1" install
+
+# remove duplicate versioned executable
+rm -f "$1/usr/sbin/tcpdump.4.9.3"
