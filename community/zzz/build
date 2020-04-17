@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+install -D zzz        "$1/usr/bin/zzz"
+install -D zzz        "$1/usr/bin/ZZZ"
+install -Dm 644 zzz.8 "$1/usr/share/man/man8/zzz.8"

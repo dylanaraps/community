@@ -1,0 +1,12 @@
+diff --git a/src/iothread.h b/src/iothread.h
+index 5d91b2b340..bdb045dfcd 100644
+--- a/src/iothread.h
++++ b/src/iothread.h
+@@ -4,6 +4,7 @@
+ 
+ #include <pthread.h>
+ 
++#include <cstdint> // for uint64_t
+ #include <functional>
+ #include <type_traits>
+ 
