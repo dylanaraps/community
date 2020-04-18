@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin
+
+make
+make DESTDIR="$1" install
+
+rm -f "$1/usr/bin/tcpdump.4.9.3"
