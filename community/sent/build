@@ -2,8 +2,7 @@
 
 # We use "noextract", because the files are not inside
 # a directory on the archive.
-
 tar xf sent-1.tar.gz?noextract
 
 make
-make PREFIX=/usr DESTDIR="$1" install
+make DESTDIR="$1" PREFIX=/usr install
