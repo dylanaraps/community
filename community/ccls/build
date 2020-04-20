@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+# See the following:
+# https://github.com/MaskRay/ccls/issues/555
+# https://github.com/MaskRay/ccls/pull/601
+# This will not be needed for future releases.
+sed -i '683s/override//' src/indexer.cc
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr
+
+cmake --build build
+cmake --install build

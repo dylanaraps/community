@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+patch -p1 < 081e73152a9391211770fab56676d7d974413ae6.patch
+
+make DESTDIR="$1" PREFIX=/usr install
