@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-sed -i 's/--relative//' utils/install_helper.sh
+sed -i '15,19d' utils/install_helper.sh
 
 export DESTDIR="$1"
 

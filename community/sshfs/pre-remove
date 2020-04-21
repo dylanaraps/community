@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+rm /usr/bin/mount.sshfs
+rm /usr/bin/mount.fuse.sshfs
