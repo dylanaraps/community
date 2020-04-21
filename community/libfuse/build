@@ -1,15 +1,10 @@
 #!/bin/sh -e
 
-if [ "$(id -u)" -ne 0 ]; then
-    echo libfuse must be built by root. 1>&2
-    echo Try running: sudo kiss b libfuse 1>&2
-    exit 1
-fi
-
 export DESTDIR="$1"
 
 meson \
     --prefix=/usr \
+    -Duseroot=false \
     . output
 
 ninja -C output
