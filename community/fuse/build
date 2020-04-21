@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+sed -i '28s|.*|chmod u+s "${DESTDIR}${bindir}/fusermount3"|' \
+    util/install_helper.sh
+
 export DESTDIR="$1"
 
 meson \
