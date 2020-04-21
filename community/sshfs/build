@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+sed -i 's/--relative//' utils/install_helper.sh
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    . output
+
+ninja -C output
+ninja -C output install
