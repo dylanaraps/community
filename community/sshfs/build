@@ -12,3 +12,6 @@ meson \
 
 ninja -C output
 ninja -C output install
+
+ln -s /usr/bin/sshfs "$1/usr/bin/mount.sshfs"
+ln -s /usr/bin/sshfs "$1/usr/bin/mount.fuse.sshfs"
