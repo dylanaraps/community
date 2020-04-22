@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+# We use "noextract", because the files are not inside
+# a directory on the archive.
+tar xf sent-1.tar.gz?noextract
+
+make
+make DESTDIR="$1" PREFIX=/usr install
