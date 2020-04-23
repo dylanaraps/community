@@ -6,6 +6,6 @@
 make
 make DESTDIR="$1" install
 
-# Install runit service
+# Install runit service.
 install -Dm755 tor.run         "$1/etc/sv/tor/run"
 ln -s /run/runit/supervise.tor "$1/etc/sv/tor/supervise"
