@@ -9,6 +9,7 @@ meson \
     --prefix=/usr \
     -Dexamples=false \
     -Dsbindir=bin \
+    -Dudevrulesdir=/usr/lib/udev \
     -Duseroot=false \
     . output
 
