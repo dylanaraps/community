@@ -1,3 +1,5 @@
 #!/bin/sh -e
 
 make DESTDIR="$1" install
+
+install -Dm644 -t "$1/usr/share/bkeymaps/colemak" en-latin9.bmap
