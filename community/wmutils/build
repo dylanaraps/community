@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-cd core || exit 1
+cd core
 make
 make PREFIX=/usr DESTDIR="$1" install
 
-cd ../opt || exit 1
+cd ../opt
 make
 make PREFIX=/usr DESTDIR="$1" install
