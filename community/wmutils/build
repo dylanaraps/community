@@ -7,3 +7,4 @@ make PREFIX=/usr DESTDIR="$1" install
 cd ../opt
 make
 make PREFIX=/usr DESTDIR="$1" install
+mv "$1/usr/man" "$1/usr/share/man"
