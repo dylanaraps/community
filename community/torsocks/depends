@@ -1,0 +1,4 @@
+automake
+autoconf
+libtool
+gcc
