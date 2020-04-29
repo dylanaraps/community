@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+{
+    printf "functions='Completion/*comp* "
+    for comp in Base Linux Unix X Zsh; do
+        printf "Completion/%s/*/* " "$comp"
+    done
+    printf "'\\n"
+} >> Src/Zle/complete.mdd
+
+rm -f Completion/Linux/Command/_pkgtool
+rm -f Completion/Linux/Command/_rpmbuild
+
+./configure \
+    --prefix=/usr \
+    --enable-function-subdirs \
+    --enable-fndir=/usr/share/zsh/functions \
+    --enable-runhelpdir=/usr/share/zsh/help \
+    --enable-scriptdir=/usr/share/zsh/scripts \
+    --enable-additional-fpath=/usr/share/zsh/vendor-completions \
+    --disable-gdbm
+
+make
+make DESTDIR="$1" install
+
+install -Dm 644 zprofile "$1/etc/zprofile"
