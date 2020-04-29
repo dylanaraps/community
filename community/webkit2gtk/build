@@ -1,14 +1,12 @@
 #!/bin/sh -e
 
 # Enable streaming related options if gstreamer
-# plugins are installed.
-kiss l gstreamer gst-plugins >/dev/null 2>&1 &&
-    streaming=ON
+# is installed.
+kiss l gst-plugins-base && streaming=ON
 
 # Enable the use of openjpeg if the package is
 # installed.
-kiss l openjpeg2 >/dev/null 2>&1 &&
-    jpeg=ON
+kiss l openjpeg2 && jpeg=ON
 
 patch -p1 < fix-musl.patch
 
