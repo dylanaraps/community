@@ -1,0 +1,21 @@
+alsa-lib
+ffmpeg
+gdk-pixbuf
+gstreamer
+gst-plugins-base
+lame
+lcms2
+libXdamage
+libjpeg-turbo
+libpng
+libressl
+libsoup
+libvorbis
+libvpx
+libwebp
+meson make
+opus
+pango
+python make
+x264
+x265
