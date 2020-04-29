@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr
+
+cmake --build   build
+cmake --install build
+
+# Man page may be compressed, install manually instead.
+rm -rf "$1/usr/share/man"
+install -Dm 0644 man/xkb-switch.1 "$1/usr/share/man/man1/xkb-switch.1"

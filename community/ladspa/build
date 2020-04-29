@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+patch -p0 < fix-memleak-in-plugin-scanning.patch
+
+sed -e "s/-O2/${CFLAGS}/" -i src/Makefile
+
+cd src
+
+make
+make \
+    INSTALL_PLUGINS_DIR="$1/usr/lib/ladspa/" \
+    INSTALL_INCLUDE_DIR="$1/usr/include/" \
+    INSTALL_BINARY_DIR="$1/usr/bin/" \
+    install

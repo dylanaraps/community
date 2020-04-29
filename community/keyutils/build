@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+make \
+    CPPFLAGS="$CPPFLAGS -I." \
+    CFLAGS="$CFLAGS" \
+    LDFLAGS="$LDFLAGS"
+
+make \
+    DESTDIR="$1" \
+    BINDIR=/usr/bin \
+    SBINDIR=/usr/bin \
+    LIBDIR=/usr/lib \
+    install

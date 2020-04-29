@@ -1,0 +1,12 @@
+diff --git a/mount.c b/mount.c
+index e3d00b8..172fd05 100644
+--- a/mount.c
++++ b/mount.c
+@@ -36,6 +36,7 @@ struct {
+ 	{ "mand",       "nomand",       MS_MANDLOCK    },
+ 	{ "relatime",   "norelatime",   MS_RELATIME    },
+ 	{ "bind",       NULL,           MS_BIND        },
++	{ "move",       NULL,           MS_MOVE        },
+ 	{ NULL,         NULL,           0              }
+ };
+ 

@@ -1,0 +1,17 @@
+https://github.com/paulusmack/ppp/archive/ppp-2.4.8.tar.gz
+files/ip-down
+files/ip-down.d.dns.sh
+files/ip-up
+files/ip-up.d.dns.sh
+files/ipv6-down
+files/ipv6-up
+files/ipv6-up.d.iface-config.sh
+files/options
+patches/0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
+patches/fix-bound-check-eap.patch
+patches/fix-paths.patch
+patches/fix-pppd-magic.h.patch
+patches/fix-pppd-pppoe.h.patch
+patches/musl-fix-headers.patch
+patches/pppd-Ignore-received-EAP-messages-when-not-doing-EAP.patch
+patches/radius-Prevent-buffer-overflow-in-rc_mksid.patch

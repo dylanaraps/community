@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-pcre2-16 \
+    --enable-pcre2-32 \
+    --enable-jit
+
+make
+make DESTDIR="$1" install

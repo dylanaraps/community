@@ -1,4 +1,5 @@
 glib
+glib-networking
 libpsl
 libxml2
 meson make
