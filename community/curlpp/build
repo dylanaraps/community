@@ -1,7 +1,10 @@
 #!/bin/sh -e
 
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX='/usr' -DCMAKE_INSTALL_LIBDIR='/usr/lib' ../
-make
-make DESTDIR="$1" install
+export DESTDIR="$1"
+
+cmake -B build \
+	-DCMAKE_INSTALL_PREFIX='/usr' \
+	-DCMAKE_INSTALL_LIBDIR='/usr/lib'
+
+cmake --build build
+cmake --install build
