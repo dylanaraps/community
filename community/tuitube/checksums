@@ -1,1 +1,2 @@
-a8d311a8704abb659a67daf20d9d31cdc74d26763cb889b880ff07b10e12b1bf  v0.1.2.tar.gz
+git  git+https://github.com/djt3/tuitube.git
+3e269528c6a3c0dbb3bd84fb9a68e6ae407829e1a822ac27855d5501d9169cc8  config_ytdl.patch

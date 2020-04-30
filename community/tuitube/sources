@@ -1,1 +1,2 @@
-https://github.com/djt3/tuitube/archive/v0.1.2.tar.gz
+git+https://github.com/djt3/tuitube.git
+patches/config_ytdl.patch
