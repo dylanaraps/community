@@ -1,0 +1,10 @@
+--- lib/libf2fs.c
++++ lib/libf2fs.c
+@@ -17,6 +17,7 @@
+ #include <mntent.h>
+ #include <time.h>
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ #include <sys/mount.h>
+ #include <sys/ioctl.h>
+ #ifndef WITH_ANDROID

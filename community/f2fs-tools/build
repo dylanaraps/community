@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p0 < sysmacros.patch
+
+autoreconf -fi
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
