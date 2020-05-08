@@ -2,7 +2,6 @@
 
 ./configure \
     --prefix=/usr \
-    --disable-cups \
     --disable-gtk \
     --disable-dbus \
     --with-drivers=ALL \
