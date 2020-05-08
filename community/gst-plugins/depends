@@ -13,6 +13,7 @@ libsoup
 libvorbis
 libvpx
 libwebp
+linux-headers make
 meson make
 opus
 pango
