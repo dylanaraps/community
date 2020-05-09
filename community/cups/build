@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --with-logdir=/var/log/cups \
+    --with-cups-user=lp \
+    --with-cups-group=lp \
+    --with-languages=en \
+    --without-pam \
+    --without-rcdir \
+    --with-optim="$CFLAGS" \
+    --disable-webif \
+    --disable-gssapi \
+    --disable-systemd \
+    --disable-gnutls
+
+make 
+make BUILDROOT="$1" install
+
+rm -rf "$1/usr/share/cups/templates"
+rm -rf "$1/usr/share/icons"
