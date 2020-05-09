@@ -1,0 +1,7 @@
+cups
+freetype-harfbuzz
+ghostscript
+glib
+lcms2 make
+poppler
+qpdf
