@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+make -C lib PREFIX=/usr
+make -C programs PREFIX=/usr lz4 lz4c
+
+make install PREFIX=/usr DESTDIR="$1"
