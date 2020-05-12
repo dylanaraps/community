@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure  \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --without-php \
+    --disable-avahi \
+    --disable-mutool \
+    --disable-dbus \
+    --disable-braille \
+    --without-rcdir 
+	
+make
+make DESTDIR="$1" install
