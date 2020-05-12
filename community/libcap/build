@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-sed -i "s/CFLAGS :=/CFLAGS := \$(CFLAGS)/;/LDFLAGS :=/d" Make.Rules
-sed -i 's/pthread\.h>/\0 #include <sched.h>/'            libcap/psx.c
-sed -i 's/pthread_yield/sched_yield/'                    libcap/psx.c
-
 mk() {
     make \
         GOLANG=no \
