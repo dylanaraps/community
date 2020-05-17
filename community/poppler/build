@@ -3,7 +3,7 @@
 cmake . \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-    -DENABLE_CPP=OFF \
+    -DENABLE_CPP=ON \
     -DENABLE_QT5=OFF \
     -DWITH_NSS3=OFF
 

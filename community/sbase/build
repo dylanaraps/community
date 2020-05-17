@@ -8,6 +8,5 @@ sed -i \
 make sbase-box
 make DESTDIR="$1" PREFIX=/usr sbase-box-install
 
-# Remove 'tar'/'sed' which won't work with kiss.
-unlink "$1/usr/bin/tar"
+# Unlink sed, because '-i' is widely used
 unlink "$1/usr/bin/sed"

@@ -1,4 +1,5 @@
 glib
+libffi
 ncurses
 perl make
 pixman
