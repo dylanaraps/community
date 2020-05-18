@@ -1,0 +1,29 @@
+From d50db4931d75ed1c8100f6a933175deb5976a196 Mon Sep 17 00:00:00 2001
+From: Ethan Sommer <e5ten.arch@gmail.com>
+Date: Thu, 14 May 2020 12:02:51 -0400
+Subject: [PATCH] tar: if first argument doesn't have a leading dash, prepend
+ one
+
+this allows tar to be called in the common form "tar <key>" instead of only
+allowing "tar -<key>"
+---
+ tar.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/tar.c b/tar.c
+index 603e544..759402e 100644
+--- a/tar.c
++++ b/tar.c
+@@ -520,6 +520,12 @@ main(int argc, char *argv[])
+ 	char *file = NULL, *dir = ".", mode = '\0';
+ 	int fd;
+ 
++	if (argc >= 2 && argv[1][0] != '-') {
++		char *argv1 = emalloc(strlen(argv[1] + 2));
++		sprintf(argv1, "-%s", argv[1]);
++		argv[1] = argv1;
++	}
++
+ 	ARGBEGIN {
+ 	case 'x':
+ 	case 'c':
