@@ -1,5 +1,16 @@
 #!/bin/sh -e
 
+(
+    cd bin86
+
+    patch -p1 < ../x86_64.patch
+
+    make -j1 CFLAGS="$CFLAGS -D_POSIX_SOURCE" PREFIX="$PWD/../bin86"
+    make install
+)
+
+export PATH=$PWD/bin86/bin:$PATH
+
 patch -p1 < musl.patch
 
 # shellcheck disable=2016,2016
