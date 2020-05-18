@@ -9,7 +9,6 @@ sed -i "/images all/d"                     Makefile src/Makefile
 
 export LC_ALL=C
 
-
 make CFLAGS="$CFLAGS -fcommon" all
 make DESTDIR="$1" install
 
