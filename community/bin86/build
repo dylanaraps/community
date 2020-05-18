@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch -p1 < x86_64.patch
+
+make -j1 CFLAGS="$CFLAGS -D_POSIX_SOURCE" PREFIX=/usr
+install -d "$1/usr/bin"
+install -d "$1/usr/share/man/man1"
+make PREFIX="$1/usr" MANDIR="$1/usr/share/man/man1" install
