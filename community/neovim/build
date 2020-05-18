@@ -3,6 +3,9 @@
 # Remove mandatory gettext dependency.
 sed -i -e 's/^/#/' src/nvim/po/CMakeLists.txt
 
+# Fix build with GCC 10.
+export CFLAGS="$CFLAGS -fcommon"
+
 make CMAKE_BUILD_TYPE=Release \
      CMAKE_INSTALL_PREFIX=/usr \
      CMAKE_INSTALL_LIBDIR=lib

@@ -24,4 +24,4 @@ cmake --build   build
 cmake --install build
 
 install -Dm755 falkon-privacy "$1/usr/bin/falkon-privacy"
-install -Dm755 qt.conf        "$1/usr/bin/qt.conf"
+install -Dm755 falkon.conf    "$1/usr/bin/falkon.conf"

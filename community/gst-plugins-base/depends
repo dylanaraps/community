@@ -1,0 +1,10 @@
+alsa-lib
+glib
+gstreamer
+libjpeg-turbo
+libpng
+libvorbis
+mesa
+meson make
+opus
+pango

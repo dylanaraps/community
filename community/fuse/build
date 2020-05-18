@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+sed -i "28s|.*|chmod u+s \"\${DESTDIR}\${bindir}/fusermount3\"|" \
+    util/install_helper.sh
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dexamples=false \
+    -Dsbindir=bin \
+    -Dudevrulesdir=/usr/lib/udev \
+    -Duseroot=false \
+    . output
+
+ninja -C output
+ninja -C output install

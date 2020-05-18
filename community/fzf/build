@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+go build -o "$1/usr/bin/fzf"
+install -Dm644 man/man1/fzf.1 "$1/usr/share/man/man1/fzf.1"
