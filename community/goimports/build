@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+cd cmd/goimports
+
+export GOPATH="$PWD/go"
+export GO111MODULE=on
+
+go build -v
+
+install -Dm 755 goimports "$1/usr/bin/goimports"
