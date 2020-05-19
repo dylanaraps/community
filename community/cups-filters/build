@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# Disable check for TTF font. 
+sed -i 's/as_fn_error.*Requested font/: "/' configure
+
 ./configure  \
     --prefix=/usr \
     --sbindir=/usr/bin \

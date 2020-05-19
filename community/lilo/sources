@@ -1,0 +1,5 @@
+https://mirror.netcologne.de/gentoo/distfiles/bin86-0.16.21.tar.gz bin86
+https://www.joonet.de/lilo/ftp/sources/lilo-24.2.tar.gz
+files/lilo.conf
+patches/musl.patch
+patches/x86_64.patch
