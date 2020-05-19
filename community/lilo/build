@@ -20,7 +20,7 @@ sed -i "/images all/d"                     Makefile src/Makefile
 
 export LC_ALL=C
 
-make CFLAGS="$CFLAGS -fcommon" all
+make CFLAGS="-fcommon" all
 make DESTDIR="$1" install
 
 install -Dm 644 lilo.conf "$1/etc/lilo.conf"
