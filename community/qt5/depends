@@ -10,6 +10,7 @@ libXext
 libinput
 libjpeg-turbo
 libpng
+linux-headers make
 mesa
 mtdev
 perl  make
