@@ -12,4 +12,4 @@ install -Dm 755 caddy "$1/usr/bin/caddy"
 install -Dm 755 ../../caddy.conf "$1/etc/caddy/caddy.conf"
 
 install -Dm 755 ../../caddy.run "$1/etc/sv/caddy/run"
-ln -sf /run/runit/supervise.mpd "$1/etc/sv/caddy/supervise"
+ln -sf /run/runit/supervise.caddy "$1/etc/sv/caddy/supervise"
