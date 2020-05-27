@@ -30,17 +30,6 @@ sed -i '/CANONICALIZE_FILE_NAME/d' \
 sed -i '/execinfo.h/d' \
     src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 
-# It helps if upstream declares headers
-sed -i '/#include <array>/a #include <cstddef>' \
-    src/3rdparty/chromium/media/cdm/supported_cdm_versions.h
-sed -i '/#include <functional>/a #include "stdint.h"' \
-    src/3rdparty/chromium/third_party/perfetto/include/perfetto/base/task_runner.h
-sed -i '/^#include <map>/a #include "stdint.h"' \
-    src/3rdparty/chromium/third_party/webrtc/call/rtx_receive_stream.h
-sed -i '/^#include <map>/a #include "stdint.h"' \
-    src/3rdparty/chromium/third_party/webrtc/modules/video_coding/decoding_state.h
-sed -i '/^#include <array>/a #include <cstddef>' \
-    src/3rdparty/chromium/third_party/webrtc/modules/audio_processing/aec3/clockdrift_detector.h
 
 # The build fails if qtwebengine is already installed.
 find . -name '*.pr[fio]' | while read -r file; do
