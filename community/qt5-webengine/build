@@ -51,4 +51,4 @@ qmake QMAKE_CXXFLAGS=-DQT_NO_ACCESSIBILITY -- \
     -no-feature-webengine-system-glib
 
 make
-make install INSTALL_ROOT="$1"
+make INSTALL_ROOT="$1" install
