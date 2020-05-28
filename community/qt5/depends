@@ -6,6 +6,10 @@ libICE
 libSM
 libX11
 libXext
+libXi
+libXrandr
+libXrender
+libXslt
 libinput
 libjpeg-turbo
 libpng
@@ -15,4 +19,9 @@ mesa
 mtdev
 perl  make
 sqlite
+xcb-util
+xcb-util-image
+xcb-util-keysyms
+xcb-util-wm
+xcb-util-renderutil
 zlib
