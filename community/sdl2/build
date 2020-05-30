@@ -1,5 +1,20 @@
 #!/bin/sh -e
 
+# Check if dash is installed and print a warning
+kiss l dash &&
+cat <<EOF
+
+### IMPORTANT ###
+### IMPORTANT ###
+
+Note: SDL2 cannot be build with dash. Your build may fail.
+
+### IMPORTANT ###
+### IMPORTANT ###
+
+EOF
+sleep 5
+
 ./configure \
     --prefix=/usr
 
