@@ -6,6 +6,7 @@ meson \
     --prefix=/usr \
     --sysconfdir=/etc \
     --localstatedir=/var \
+    -Dlibmpdclient=disabled \
     . output
 
 ninja -C output

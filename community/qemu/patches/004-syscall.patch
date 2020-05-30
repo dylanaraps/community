@@ -1,6 +1,6 @@
 --- linux-user/syscall.c
 +++ linux-user/syscall.c
-@@ -46,7 +46,7 @@
+@@ -48,7 +48,7 @@
  #include <sys/sem.h>
  #include <sys/statfs.h>
  #include <utime.h>
@@ -9,9 +9,9 @@
  #include <sys/signalfd.h>
  //#include <sys/user.h>
  #include <netinet/ip.h>
-@@ -112,6 +112,13 @@
- #include "qapi/error.h"
+@@ -123,6 +123,23 @@
  #include "fd-trans.h"
+ #include "tcg/tcg.h"
 
 +#ifndef F_SHLCK
 +#define F_SHLCK 8
@@ -20,13 +20,6 @@
 +#define F_EXLCK 4
 +#endif
 +
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
- #endif
-@@ -6490,8 +6497,17 @@
-     return 0;
- }
-
 +struct host_sigevent {
 +    union sigval sigev_value;
 +    int sigev_signo;
@@ -36,6 +29,13 @@
 +       int _tid;
 +    } _sigev_un;
 +};
++
+ #ifndef CLONE_IO
+ #define CLONE_IO                0x80000000      /* Clone io context */
+ #endif
+@@ -6771,7 +6788,7 @@
+ }
+ #endif
 
 -static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
 +static inline abi_long target_to_host_sigevent(struct host_sigevent *host_sevp,

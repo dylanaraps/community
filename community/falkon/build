@@ -9,9 +9,13 @@ done
 # Get rid of i18n.
 rm -rf po poqm
 
-# Fix missing include in latest Qt.
+# Fix missing include in Qt 5.14.
 sed -i 's/\(Settings>\)/\1\n#include <QFile>/' \
     src/plugins/VerticalTabs/verticaltabsplugin.cpp
+
+# Fix a build problem caused by Qt 5.15
+sed -i '/#include <QPainter>/a #include <QPainterPath>' \
+    src/lib/tools/qztools.cpp
 
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
@@ -24,4 +28,3 @@ cmake --build   build
 cmake --install build
 
 install -Dm755 falkon-privacy "$1/usr/bin/falkon-privacy"
-install -Dm755 qt.conf        "$1/usr/bin/qt.conf"

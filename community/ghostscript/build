@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-gtk \
+    --disable-dbus \
+    --with-drivers=ALL \
+    --with-fontpaths=/usr/share/ghostscript/fonts/:/usr/share/fonts
+	
+make so all
+make DESTDIR="$1" install-so install

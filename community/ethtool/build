@@ -4,7 +4,8 @@ export CFLAGS="$CFLAGS -static"
 
 ./configure \
     --prefix=/usr \
-    --sbindir=/usr/bin
+    --sbindir=/usr/bin \
+    --disable-netlink
 
 make
 make DESTDIR="$1" install
