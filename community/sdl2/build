@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-# Check if dash is installed and print a warning
+# Check if dash is installed and print a warning.
 kiss l dash &&
 cat <<EOF
 
