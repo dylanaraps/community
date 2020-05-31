@@ -3,7 +3,7 @@
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
-    --without-python
+    --without-python 	
 
 make
 make DESTDIR="$1" install
