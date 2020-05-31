@@ -1,1 +1,1 @@
-# while :; do /usr/bin/sysmgr ; done &
+# while :; do /usr/bin/sysmgr; done &
