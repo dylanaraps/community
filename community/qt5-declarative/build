@@ -3,4 +3,4 @@
 qmake
 
 make
-make install INSTALL_ROOT="$1"
+make INSTALL_ROOT="$1" install
