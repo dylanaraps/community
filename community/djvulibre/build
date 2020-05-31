@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --disable-desktopfiles
 
 make DESTDIR="$1" install
