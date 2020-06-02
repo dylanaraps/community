@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+# Use more consistent config filename.
+sed -i 's/mpdasrc/mpdas.conf/g' ./*
+
+sed -i 's/install -m 644/install -Dm644/' Makefile
+# shellcheck disable=2016,2016
+sed -i 's|install mpdas ${PREFIX}/bin|install -Dm755 mpdas ${PREFIX}/bin/mpdas|' Makefile
+
+make PREFIX=/usr CONFIG=/etc
+make DESTDIR="$1" PREFIX=/usr MANPREFIX=/usr/share/man/man1 install
+
+# Add mpdas service file
+install -Dm 755 mpdas.run "$1/etc/sv/mpdas/run"
+ln -sf /run/runit/supervise.mpdas "$1/etc/sv/mpdas/supervise"

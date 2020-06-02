@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/share/fonts/OTF"
+cp ./otfs/*.otf "$1/usr/share/fonts/OTF"

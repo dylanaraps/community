@@ -1,0 +1,4 @@
+cmake make
+ffmpeg
+glib
+libjpeg-turbo

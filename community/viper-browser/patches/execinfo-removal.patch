@@ -1,0 +1,71 @@
+diff --git a/src/app/main.cpp b/src/app/main.cpp
+index 17bf7f8..5d4cded 100644
+--- a/src/app/main.cpp
++++ b/src/app/main.cpp
+@@ -30,58 +30,11 @@
+ #include <QTextStream>
+ 
+ #include <iostream>
+-#include <execinfo.h>
+ #include <signal.h>
+ #include <string.h>
+ 
+ #define BT_BUF_SIZE 100
+ 
+-void _handleCrash(int s, siginfo_t * /*siginfo*/, void * /*context*/)
+-{
+-    if (s != SIGSEGV)
+-        return;
+-    void *buffer[BT_BUF_SIZE];
+-
+-    int nptrs = backtrace(buffer, BT_BUF_SIZE);
+-    char **strings = backtrace_symbols(buffer, nptrs);
+-
+-    if (strings == NULL)
+-    {
+-        std::cout << "Could not get backtrace symbols" << std::endl;
+-        exit(EXIT_FAILURE);
+-    }
+-
+-    QDir d(QString("%1/.config/Vaccarelli").arg(QDir::homePath()));
+-    if (!d.cd(QLatin1String("crash-logs")))
+-    {
+-        if (!d.mkdir(QLatin1String("crash-logs")) || !d.cd(QLatin1String("crash-logs")))
+-        {
+-            std::cout << "Could not create crash log directory" << std::endl;
+-            exit(EXIT_FAILURE);
+-        }
+-    }
+-
+-    QDateTime now = QDateTime::currentDateTime();
+-    QFile crashFile(QString("%1/Crash_%2.log").arg(d.absolutePath()).arg(now.toString(Qt::ISODate)));
+-    if (crashFile.open(QIODevice::WriteOnly))
+-    {
+-        QTextStream stream(&crashFile);
+-        for (int i = 0; i < nptrs; ++i)
+-        {
+-            stream << "[" << i << "]: " << strings[i] << "\n";
+-        }
+-
+-        crashFile.close();
+-
+-        std::cout << "Saved crash log to " << QFileInfo(crashFile).absoluteFilePath().toStdString() << std::endl;
+-    }
+-    else
+-        std::cout << "Could not save crash log to file" << std::endl;
+-
+-    free(strings);
+-
+-    exit(EXIT_FAILURE);
+-}
+ 
+ #undef BT_BUF_SIZE
+ 
+@@ -139,7 +92,6 @@ int main(int argc, char *argv[])
+ #ifdef Q_OS_LINUX
+     struct sigaction act;
+     memset (&act, '\0', sizeof(act));
+-    act.sa_sigaction = &_handleCrash;
+     act.sa_flags = SA_SIGINFO;
+     if (sigaction(SIGSEGV, &act, NULL) < 0)
+         qWarning() << "Could not install handler for signal SIGSEGV";

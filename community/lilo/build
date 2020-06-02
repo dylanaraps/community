@@ -1,0 +1,34 @@
+#!/bin/sh -e
+
+(
+    cd bin86
+
+    patch -p1 < ../x86_64.patch
+
+    make -j1 CFLAGS="$CFLAGS -D_POSIX_SOURCE" PREFIX="$PWD/../bin86"
+    make install
+)
+
+export PATH=$PWD/bin86/bin:$PATH
+
+patch -p1 < musl.patch
+
+# shellcheck disable=2016,2016
+sed -i '/strip/d;s|^	make|	$(MAKE)|g' Makefile src/Makefile
+sed -i "/images install/d"                 Makefile src/Makefile
+sed -i "/images all/d"                     Makefile src/Makefile
+
+export LC_ALL=C
+
+make CFLAGS="-fcommon" all
+make DESTDIR="$1" install
+
+install -Dm 644 lilo.conf "$1/etc/lilo.conf"
+
+mv "$1/usr/sbin/" "$1/usr/bin/"
+mv "$1/sbin/lilo" "$1/usr/bin/lilo"
+rmdir "$1/sbin"
+
+rm -rf "$1/etc/initramfs"
+rm -rf "$1/etc/kernel"
+rm -rf "$1/etc/lilo.conf_example"

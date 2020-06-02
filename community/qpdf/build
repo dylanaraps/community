@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+sed -i 's/bash/sh/' make/libtool.mk
+
+./configure \
+    --prefix=/usr \
+    --disable-static
+	
+make
+make DESTDIR="$1" install

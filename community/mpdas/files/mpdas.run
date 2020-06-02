@@ -1,0 +1,2 @@
+#!/bin/sh
+exec mpdas 1> /dev/null
