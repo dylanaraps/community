@@ -1,5 +1,5 @@
 libpng
 tiff
-lcms2
+lcms
 cmake make
 zlib
