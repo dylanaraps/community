@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+cd src/main/cpp
+
+make
+
+install -Dm755 tiv "$1/usr/bin/tiv"
