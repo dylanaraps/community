@@ -3,4 +3,5 @@
 cd src/main/cpp
 
 make
-make DESTDIR="$1" PREFIX=/usr install
+
+install -Dm755 tiv "$1/usr/bin/tiv"
