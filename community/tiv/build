@@ -3,5 +3,4 @@
 cd src/main/cpp
 
 make
-
 make DESTDIR="$1" PREFIX=/usr install
