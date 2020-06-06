@@ -1,7 +1,6 @@
-https://download.qemu.org/qemu-4.2.0.tar.xz
+https://download.qemu.org/qemu-5.0.0.tar.xz
 patches/001-map-sync.patch
 patches/002-ppc.patch
 patches/003-sigtrm-max.patch
 patches/004-syscall.patch
-patches/005-elfload.patch
-patches/006-xattr.patch
+patches/005-xattr.patch

@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_BUILD_TYPE=Release
+
+cmake --build   build
+cmake --install build
+
+install -Dm 644 cdp.completion.fish  "$1/usr/share/fish/completions/cdp.fish"
+install -Dm 644 kiss.completion.fish "$1/usr/share/fish/completions/kiss.fish"
+install -Dm 644 cdp.function.fish    "$1/usr/share/fish/functions/cdp.fish"

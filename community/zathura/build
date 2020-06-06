@@ -2,6 +2,11 @@
 
 patch -p1 < remove_gettext.patch
 
+# Fix build errors when appstream-glib or
+# desktop-file-utils are installed.
+sed -i 's/appstream-util//'        data/meson.build
+sed -i 's/desktop-file-validate//' data/meson.build
+
 meson build \
     --prefix=/usr \
     --sysconfdir=/etc \

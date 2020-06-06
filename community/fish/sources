@@ -1,0 +1,4 @@
+https://github.com/fish-shell/fish-shell/releases/download/3.1.2/fish-3.1.2.tar.gz
+files/cdp.completion.fish
+files/cdp.function.fish
+files/kiss.completion.fish
