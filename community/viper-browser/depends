@@ -1,0 +1,5 @@
+cmake make
+qt5-svg
+qt5-webchannel
+qt5-webengine
+qt5-x11extras

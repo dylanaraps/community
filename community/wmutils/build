@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+cd core
+make
+make PREFIX=/usr MANPREFIX=/usr/share/man DESTDIR="$1" install
+
+cd ../opt
+make
+make PREFIX=/usr MANPREFIX=/usr/share/man DESTDIR="$1" install
+

@@ -1,7 +1,6 @@
 Please fill out the template.
 
-Read: https://k1ss.org/style
-Read: https://k1ss.org/guidestones
+Read: https://k1ss.org/wiki/kiss/style-guide
 
 ---
 

@@ -1,5 +1,13 @@
 #!/bin/sh -e
 
+# Enable streaming related options if gstreamer
+# is installed.
+kiss l gst-plugins-base && streaming=ON
+
+# Enable the use of openjpeg if the package is
+# installed.
+kiss l openjpeg2 && jpeg=ON
+
 patch -p1 < fix-musl.patch
 
 # Remove gettext requirement.
@@ -24,16 +32,17 @@ cmake -B build \
     -DENABLE_MINIBROWSER=OFF \
     -DENABLE_OPENGL=OFF \
     -DENABLE_SPELLCHECK=OFF \
-    -DENABLE_VIDEO=OFF \
+    -DENABLE_VIDEO=${streaming:-OFF} \
     -DENABLE_WEBGL=OFF \
-    -DENABLE_WEB_AUDIO=OFF \
+    -DENABLE_WEB_AUDIO=${streaming:-OFF} \
     -DUSE_LIBHYPHEN=OFF \
     -DUSE_LIBNOTIFY=OFF \
     -DUSE_LIBSECRET=OFF \
-    -DUSE_OPENJPEG=OFF \
+    -DUSE_OPENJPEG=${jpeg:-OFF} \
     -DUSE_WOFF2=OFF \
     -DUSE_WPE_RENDERER=OFF \
     -DENABLE_WEB_CRYPTO=OFF \
+    -DENABLE_MEDIASOURCE=${streaming:-OFF} \
     -Wno-dev
 
 cmake --build   build

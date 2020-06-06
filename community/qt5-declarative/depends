@@ -12,5 +12,6 @@ libpng
 libxcb
 libxshmfence
 mesa
+python make
 qt5
 zlib

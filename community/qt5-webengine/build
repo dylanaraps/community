@@ -30,6 +30,7 @@ sed -i '/CANONICALIZE_FILE_NAME/d' \
 sed -i '/execinfo.h/d' \
     src/3rdparty/chromium/base/debug/stack_trace_posix.cc
 
+
 # The build fails if qtwebengine is already installed.
 find . -name '*.pr[fio]' | while read -r file; do
     sed -i "s#INCLUDEPATH += #&\$\$QTWEBENGINE_ROOT/include #" "$file"
@@ -50,4 +51,4 @@ qmake QMAKE_CXXFLAGS=-DQT_NO_ACCESSIBILITY -- \
     -no-feature-webengine-system-glib
 
 make
-make install INSTALL_ROOT="$1"
+make INSTALL_ROOT="$1" install
