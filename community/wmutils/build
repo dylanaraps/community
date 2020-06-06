@@ -2,7 +2,7 @@
 
 cd core
 make
-make PREFIX=/usr MANPREFIX="/usr/share/man" DESTDIR="$1" install
+make PREFIX=/usr MANPREFIX=/usr/share/man DESTDIR="$1" install
 
 cd ../opt
 make
