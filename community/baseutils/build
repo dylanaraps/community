@@ -3,4 +3,4 @@
 export CFLAGS="$CFLAGS -fcommon"
 
 make
-make PREFIX="$1/us"r MANDIR="$1/usr/share/man" install
+make PREFIX="$1/usr" MANDIR="$1/usr/share/man" install
