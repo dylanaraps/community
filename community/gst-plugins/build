@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+for plugin in libav good bad ugly; do (
+    cd "$plugin"
+
+    meson \
+        --prefix=/usr \
+        -Dexample=false \
+        . output
+
+    ninja -C output
+    ninja -C output install
+) done

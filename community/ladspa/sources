@@ -1,0 +1,2 @@
+https://ladspa.org/download/ladspa_sdk_1.15.tgz
+patches/fix-memleak-in-plugin-scanning.patch

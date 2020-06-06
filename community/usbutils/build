@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+sed -i 's/bash/sh' usbhid-dump/bootstrap
+
+./autogen.sh
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install

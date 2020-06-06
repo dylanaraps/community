@@ -1,1 +1,2 @@
 git+git://git.suckless.org/sbase
+patches/tar-dash-remove.patch

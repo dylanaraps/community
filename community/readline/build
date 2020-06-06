@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -fPIC"
+
 for patch in readline80-00*; do
     patch -p0 < "$patch"
 done
@@ -7,5 +9,5 @@ done
 ./configure \
     --prefix=/usr
 
-make
+make SHLIB_LIBS=-lncurses
 make DESTDIR="$1" install

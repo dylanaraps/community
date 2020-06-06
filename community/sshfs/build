@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+# Removes code that creates broken symlinks.
+sed -i '15,19d' utils/install_helper.sh
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dexamples=false \
+    -Dsbindir=bin \
+    . output
+
+ninja -C output
+ninja -C output install
+
+# Properly create the symlinks that the above helper wanted to.
+ln -s /usr/bin/sshfs "$1/usr/bin/mount.sshfs"
+ln -s /usr/bin/sshfs "$1/usr/bin/mount.fuse.sshfs"

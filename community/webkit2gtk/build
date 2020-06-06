@@ -1,10 +1,18 @@
 #!/bin/sh -e
 
+# Enable streaming related options if gstreamer
+# is installed.
+kiss l gst-plugins-base && streaming=ON
+
+# Enable the use of openjpeg if the package is
+# installed.
+kiss l openjpeg2 && jpeg=ON
+
 patch -p1 < fix-musl.patch
 
 # Remove gettext requirement.
 sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
-sed -i '/po_files *.po/d'    Source/WebCore/platform/gtk/po/CMakeLists.txt
+sed -i '/po_files \*\.po/d'  Source/WebCore/platform/gtk/po/CMakeLists.txt
 sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 
 export DESTDIR="$1"
@@ -16,6 +24,7 @@ cmake -B build \
     -DPORT=GTK \
     -DCMAKE_SKIP_RPATH=ON \
     -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+    -DENABLE_SAMPLING_PROFILER=OFF \
     -DENABLE_GEOLOCATION=OFF \
     -DENABLE_GLES2=ON \
     -DENABLE_INTL=OFF \
@@ -23,16 +32,17 @@ cmake -B build \
     -DENABLE_MINIBROWSER=OFF \
     -DENABLE_OPENGL=OFF \
     -DENABLE_SPELLCHECK=OFF \
-    -DENABLE_VIDEO=OFF \
+    -DENABLE_VIDEO=${streaming:-OFF} \
     -DENABLE_WEBGL=OFF \
-    -DENABLE_WEB_AUDIO=OFF \
+    -DENABLE_WEB_AUDIO=${streaming:-OFF} \
     -DUSE_LIBHYPHEN=OFF \
     -DUSE_LIBNOTIFY=OFF \
     -DUSE_LIBSECRET=OFF \
-    -DUSE_OPENJPEG=OFF \
+    -DUSE_OPENJPEG=${jpeg:-OFF} \
     -DUSE_WOFF2=OFF \
     -DUSE_WPE_RENDERER=OFF \
     -DENABLE_WEB_CRYPTO=OFF \
+    -DENABLE_MEDIASOURCE=${streaming:-OFF} \
     -Wno-dev
 
 cmake --build   build

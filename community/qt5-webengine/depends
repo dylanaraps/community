@@ -12,6 +12,7 @@ libXtst
 libdrm
 libevent
 libxml2
+linux-headers make
 nss
 python2 make
 qt5
