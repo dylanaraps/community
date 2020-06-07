@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-sed -i 's|<gmp.h>|<nettle/bignum.h>|' lib/nettle/curve448/eccdata.c
-
 ./configure \
     --prefix=/usr \
     --disable-nls \
