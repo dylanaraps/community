@@ -1,3 +1,4 @@
+linux-headers make
 perl make
 sqlite
 zlib

@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+patch -p1 < musl.patch
+sed -i 's|/doc/es\.1|/es\.1|g' Makefile.in
+
+./configure \
+    --prefix="$1/usr"
+
+make
+make install

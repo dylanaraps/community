@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+# Running distcc as a server instead of a client
+# requires python to be installed.
+kiss l python >/dev/null 2>&1 || pump=disable
+
+export CFLAGS="$CFLAGS -fcommon"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --without-libiberty \
+    --without-avahi \
+    --with-included-popt \
+    "--${pump:-enable}-pump-mode"
+
+make
+make DESTDIR="$1" install

@@ -4,6 +4,7 @@ gstreamer
 libjpeg-turbo
 libpng
 libvorbis
+linux-headers make
 mesa
 meson make
 opus
