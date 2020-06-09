@@ -2,7 +2,8 @@
 
 ./configure \
     --prefix=/usr \
-    --sysconfdir=/etc
+    --sysconfdir=/etc \
+    --sbindir=/usr/bin
 
 make
 make DESTDIR="$1" install

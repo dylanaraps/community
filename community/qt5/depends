@@ -2,16 +2,26 @@ bison make
 flex  make
 freetype-harfbuzz
 gperf make
-libxkbcommon
 libICE
 libSM
 libX11
 libXext
+libXi
+libXrandr
+libXrender
+libXslt
 libinput
 libjpeg-turbo
 libpng
+libxkbcommon
+linux-headers make
 mesa
 mtdev
 perl  make
 sqlite
+xcb-util
+xcb-util-image
+xcb-util-keysyms
+xcb-util-wm
+xcb-util-renderutil
 zlib

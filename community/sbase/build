@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# Make sbase tar accept arguments without dash
+patch -p1 < tar-dash-remove.patch
+
 sed -i \
     -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
     -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
