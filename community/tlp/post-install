@@ -1,0 +1,9 @@
+#!/bin/sh
+cat <<EOF
+
+NOTE: TLP requires a flock version with the w flag.
+      If your version does not support this you
+      could switch to another version, like
+      util-linux.
+
+EOF
