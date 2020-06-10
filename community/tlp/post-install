@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/sh -e
+
 cat <<EOF
 
 NOTE: TLP requires a flock version with the w flag.

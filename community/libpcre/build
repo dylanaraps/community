@@ -1,7 +1,8 @@
 #!/bin/sh -e
-
+ 
 ./autogen.sh
 
+# No default configure, so we need to utilize libtool
 ./configure \
     --prefix=/usr
 
