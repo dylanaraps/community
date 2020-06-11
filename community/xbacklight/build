@@ -4,5 +4,4 @@
     --prefix=/usr
 
 make
-
-DESTDIR="$1" make install
+make DESTDIR="$1" install
