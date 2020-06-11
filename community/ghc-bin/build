@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr"
+
+cp -r bin     "$1/usr"
+cp -r include "$1/usr"
+cp -r lib     "$1/usr"
+
+install -Dm755 ghci    "$1/usr/bin"
