@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-# This is needed since tlp uses the non posix compliant -w flag of flock
+# This is needed since tlp uses the non posix compliant -w flag of flock.
 patch -p1 < tlp-no-flock-wait.patch
 
 export DESTDIR="$1"
