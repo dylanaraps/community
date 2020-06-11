@@ -1,4 +1,3 @@
 libxcb
-libtool make
 xorg-util-macros make
 xorgproto make
