@@ -1,11 +1,11 @@
 #!/bin/sh -e
 
 export DESTDIR="$1"
-export TLP_WITH_ELOGIND="0"
-export TLP_WITH_SYSTEMD="0"
-export TLP_NO_BASHCOMP="1"
-export TLP_NO_INIT="1"
-export TLP_NO_TPACPI="1"
+export TLP_WITH_ELOGIND=0
+export TLP_WITH_SYSTEMD=0
+export TLP_NO_BASHCOMP=1
+export TLP_NO_INIT=1
+export TLP_NO_TPACPI=1
 
 make
 
