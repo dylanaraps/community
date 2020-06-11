@@ -1,8 +1,5 @@
 #!/bin/sh
-DIR=`dirname "$0"`
+
+DIR="$(dirname "$0")"
 executable="$DIR/ghc"
-exec $executable --interactive "$@"
-#!/bin/sh
-DIR=`dirname "$0"`
-executable="$DIR/ghc"
-exec $executable --interactive "$@"
+exec "$executable" --interactive "$@"
