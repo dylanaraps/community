@@ -1,0 +1,25 @@
+diff --git a/../TLP-1.3.1/tlp-func-base.in b/./tlp-func-base.in
+index 1bbc9c8..1cdff49 100644
+--- a/../TLP-1.3.1/tlp-func-base.in
++++ b/./tlp-func-base.in
+@@ -31,7 +31,6 @@ readonly TPACPIBAT=@TPACPIBAT@
+ readonly UDEVADM=udevadm
+ 
+ readonly LOCKFILE=$RUNDIR/lock
+-readonly LOCKTIMEOUT=2
+ 
+ readonly PWRRUNFILE=$RUNDIR/last_pwr
+ readonly MANUALMODEFILE=$RUNDIR/manual_mode
+@@ -236,8 +235,7 @@ lock_tlp () { # get exclusive lock: blocking with timeout
+     create_rundir
+     # open file for writing and attach fd 9
+     # when successful lock fd 9 exclusive and blocking
+-    # wait $LOCKTIMEOUT secs to obtain the lock
+-    if { exec 9> ${LOCKFILE}_${1:-tlp} ; } 2> /dev/null && $FLOCK -x -w $LOCKTIMEOUT 9 ; then
++    if { exec 9> ${LOCKFILE}_${1:-tlp} ; } 2> /dev/null && $FLOCK -x 9 ; then
+         echo_debug "lock" "lock_tlp($1).success"
+         return 0
+     else
+diff --git a/./tlp-no-flock-wait.diff b/./tlp-no-flock-wait.diff
+new file mode 100644
+index 0000000..e69de29
