@@ -1,4 +1,4 @@
 libvncserver
 xrandr
-automake
-autoconf
+automake make
+autoconf make
