@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < bugfixes.patch
-patch -p1 < libressl.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 ./autogen.sh
 
