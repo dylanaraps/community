@@ -1,2 +1,2 @@
-git+https://github.com/djt3/tuitube.git
+git+https://gitlab.com/djt3/tuitube.git
 patches/config_ytdl.patch
