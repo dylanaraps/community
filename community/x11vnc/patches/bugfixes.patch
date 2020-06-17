@@ -1,0 +1,480 @@
+--- x11vnc-0.9.16/src/cleanup.c
++++ x11vnc/src/cleanup.c
+@@ -492,7 +492,7 @@
+ 		}
+ 
+ 		if (*str == 'q' && *(str+1) == '\0') {
+-			fprintf(stderr, "quiting.\n");
++			fprintf(stderr, "quitting.\n");
+ 			return;
+ 		} else if (*str == 'h' && *(str+1) == '\0') {
+ 			crash_shell_help();
+--- x11vnc-0.9.16/src/cursor.c
++++ x11vnc/src/cursor.c
+@@ -1311,7 +1311,7 @@
+ 
+ 		/* retrieve the cursor info + pixels from server: */
+ 		xfc = XFixesGetCursorImage(dpy);
+-		{
++		if (xfc) {
+ 			/* 2017-07-09, Stephan Fuhrmann: This fixes an implementation flaw for 64 bit systems.
+ 			 * The XFixesCursorImage structure says xfc->pixels is (unsigned long*) in the structure, but
+ 			 * the protocol spec says it's 32 bit per pixel
+--- x11vnc-0.9.16/src/help.c
++++ x11vnc/src/help.c
+@@ -3614,7 +3614,7 @@
+ "-ncache_no_dtchange    In -ncache mode, do not try to guess when the desktop\n"
+ "                       (viewport) changes to another one (i.e. another\n"
+ "                       workarea).  The default is to try to guess and when\n"
+-"                       detected try to make the transistion more smoothly.\n"
++"                       detected try to make the transition more smoothly.\n"
+ "\n"
+ "-ncache_no_rootpixmap  In -ncache mode, do not try to snapshot the desktop\n"
+ "                       background to use in guessing or reconstructing window\n"
+@@ -3716,7 +3716,7 @@
+ "                       \"mode\" can be \"never\" (same as -nowirecopyrect)\n"
+ "                       to never try the copyrect, \"top\" means only do it if\n"
+ "                       the window was not covered by any other windows, and\n"
+-"                       \"always\" means to translate the orginally unobscured\n"
++"                       \"always\" means to translate the originally unobscured\n"
+ "                       region (this may look odd as the remaining pieces come\n"
+ "                       in, but helps on a slow link).  Default: \"%s\"\n"
+ "\n"
+@@ -3990,7 +3990,7 @@
+ "                       to \"eat\" much of that pointer input before re-polling\n"
+ "                       the screen and sending out framebuffer updates. The\n"
+ "                       mode number \"n\" can be 0 to %d and selects one of\n"
+-"                       the schemes desribed below.\n"
++"                       the schemes described below.\n"
+ "\n"
+ "                       Note that the -wireframe and -scrollcopyrect modes\n"
+ "                       complement -pointer_mode by detecting (and improving)\n"
+@@ -4060,7 +4060,7 @@
+ "                       read rate may be much faster.  \"x11perf -getimage500\"\n"
+ "                       can be used to get a lower bound (remember to factor\n"
+ "                       in the bytes per pixel).  It is up to you to estimate\n"
+-"                       the network bandwith and latency to clients.  For the\n"
++"                       the network bandwidth and latency to clients.  For the\n"
+ "                       latency the ping(1) command can be used.\n"
+ "\n"
+ "                       For convenience there are some aliases provided,\n"
+@@ -5776,7 +5776,7 @@
+ "                       you can still specify these parameters on the command\n"
+ "                       line, they just cannot be invoked via remote-control.\n"
+ "-safer                 Equivalent to: -novncconnect -noremote and prohibiting\n"
+-"                       -gui and the -connect file. Shuts off communcation\n"
++"                       -gui and the -connect file. Shuts off communication\n"
+ "                       channels.\n"
+ "-privremote            Perform some sanity checks and disable remote-control\n"
+ "                       commands if it appears that the X DISPLAY and/or\n"
+@@ -6032,7 +6032,7 @@
+ "#@                                                           @#\n"
+ "#@  Or using the x11vnc SSL options: -ssl and -stunnel       @#\n"
+ "#@                                                           @#\n"
+-"#@  Please Read the documention for more info about          @#\n"
++"#@  Please Read the documentation for more info about        @#\n"
+ "#@  passwords, security, and encryption.                     @#\n"
+ "#@                                                           @#\n"
+ "#@    http://www.karlrunge.com/x11vnc/faq.html#faq-passwd    @#\n"
+--- x11vnc-0.9.16/src/inet.c
++++ x11vnc/src/inet.c
+@@ -670,6 +670,10 @@
+ 		return -1;
+ 	}
+ 	saun.sun_family = AF_UNIX;
++	if(strlen(file) + 1 > sizeof(saun.sun_path)) {
++	        rfbLogPerror("listen_unix: socket name too long");
++		return -1;
++	}
+ 	strcpy(saun.sun_path, file);
+ 	unlink(file);
+ 
+--- x11vnc-0.9.16/src/linuxfb.c
++++ x11vnc/src/linuxfb.c
+@@ -53,9 +53,31 @@
+ char *console_guess(char *str, int *fd);
+ void console_key_command(rfbBool down, rfbKeySym keysym, rfbClientPtr client);
+ void console_pointer_command(int mask, int x, int y, rfbClientPtr client);
++void linux_dev_fb_msg(char *);
+ 
++/* Returns offset into fb memory based on yoffset. */
++int rawfb_get_offset(int *fd)
++{
++#if HAVE_LINUX_FB_H
++	int offset;
++	struct fb_var_screeninfo var_info;
++	if (ioctl(*fd, FBIOGET_VSCREENINFO, &var_info)) {
++		perror("ioctl");
++		return 0;
++	}
+ 
+-void linux_dev_fb_msg(char *);
++	/* todo: How should x offset be handled? */
++	if (var_info.xoffset != 0) {
++		rfbLog("rawfb xoffset handling not implemented");
++	}
++
++	if (var_info.yoffset != 0) {
++		offset = main_bytes_per_line * var_info.yoffset;
++		return offset;
++	}
++#endif
++	return 0;
++}
+ 
+ char *console_guess(char *str, int *fd) {
+ 	char *q, *in = strdup(str);
+--- x11vnc-0.9.16/src/linuxfb.h
++++ x11vnc/src/linuxfb.h
+@@ -37,6 +37,7 @@
+ extern char *console_guess(char *str, int *fd);
+ extern void console_key_command(rfbBool down, rfbKeySym keysym, rfbClientPtr client);
+ extern void console_pointer_command(int mask, int x, int y, rfbClientPtr client);
++extern int rawfb_get_offset(int *fd);
+ 
+ 
+ #endif /* _X11VNC_LINUXFB_H */
+--- x11vnc-0.9.16/src/params.h
++++ x11vnc/src/params.h
+@@ -75,7 +75,7 @@
+ #define PIPEINPUT_MACOSX	0x4
+ #define PIPEINPUT_VNC		0x5
+ 
+-#define MAX_BUTTONS 5
++#define MAX_BUTTONS 7
+ 
+ #define ROTATE_NONE		0
+ #define ROTATE_X		1
+--- x11vnc-0.9.16/src/screen.c
++++ x11vnc/src/screen.c
+@@ -109,6 +109,7 @@
+ int rawfb_reset = -1;
+ int rawfb_dev_video = 0;
+ int rawfb_vnc_reflect = 0;
++int rawfb_double_buffer = 0;
+ 
+ /*
+  * X11 and rfb display/screen related routines
+@@ -1942,14 +1943,25 @@
+ 
+ 
+ 	/* +O offset */
++	char *end = NULL;
+ 	if ((q = strrchr(str, '+')) != NULL) {
+-		if (sscanf(q, "+%d", &raw_fb_offset) == 1) {
+-			*q = '\0';
+-		} else {
++		end = q;
++		if (sscanf(q, "+%d", &raw_fb_offset) != 1) {
+ 			raw_fb_offset = 0;
+ 		}
+ 	}
+-	/* :R/G/B masks */
++
++	/* #VWxVH virtual dimensions */
++	if ((q = strrchr(str, '#')) != NULL) {
++		if (q < end) end = q;
++		if (sscanf(q, "#%dx%d", &raw_fb_virt_x, &raw_fb_virt_y) != 2) {
++			raw_fb_virt_x = 0;
++			raw_fb_virt_y = 0;
++		}
++	}
++
++	if (end != NULL) *end = '\0';
++
+ 	if ((q = strrchr(str, ':')) != NULL) {
+ 		if (sscanf(q, ":%lx/%lx/%lx", &rm, &gm, &bm) == 3) {
+ 			*q = '\0';
+@@ -2138,7 +2150,7 @@
+ 	} else if (strstr(str, "map:") == str || strstr(str, "mmap:") == str
+ 	    || strstr(str, "file:") == str) {
+ 		/* map:/path/... or file:/path  */
+-		int fd, do_mmap = 1, size;
++		int fd, do_mmap = 1, size, vsize = 0;
+ 		struct stat sbuf;
+ 
+ 		if (*str == 'f') {
+@@ -2178,9 +2190,15 @@
+ 			size = w*h*raw_fb_native_bpp/8 + raw_fb_offset;
+ 		} else if (xform24to32) {
+ 			size = w*h*24/8 + raw_fb_offset;
++		} else if (raw_fb_virt_x != 0 && raw_fb_virt_y != 0) {
++			size = w*h*b/8;
++			vsize = raw_fb_virt_x*raw_fb_virt_y*b/8;
++			rawfb_double_buffer = 1;
++			rfbLog("virtual size: %d", vsize);
+ 		} else {
+ 			size = w*h*b/8 + raw_fb_offset;
+ 		}
++
+ 		if (fstat(fd, &sbuf) == 0) {
+ 			if (S_ISREG(sbuf.st_mode)) {
+ 				if (0) size = sbuf.st_size;
+@@ -2205,8 +2223,11 @@
+ 
+ 		} else if (do_mmap) {
+ #if LIBVNCSERVER_HAVE_MMAP
+-			raw_fb_addr = mmap(0, size, PROT_READ, MAP_SHARED,
+-			    fd, 0);
++			if (vsize != 0) {
++				raw_fb_addr = mmap(0, vsize, PROT_READ, MAP_SHARED, fd, 0);
++			} else {
++				raw_fb_addr = mmap(0, size, PROT_READ, MAP_SHARED, fd, 0);
++			}
+ 
+ 			if (raw_fb_addr == MAP_FAILED || raw_fb_addr == NULL) {
+ 				rfbLogEnable(1);
+@@ -2223,8 +2244,13 @@
+ 				raw_fb_mmap = size;
+ 
+ 				rfbLog("rawfb: mmap file: %s\n", q);
+-				rfbLog("   w: %d h: %d b: %d addr: %p sz: %d\n", w, h,
+-				    b, raw_fb_addr, size);
++				if (vsize != 0) {
++					rfbLog("   w: %d h: %d b: %d addr: %p sz: %d\n", w, h,
++						b, raw_fb_addr, vsize);
++				} else {
++					rfbLog("   w: %d h: %d b: %d addr: %p sz: %d\n", w, h,
++						b, raw_fb_addr, size);
++				}
+ 				last_mode = RAWFB_MMAP;
+ 			}
+ #else
+@@ -4652,6 +4678,12 @@
+ 			/* Now, for scanning and drawing soft cursors (i.e. writing to the framebuffer),
+ 			   make sure we're not sending any updates to clients (i.e. reading the framebuffer).
+ 			   Otherwise we get flicker! */
++
++			/* Update offset in case local framebuffer is double buffered */
++			if (rawfb_double_buffer) {
++				raw_fb_offset = rawfb_get_offset(&raw_fb_fd);
++			}
++
+ 			if(use_threads){
+ 			  rfbClientPtr cl;
+ 			  rfbClientIteratorPtr iter = rfbGetClientIterator(screen);
+--- x11vnc-0.9.16/src/sslhelper.c
++++ x11vnc/src/sslhelper.c
+@@ -1596,7 +1596,11 @@
+ 	if (ssl_client_mode) {
+ 		return 1;
+ 	}
+-	if (!SSL_CTX_set_cipher_list(ctx, "ADH:@STRENGTH")) {
++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++	/* Security level must be set to 0 for unauthenticated suites. */
++	SSL_CTX_set_security_level(ctx, 0);
++#endif
++	if (!SSL_CTX_set_cipher_list(ctx, "ADH:@SECLEVEL=0")) {
+ 		return 0;
+ 	}
+ 	if (!add_anon_dh()) {
+--- x11vnc-0.9.16/src/ssltools.h
++++ x11vnc/src/ssltools.h
+@@ -103,7 +103,7 @@
+ "private_key	= $dir/private/cakey.pem # The private key\n"
+ "RANDFILE	= $dir/private/.rand	# private random number file\n"
+ "\n"
+-"x509_extensions	= usr_cert		# The extentions to add to the cert\n"
++"x509_extensions	= usr_cert		# The extensions to add to the cert\n"
+ "\n"
+ "name_opt 	= ca_default		# Subject Name options\n"
+ "cert_opt 	= ca_default		# Certificate field options\n"
+@@ -139,7 +139,7 @@
+ "default_keyfile 	= privkey.pem\n"
+ "distinguished_name	= req_distinguished_name\n"
+ "attributes		= req_attributes\n"
+-"x509_extensions	= v3_ca	# The extentions to add to the self signed cert\n"
++"x509_extensions	= v3_ca	# The extensions to add to the self signed cert\n"
+ "\n"
+ "string_mask = nombstr\n"
+ "\n"
+--- x11vnc-0.9.16/src/tkx11vnc.h
++++ x11vnc/src/tkx11vnc.h
+@@ -506,7 +506,7 @@
+ "display (VNC_CONNECT rootwin property) being polled by the x11vnc server.\n"
+ "To change or set the X display to use do \\\"Displays -> display\\\".\n"
+ "\n"
+-"Sometimes the \\\"-connect /path/to/filename\\\" is used as the communcation\n"
++"Sometimes the \\\"-connect /path/to/filename\\\" is used as the communication\n"
+ "channel.  The running x11vnc has to know that \\\"/path/to/filename\\\"\n"
+ "is the communication channel (i.e. it is using the same -connect option).\n"
+ "\"\n"
+@@ -1227,7 +1227,7 @@
+ "provides an interface to each of the many x11vnc command line options and\n"
+ "remote control commands.  See \\\"Help -> all\\\" for much info about x11vnc.\n"
+ "\n"
+-"For a simplier gui, run x11vnc in \\\"tray\\\" or \\\"icon\\\" mode such as\n"
++"For a simpler gui, run x11vnc in \\\"tray\\\" or \\\"icon\\\" mode such as\n"
+ "\\\"-gui tray\\\", \\\"-gui icon\\\", or \\\"-gui tray=setpass\\\".  In that\n"
+ "mode the full gui is only available under \\\"Advanced ...\\\".\n"
+ "\n"
+@@ -3366,7 +3366,7 @@
+ "proc menu_help {item} {\n"
+ "	if ![help_win $item] {\n"
+ "		textwin \"nohelp\" \"No help available\" \\\n"
+-"			\"Sorry, no help avaiable for \\\"$item\\\"\"\n"
++"			\"Sorry, no help available for \\\"$item\\\"\"\n"
+ "	}\n"
+ "}\n"
+ "\n"
+--- x11vnc-0.9.16/src/uinput.c
++++ x11vnc/src/uinput.c
+@@ -54,6 +54,11 @@
+ #include <linux/input.h>
+ #include <linux/uinput.h>
+ 
++#ifndef input_event_sec
++#define input_event_sec time.tv_sec
++#define input_event_usec time.tv_usec
++#endif
++
+ #if !defined(EV_SYN) || !defined(SYN_REPORT)
+ #undef UINPUT_OK
+ #endif
+@@ -710,6 +715,7 @@
+ static void ptr_move(int dx, int dy) {
+ #ifdef UINPUT_OK
+ 	struct input_event ev;
++	struct timeval tval;
+ 	int d = direct_rel_fd < 0 ? fd : direct_rel_fd;
+ 
+ 	if (injectable && strchr(injectable, 'M') == NULL) {
+@@ -720,7 +726,9 @@
+ 
+ 	if (db) fprintf(stderr, "ptr_move(%d, %d) fd=%d\n", dx, dy, d);
+ 
+-	gettimeofday(&ev.time, NULL);
++	gettimeofday(&tval, NULL);
++	ev.input_event_sec = tval.tv_sec;
++	ev.input_event_usec = tval.tv_usec;
+ 	ev.type = EV_REL;
+ 	ev.code = REL_Y;
+ 	ev.value = dy;
+@@ -755,6 +763,7 @@
+ static void ptr_abs(int x, int y, int p) {
+ #ifdef UINPUT_OK
+ 	struct input_event ev;
++	struct timeval tval;
+ 	int x0, y0;
+ 	int d = direct_abs_fd < 0 ? fd : direct_abs_fd;
+ 
+@@ -773,7 +782,9 @@
+ 
+ 	if (db) fprintf(stderr, "ptr_abs(%d, %d => %d %d, p=%d) fd=%d\n", x0, y0, x, y, p, d);
+ 
+-	gettimeofday(&ev.time, NULL);
++	gettimeofday(&tval, NULL);
++	ev.input_event_sec = tval.tv_sec;
++	ev.input_event_usec = tval.tv_usec;
+ 	ev.type = EV_ABS;
+ 	ev.code = ABS_Y;
+ 	ev.value = y;
+@@ -950,6 +961,7 @@
+ static void button_click(int down, int btn) {
+ #ifdef UINPUT_OK
+ 	struct input_event ev;
++	struct timeval tval;
+ 	int d = direct_btn_fd < 0 ? fd : direct_btn_fd;
+ 
+ 	if (injectable && strchr(injectable, 'B') == NULL) {
+@@ -959,7 +971,9 @@
+ 	if (db) fprintf(stderr, "button_click: btn %d %s fd=%d\n", btn, down ? "down" : "up", d);
+ 
+ 	memset(&ev, 0, sizeof(ev));
+-	gettimeofday(&ev.time, NULL);
++	gettimeofday(&tval, NULL);
++	ev.input_event_sec = tval.tv_sec;
++	ev.input_event_usec = tval.tv_usec;
+ 	ev.type = EV_KEY;
+ 	ev.value = down;
+ 
+@@ -1230,6 +1244,7 @@
+ void uinput_key_command(int down, int keysym, rfbClientPtr client) {
+ #ifdef UINPUT_OK
+ 	struct input_event ev;
++	struct timeval tval;
+ 	int scancode;
+ 	allowed_input_t input;
+ 	int d = direct_key_fd < 0 ? fd : direct_key_fd;
+@@ -1253,7 +1268,9 @@
+ 	if (db) fprintf(stderr, "uinput_key_command: %d -> %d %s fd=%d\n", keysym, scancode, down ? "down" : "up", d);
+ 
+ 	memset(&ev, 0, sizeof(ev));
+-	gettimeofday(&ev.time, NULL);
++	gettimeofday(&tval, NULL);
++	ev.input_event_sec = tval.tv_sec;
++	ev.input_event_usec = tval.tv_usec;
+ 	ev.type = EV_KEY;
+ 	ev.code = (unsigned char) scancode;
+ 	ev.value = down;
+--- x11vnc-0.9.16/src/unixpw.c
++++ x11vnc/src/unixpw.c
+@@ -757,7 +757,7 @@
+ }
+ 
+ int crypt_verify(char *user, char *pass) {
+-#ifndef UNIXPW_CRYPT
++#if !defined UNIXPW_CRYPT || !defined HAVE_LIBCRYPT
+ 	return 0;
+ #else
+ 	struct passwd *pwd;
+--- x11vnc-0.9.16/src/util.c
++++ x11vnc/src/util.c
+@@ -47,6 +47,9 @@
+ #ifdef LIBVNCSERVER_HAVE_LIBPTHREAD
+ MUTEX(x11Mutex);
+ MUTEX(scrollMutex);
++MUTEX(clientMutex);
++MUTEX(inputMutex);
++MUTEX(pointerMutex);
+ #endif
+ 
+ int nfix(int i, int n);
+--- x11vnc-0.9.16/src/util.h
++++ x11vnc/src/util.h
+@@ -102,9 +102,9 @@
+ #ifdef LIBVNCSERVER_HAVE_LIBPTHREAD
+ extern MUTEX(x11Mutex);
+ extern MUTEX(scrollMutex);
+-MUTEX(clientMutex);
+-MUTEX(inputMutex);
+-MUTEX(pointerMutex);
++extern MUTEX(clientMutex);
++extern MUTEX(inputMutex);
++extern MUTEX(pointerMutex);
+ #endif
+ 
+ #define X_INIT INIT_MUTEX(x11Mutex)
+--- x11vnc-0.9.16/src/v4l.c
++++ x11vnc/src/v4l.c
+@@ -1339,7 +1339,7 @@
+ 		}
+                 if (stat(s, &sbuf) != 0) {
+ 			rfbLogPerror("stat");
+-			rfbLog("You will need to specify the video device more explicity.\n");
++			rfbLog("You will need to specify the video device more explicitly.\n");
+ 		}
+ 
+ 		*dev = s;
+--- x11vnc-0.9.16/src/x11vnc.h
++++ x11vnc/src/x11vnc.h
+@@ -541,6 +541,8 @@
+ extern char *raw_fb;
+ extern char *raw_fb_addr;
+ extern int raw_fb_offset;
++extern int raw_fb_virt_x;
++extern int raw_fb_virt_y;
+ extern int raw_fb_shm;
+ extern int raw_fb_mmap;
+ extern int raw_fb_seek;
+--- x11vnc-0.9.16/src/x11vnc_defs.c
++++ x11vnc/src/x11vnc_defs.c
+@@ -105,6 +105,8 @@
+ char *raw_fb = NULL;		/* when used should be main_fb */
+ char *raw_fb_addr = NULL;
+ int raw_fb_offset = 0;
++int raw_fb_virt_x = 0;
++int raw_fb_virt_y = 0;
+ int raw_fb_shm = 0;
+ int raw_fb_mmap = 0;
+ int raw_fb_seek = 0;
