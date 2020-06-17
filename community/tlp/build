@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+# This is needed since tlp uses the non posix compliant -w flag of flock.
+patch -p1 < tlp-no-flock-wait.patch
+
+export DESTDIR="$1"
+export TLP_BIN=/usr/bin
+export TLP_SBIN=/usr/bin
+export TLP_ULIB=/usr/lib/udev
+export TLP_WITH_ELOGIND=0
+export TLP_WITH_SYSTEMD=0
+export TLP_NO_BASHCOMP=1
+export TLP_NO_INIT=1
+export TLP_NO_TPACPI=1
+
+make
+make install
+make install-man
