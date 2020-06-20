@@ -24,7 +24,7 @@ make
 make DESTDIR="$1" PREFIX=/usr install
 make clean
 
-# Build qemu-* binaries statically linked.
+# Build qemu Linux user binaries statically linked.
 ./configure \
     --prefix=/usr \
     --localstatedir=/var \
