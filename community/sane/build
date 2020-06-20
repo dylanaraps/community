@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --localstatedir=/var \
+    --sysconfdir=/etc \
+    --disable-rpath \
+    --disable-nls 
+	
+make
+make DESTDIR="$1" install
