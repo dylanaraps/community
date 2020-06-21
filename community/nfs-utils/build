@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --sbindir=/sbin \
+    --disable-nfsv4 \
+    --disable-gss
+
+make
+make DESTDIR="$1" install
+
