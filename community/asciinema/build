@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+python3 setup.py build
+
+python3 setup.py install --prefix=/usr --root="$1"
+install -Dm 644 man/asciinema.1 "$1/usr/share/man/man1/asciinema.1"
