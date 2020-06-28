@@ -4,8 +4,11 @@
     --prefix=/usr \
     --sysconfdir=/etc \
     --disable-nfsv4 \
-    --disable-gss
+    --disable-gss \
+    --sbindir=/usr/sbin
+
+sed -i "s|sbindir = /sbin|sbindir = /usr/sbin|" ./utils/mount/Makefile
 
 make
-make DESTDIR="$1" install
+make DESTDIR="$1" sbin="/usr/sbin" install
 
