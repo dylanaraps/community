@@ -1,4 +1,6 @@
 #!/bin/sh -e
 
+sed -i '6d;70,76d' Makefile
+
 make
 make DESTDIR="$1" install
