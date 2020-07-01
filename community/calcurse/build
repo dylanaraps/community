@@ -1,13 +1,13 @@
 #!/bin/sh -e
 
-sed -i test/Makefile.in -e '/ical-009.sh \\/d'
+sed -i '/ical-009.sh \\/d' test/Makefile.in
 
 ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
     --disable-docs \
     --without-asciidoc \
-    --prefix=/usr \
-    --mandir=/usr/share/man \
-    --sysconfdir=/etc \
     --disable-nls \
     --without-asciidoc 
 
