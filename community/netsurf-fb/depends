@@ -1,0 +1,12 @@
+bison make
+gperf make
+libpng
+libressl
+libwebp
+linux-headers make
+perl make
+#sdl
+xcb-util
+xcb-util-image
+xcb-util-keysyms
+xcb-util-wm
