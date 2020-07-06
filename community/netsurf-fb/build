@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fcommon"
+export PERL5LIB="$PWD/usr/lib/perl5/vendor_perl/5.32.0/x86_64-linux-thread-multi"
+
+for p in html-parser html-tagset; do (
+    cd "$p"
+
+    perl Makefile.PL INSTALLDIRS=vendor
+
+    make
+    make DESTDIR="$PWD/.." install
+) done
+
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    TARGET=framebuffer
+
+mkdir -p                    "$1/usr/share/netsurf-fb"
+cp -r netsurf/resources/*   "$1/usr/share/netsurf-fb"
+install -Dm755 netsurf/nsfb "$1/usr/bin/netsurf-fb"
