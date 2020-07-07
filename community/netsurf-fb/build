@@ -3,6 +3,10 @@
 export CFLAGS="$CFLAGS -fcommon"
 export PERL5LIB="$PWD/usr/lib/perl5/vendor_perl/5.32.0/x86_64-linux-thread-multi"
 
+# Give the Makefile busybox compatible arguments.
+sed -i "s|$(Q)$(INSTALL) -T|$(Q)$(INSTALL) -Dm755|g" \
+    netsurf/frontends/framebuffer/Makefile
+
 for p in html-parser html-tagset; do (
     cd "$p"
 
@@ -16,8 +20,16 @@ make \
     LIBDIR=lib \
     INCLUDEDIR=include \
     PREFIX=/usr \
-    TARGET=framebuffer
+    TARGET=framebuffer \
+    NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
+    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/
 
-mkdir -p                    "$1/usr/share/netsurf-fb"
-cp -r netsurf/resources/*   "$1/usr/share/netsurf-fb"
-install -Dm755 netsurf/nsfb "$1/usr/bin/netsurf-fb"
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    TARGET=framebuffer \
+    DESTDIR="$1" \
+    NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
+    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/ \
+    install
