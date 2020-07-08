@@ -2,7 +2,6 @@ bison make
 flex  make
 freetype-harfbuzz
 gperf make
-icu
 libICE
 libSM
 libX11
@@ -23,6 +22,6 @@ sqlite
 xcb-util
 xcb-util-image
 xcb-util-keysyms
-xcb-util-wm
 xcb-util-renderutil
+xcb-util-wm
 zlib
