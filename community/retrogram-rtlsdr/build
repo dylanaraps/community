@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make
+
+install -Dm755 retrogram-rtlsdr "$1/usr/bin/retrogram-rtlsdr"
