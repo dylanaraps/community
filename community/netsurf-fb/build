@@ -2,6 +2,7 @@
 
 export CFLAGS="$CFLAGS -fcommon"
 export PERL5LIB="$PWD/usr/lib/perl5/vendor_perl/5.32.0/x86_64-linux-thread-multi"
+export PATH="$PATH:$PWD/xxd"
 
 # Give the Makefile busybox compatible arguments.
 sed -i "s|$(Q)$(INSTALL) -T|$(Q)$(INSTALL) -Dm755|g" \
@@ -15,6 +16,9 @@ for p in html-parser html-tagset; do (
     make
     make DESTDIR="$PWD/.." install
 ) done
+
+# Build standalone xxd to remove VIM rquirement
+cc xxd/xxd.c -o xxd/xxd
 
 make \
     LIBDIR=lib \
