@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-patch -p2 < class-fix.patch
+sed -i 's/: MembersHolder/: public MembersHolder' \
+    boost/geometry/index/detail/rtree/visitors/insert.hpp
 
 ./bootstrap.sh --prefix="$1/usr"
 ./b2 stage threading=multi
