@@ -1,0 +1,7 @@
+fontconfig
+libjpeg-turbo
+libpng
+libX11
+libXext
+libXi
+zlib
