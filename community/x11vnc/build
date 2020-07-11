@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+patch -p1 < bugfixes.patch
+patch -p1 < libressl.patch
+
+./autogen.sh
+
+./configure \
+	--prefix=/usr
+
+make
+make DESTDIR="$1" install

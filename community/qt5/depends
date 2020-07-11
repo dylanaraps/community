@@ -22,6 +22,6 @@ sqlite
 xcb-util
 xcb-util-image
 xcb-util-keysyms
-xcb-util-wm
 xcb-util-renderutil
+xcb-util-wm
 zlib

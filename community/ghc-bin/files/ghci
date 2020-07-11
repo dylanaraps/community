@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DIR="$(dirname "$0")"
+executable="$DIR/ghc"
+exec "$executable" --interactive "$@"

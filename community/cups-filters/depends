@@ -2,6 +2,6 @@ cups
 freetype-harfbuzz
 ghostscript
 glib
-lcms2 make
+lcms make
 poppler
 qpdf

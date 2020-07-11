@@ -1,0 +1,74 @@
+|/
+|\ISS                                                           https://k1ss.org
+________________________________________________________________________________
+
+
+Community Repository
+________________________________________________________________________________
+
+The community repository for KISS Linux.
+
+
+Documentation
+________________________________________________________________________________
+
+- https://k1ss.org/package-system
+- https://k1ss.org/package-manager
+- https://k1ss.org/style
+- https://k1ss.org/software
+
+
+Maintenance
+________________________________________________________________________________
+
+KISS follows a maintainer model when it comes to package ownership. Only the
+maintainer of a package has the ability to push changes to said package. Any
+issues must be reported to the maintainer directly.
+
+The maintainer's details can be found via 'git log' or the 'kiss maintainer'
+command. If the maintainer cannot be reached via email, open an issue in this
+repository on GitHub.
+
+If the maintainer does not respond within a reasonable amount of time, the
+package will be orphaned and ownership will be given to someone else.
+
+
+Submitting Pull Requests
+________________________________________________________________________________
+
+Pull requests should contain only a single package. This makes the review
+process easier and allows for individual packages to be merged without waiting
+on reviews for others.
+
+Please fill out the pull request template as well.
+
+
+Commit Style
+________________________________________________________________________________
+
+Contributions to this repository should adhere to the following commit style.
+
++------------------------------------------------------------------------------+
+| Adding a new package                                                         |
++------------------------------------------------------------------------------+
+|                                                                              |
+|   $ git commit -m "pkg_name: new package at pkg_version"                     |
+|                                                                              |
++------------------------------------------------------------------------------+
+| Updating an existing package                                                 |
++------------------------------------------------------------------------------+
+|                                                                              |
+|   $ git commit -m "pkg_name: bumped to pkg_version"                          |
+|                                                                              |
++------------------------------------------------------------------------------+
+| Miscellaneous changes                                                        |
++------------------------------------------------------------------------------+
+|                                                                              |
+|   $ git commit -m "pkg_name: other changes"                                  |
+|   $ git commit -m "pkg_name: added missing dep_name dependency"              |
+|   $ git commit -m "pkg_name: fixed incorrect bin dir"                        |
+|   $ git commit -m "pkg_name: fixed build failure ..."                        |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+

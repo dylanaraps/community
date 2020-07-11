@@ -1,0 +1,39 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fcommon"
+export PERL5LIB="$PWD/usr/lib/perl5/vendor_perl/5.32.0/x86_64-linux-thread-multi"
+export PATH="$PATH:$PWD/xxd"
+
+# Give the Makefile busybox compatible arguments.
+sed -i "s|$(Q)$(INSTALL) -T|$(Q)$(INSTALL) -Dm755|g" \
+    netsurf/frontends/framebuffer/Makefile
+
+for p in html-parser html-tagset; do (
+    cd "$p"
+
+    perl Makefile.PL INSTALLDIRS=vendor
+
+    make
+    make DESTDIR="$PWD/.." install
+) done
+
+# Build standalone xxd to remove VIM rquirement
+cc xxd/xxd.c -o xxd/xxd
+
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    TARGET=framebuffer \
+    NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
+    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/
+
+make \
+    LIBDIR=lib \
+    INCLUDEDIR=include \
+    PREFIX=/usr \
+    TARGET=framebuffer \
+    DESTDIR="$1" \
+    NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
+    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/ \
+    install

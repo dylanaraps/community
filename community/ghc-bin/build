@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr"
+
+cp -r bin     "$1/usr"
+cp -r include "$1/usr"
+cp -r lib     "$1/usr"
+
+# These are provided by libffi.
+rm -f "$1/usr/lib/libffi.so" \
+      "$1/usr/include/ffitarget.h" \
+      "$1/usr/include/ffi.h"
+
+install -Dm755 ghci    "$1/usr/bin"
