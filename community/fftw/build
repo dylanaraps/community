@@ -3,8 +3,7 @@
 ./configure \
     --prefix=/usr \
     --enable-shared \
-    --enable-threads \
-    --enable-float
+    --enable-threads
 
 make
 make DESTDIR="$1" install
