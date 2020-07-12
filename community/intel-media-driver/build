@@ -9,9 +9,9 @@ cd media
 cmake -B build \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_INSTALL_LIBDIR=/usr/lib \
-        -DBS_DIR_GMMLIB="$OLDPWD/gmmlib/Source/GmmLib" \
+    -DBS_DIR_GMMLIB="$OLDPWD/gmmlib/Source/GmmLib" \
 	-DINSTALL_DRIVER_SYSCONF=OFF \
-        -DRUN_TEST_SUITE=OFF 
+    -DRUN_TEST_SUITE=OFF
 
 cmake --build   build
 cmake --install build
