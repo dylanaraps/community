@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+make 
+
+./bin/gh completion -s bash > bash
+./bin/gh completion -s zsh > zsh
+
+install -Dm755 "bin/gh" "$1/usr/bin/gh"
+install -Dm644 "bash" "$1/usr/share/bash-completion/completions/gh"
+install -Dm644 "zsh" "$1/usr/share/zsh/site-functions/_gh"
+install -Dm644 "LICENSE" "$1/usr/share/licenses/github-cli"
+
