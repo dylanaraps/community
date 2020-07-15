@@ -2,8 +2,8 @@
 
 make 
 
-./bin/gh completion -s bash > bash
-./bin/gh completion -s zsh > zsh
+./bin/gh completion -s bash > ./bash
+./bin/gh completion -s zsh > ./zsh
 
 install -Dm755 "bin/gh" "$1/usr/bin/gh"
 install -Dm644 "bash" "$1/usr/share/bash-completion/completions/gh"
