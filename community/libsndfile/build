@@ -2,7 +2,7 @@
 
 ./configure \
     --prefix=/usr \
-	--disable-static
+    --disable-static
 
 make
 make DESTDIR="$1" install
