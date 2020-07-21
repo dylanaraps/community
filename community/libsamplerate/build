@@ -2,7 +2,8 @@
 
 ./configure \
     --prefix=/usr \
-    --bindir=/usr/bin
+    --bindir=/usr/bin \
+    --disable-static
 
 make
 make DESTDIR="$1" install
