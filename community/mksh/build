@@ -12,10 +12,11 @@ mkdir -p lksh "$1/usr/bin" "$1/usr/share/man/man1/"
 sh Build.sh -Q -r $parallel
 
 # Build 'lksh' shell.
+(
 cd lksh
 export CPPFLAGS="$CPPFLAGS -DMKSH_BINSHPOSIX -DMKSH_BINSHREDUCED"
 sh ../Build.sh -L -Q -r $parallel
-cd ..
+)
 
 ln      -s     lksh          "$1/usr/bin/sh"
 install -Dm555 mksh          "$1/usr/bin/mksh"
