@@ -13,6 +13,3 @@ sed 's|/\* \(#define\tHASSECURITY\t1\) \*/|\1|' -i dialects/linux/machine.h
 make
 install -Dm755 lsof   "$1/usr/bin/lsof"
 install -Dm644 Lsof.8 "$1/usr/share/man/man1/lsof.8"
-
-sed -n 00README -e '/^License/,/\*\/$/p' > License
-install -Dm644 License "$1/usr/share/licenses/lsof/License"
