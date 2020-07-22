@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+sed -e '/^\/usr\/bin\/mksh$/d' -i /etc/shells

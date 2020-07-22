@@ -1,5 +1,23 @@
 #!/bin/sh -e
 
-CFLAGS="$CFLAGS -static" sh Build.sh
+export  CFLAGS="$CFLAGS  -static"
+export LDFLAGS="$LDFLAGS -static"
 
-install -Dm755 "mksh" "$1/usr/bin/mksh"
+mkdir -p lksh "$1/usr/bin" "$1/usr/share/man/man1/"
+
+# Enable parallel mode if the processor is multi-core.
+[ "$(nproc)" -gt 1 ] && parallel=-j
+
+# Build 'mksh' shell.
+sh Build.sh -Q -r $parallel
+
+# Build 'lksh' shell.
+cd lksh
+export CPPFLAGS="$CPPFLAGS -DMKSH_BINSHPOSIX -DMKSH_BINSHREDUCED"
+sh ../Build.sh -L -Q -r $parallel
+cd ..
+
+ln      -s     lksh          "$1/usr/bin/sh"
+install -Dm555 mksh          "$1/usr/bin/mksh"
+install -Dm555 lksh/lksh     "$1/usr/bin/lksh"
+install -Dm444 lksh.1 mksh.1 "$1/usr/share/man/man1/"

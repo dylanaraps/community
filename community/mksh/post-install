@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+shell=/usr/bin/mksh
+grep -qx "$shell" /etc/shells || {
+	echo "Adding '$shell' to '/etc/shells'."
+	echo "$shell" >>/etc/shells
+}
