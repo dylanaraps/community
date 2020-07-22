@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+make
+make DESTDIR="$1" install
+
+install -Dm755 usr/lib/hummingbird/* "$1/usr/lib/hummingbird"
+install -Dm755 dist/kiss/* "$1/usr/lib/hummingbird"
+ln -s hummingbird "$1/usr/bin/init"
