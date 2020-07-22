@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+python configure.py \
+    --confirm-license
+
+# Install single threaded to avoid racecondition.
+make
+make -j1 INSTALL_ROOT="$1" install
