@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < posix-build.patch
+
 # Disable stripping of binaries.
 # This breaks Go.
 :> nostrip
@@ -15,7 +17,7 @@ export GO_LDFLAGS="-w -s"
     mkdir -p lib/go-bootstrap
 
     cd "$GOROOT/src"
-    bash ./make.bash
+    ./make.bash
     cd ..
     cp -a bin pkg src ../lib/go-bootstrap
     cd ..
@@ -33,7 +35,7 @@ export GOROOT=$PWD/go-current
 
 (
     cd "$GOROOT/src"
-    bash make.bash --no-clean -v
+    ./make.bash --no-clean -v
 )
 
 cd "$GOROOT"
