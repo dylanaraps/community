@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-mkdir   -p             "$1/usr/include"
-cp      -r     glm/glm "$1/usr/include"
-install -Dm644 glm.pc  "$1/usr/share/pkgconfig/glm.pc"
