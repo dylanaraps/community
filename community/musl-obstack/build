@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+# We don't need to expand expression in quotes.
+# shellcheck disable=2016
+sed -i '/pkgconfig_DATA/i pkgconfigdir=$(libdir)/pkgconfig' Makefile.am
+
+export CFLAGS="$CFLAGS -fPIC"
+
+./bootstrap.sh
+
+# This package required only by `elfutils`, and only the headers required,
+# so compiling shared objects are disabled.
+./configure --disable-shared --prefix=/usr
+
+make
+make DESTDIR="$1" install
