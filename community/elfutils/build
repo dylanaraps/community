@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -Wno-error -Wno-error=null-dereference"
+
+for patch in ./*.patch; do
+    patch -p0 < "$patch"
+done
+
+cp error.h lib/
+cp error.h src/
+
+autoreconf -fi
+./configure \
+    --prefix=/usr \
+    --program-prefix=eu- \
+    --disable-debuginfod
+
+make
+make DESTDIR="$1" install

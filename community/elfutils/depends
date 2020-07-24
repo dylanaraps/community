@@ -1,0 +1,6 @@
+argp-standalone make
+bzip2
+musl-fts
+musl-obstack make
+xz
+zlib

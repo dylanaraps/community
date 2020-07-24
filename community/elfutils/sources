@@ -1,0 +1,11 @@
+https://sourceware.org/elfutils/ftp/0.180/elfutils-0.180.tar.bz2
+patches/fix-aarch64_fregs.patch
+patches/fix-uninitialized.patch
+patches/musl-asm_ptrace_h.patch
+patches/musl-cdefs.patch
+patches/musl-fts-obstack.patch
+patches/musl-macros.patch
+patches/musl-qsort_r.patch
+patches/musl-strerror_r.patch
+patches/musl-strndupa.patch
+files/error.h
