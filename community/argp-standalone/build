@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fPIC"
+
+patch -p0 < fix-no_use_inline.patch
+
+./configure
+make
+
+install -Dm644 libargp.a "$1/usr/lib/libargp.a"
+install -Dm644 argp.h    "$1/usr/include/argp.h"
