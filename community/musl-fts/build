@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+sed -i '/pkgconfig_DATA/i pkgconfigdir=$(libdir)/pkgconfig' Makefile.am
+
+./bootstrap.sh
+./configure --prefix=/usr
+
+make
+make DESTDIR="$1" install
+install -Dm644 fts.3 "$1/usr/share/man/man3/musl-fts.3"
