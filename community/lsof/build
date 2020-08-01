@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export LSOF_CC="$CC"
+export LSOF_CFGF="$CFLAGS"
+export LSOF_CFGL="$LDFLAGS"
+
+# Uncomment 'HASSECURITY' to non-root user may list only files whose processes
+# have the same user ID as the real user ID of the 'lsof' process.
+sed 's|/\* \(#define\tHASSECURITY\t1\) \*/|\1|' -i dialects/linux/machine.h
+
+./Configure -n linux
+
+make
+install -Dm755 lsof   "$1/usr/bin/lsof"
+install -Dm644 Lsof.8 "$1/usr/share/man/man1/lsof.8"
