@@ -9,7 +9,7 @@ Read: https://k1ss.org/wiki/kiss/style-guide
 
 ## Installed manifest of package
 
-(`cat /var/db/kiss/installed/<pkg_name>/manifest`)
+(`kiss manifest <pkg>`)
 
 ```
 MANIFEST HERE
