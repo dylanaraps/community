@@ -1,6 +1,4 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -fcommon"
-
 make PREFIX=/usr
 make DESTDIR="$1" PREFIX=/usr install
