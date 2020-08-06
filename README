@@ -58,6 +58,7 @@ Contributions to this repository should adhere to the following commit style.
 | Updating an existing package                                                 |
 +------------------------------------------------------------------------------+
 |                                                                              |
+|   $ git commit -m "pkg_name: pkg_version"                                    |
 |   $ git commit -m "pkg_name: bumped to pkg_version"                          |
 |                                                                              |
 +------------------------------------------------------------------------------+
