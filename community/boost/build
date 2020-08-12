@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+sed -i 's/: MembersHolder/: public MembersHolder/' \
+    boost/geometry/index/detail/rtree/visitors/insert.hpp
+
 ./bootstrap.sh --prefix="$1/usr"
 ./b2 stage threading=multi
 ./b2 install threading=multi

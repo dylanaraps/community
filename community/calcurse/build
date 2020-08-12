@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+sed -i '/ical-009.sh \\/d' test/Makefile.in
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --disable-docs \
+    --without-asciidoc \
+    --disable-nls \
+    --without-asciidoc 
+
+make
+make DESTDIR="$1" install

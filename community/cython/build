@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-python setup.py build
-python setup.py install \
-    --root="$1" \
-    --skip-build
