@@ -18,6 +18,8 @@ export MKDIR_P="install -d"
 # Bashism banished.
 export CONFIG_SHELL=/bin/sh
 
+pkg-config --exists libudev || udev=disable
+
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
@@ -28,14 +30,13 @@ export CONFIG_SHELL=/bin/sh
     --enable-fsadm \
     --enable-dmeventd \
     --enable-cmdlib \
-    --enable-udev_sync \
-    --enable-udev_rules \
-    --enable-symvers=no \
     --disable-symvers \
     --with-default-dm-run-dir=/run \
     --with-default-locking-dir=/run/lock/lvm \
     --with-default-pid-dir=/run \
-    --with-default-run-dir=/run/lvm
+    --with-default-run-dir=/run/lvm \
+    --"${udev:=enable}"-udev_sync \
+    --"$udev"-udev_rules
 
 make DESTDIR="$1" install
 

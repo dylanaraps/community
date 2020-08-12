@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-make
+make LDFLAGS="$LDFLAGS -static" LIBS=-lncursesw
 
 install -Dm755 -t "$1/usr/bin" em
 install -Dm644 -t "$1/usr/share/uemacs" emacs.hlp emacs.rc
