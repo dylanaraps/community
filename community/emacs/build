@@ -10,7 +10,8 @@
     --without-gconf \
     --without-gsettings \
     --with-xpm=no \
-    --with-gnutls=yes
+    --with-gnutls=yes \
+    --with-json=yes
 
 mkdir -p "$1/usr/share/emacs/site-lisp"
 cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
