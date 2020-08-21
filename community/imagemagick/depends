@@ -1,5 +1,5 @@
 fontconfig
-libpng
 libXext
-libwebp
 libjpeg-turbo
+libpng
+libwebp
