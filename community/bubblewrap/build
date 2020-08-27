@@ -4,9 +4,9 @@ patch -p1 < realpath-workaround.patch
 
 ./configure \
     --prefix=/usr \
-    --mandir=/usr/share/man \
     --localstatedir=/var \
-    --with-priv-mode=none
+    --with-priv-mode=none \
+    --disable-man
 
 make
 make DESTDIR="$1" install
