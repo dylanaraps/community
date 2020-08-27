@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+export PREFIX="$1/usr"
+# Makefile doesn't create prefix
+mkdir -p $PREFIX
+make install
