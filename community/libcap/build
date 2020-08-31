@@ -1,15 +1,12 @@
 #!/bin/sh -e
 
-mk() {
-    make \
-        GOLANG=no \
-        PREFIX=/usr \
-        SBINDIR=/usr/bin \
-        LIBDIR=/usr/lib \
-        PKGCONFIGDIR=/usr/lib/pkgconfig \
-        RAISE_SETFCAP=no \
-        "$@"
-}
+make \
+    prefix=/usr \
+    sbindir=/usr/bin \
+    lib=/usr/lib \
+    pkgconfdir=/usr/lib/pkgconfig \
+    RAISE_SETFCAP=no \
+    DESTDIR="$1" 
 
-mk
-mk DESTDIR="$1" install
+make INDENT=true
+make DESTDIR="$1" install
