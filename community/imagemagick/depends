@@ -3,3 +3,4 @@ libXext
 libjpeg-turbo
 libpng
 libwebp
+pkgconf make
