@@ -2,18 +2,6 @@
 
 export DESTDIR="$1"
 
-(
-    cd glm
-
-    cmake -B build \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DSLOP_OPENGL=False
-
-    cmake --build build
-)
-
 cmake -B build \
     -DGLM_INCLUDE_DIR="$PWD/glm" \
     -DCMAKE_INSTALL_PREFIX=/usr \

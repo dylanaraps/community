@@ -1,6 +1,6 @@
 fontconfig
-libpng
 libXext
-libxml2
-libwebp
 libjpeg-turbo
+libpng
+libwebp
+pkgconf make

@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DWITH_READLINE=False \
+    -DENABLE_NLS=False
+
+cmake --build   build
+cmake --install build
+
+# Remove man page translations.
+rm -rf "$1/usr/share/man/uk"
