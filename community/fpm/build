@@ -1,0 +1,2 @@
+#!/bin/sh -e
+install -Dm 755 fpm "$1/usr/bin/fpm"
