@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+# Spotifyd won't compile with libressl versions past 3.0.2 :/
+(
+	cd libressl
+
+	./configure
+	make check
+	DESTDIR=$PWD/../libressl302 make install
+}
+
+OPENSSL_INCLUDE_DIR=$PWD/libressl302/usr/local/include \
+OPENSSL_LIB_DIR=$PWD/libressl302/usr/local/lib \
+cargo build \
+    --release \
+    --no-default-features \
+    --features alsa_backend
+
+install -Dm755 target/release/spotifyd "$1/usr/bin/spotifyd"
