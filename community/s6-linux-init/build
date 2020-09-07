@@ -8,7 +8,7 @@
 make
 make DESTDIR="$1" install
 
-# create symbolic links so they can be used by kiss alternatives
+# Create symbolic links so they can be used by kiss alternatives.
 for file in halt poweroff reboot init shutdown telinit; do
-    ln -s /etc/s6/current/bin/$file "$1"/usr/bin
+    ln -s "/etc/s6/current/bin/$file" "$1/usr/bin"
 done
