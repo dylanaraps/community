@@ -1,0 +1,4 @@
+#!/bin/sh -e
+./configure --prefix=/usr --datadir=/etc --libexecdir=/usr/lib --enable-shared
+make
+make DESTDIR="$1" install
