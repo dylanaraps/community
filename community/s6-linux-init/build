@@ -1,5 +1,10 @@
 #!/bin/sh -e
-./configure --exec-prefix=/usr --libexecdir=/usr/lib --skeldir=/etc/s6/skel
+
+./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    --skeldir=/etc/s6/skel
+
 make
 make DESTDIR="$1" install
 
