@@ -1,0 +1,4 @@
+#!/bin/sh -e
+./configure --prefix=/usr --enable-shared
+make
+make DESTDIR="$1" install
