@@ -1,0 +1,14 @@
+#!/bin/sh -e
+if [ ! -e /etc/s6/current ]; then
+    s6-linux-init-maker -1 -f /etc/s6/skel -G "/usr/bin/agetty -L -8 tty1 115200" -c /etc/s6/current /etc/s6/current
+fi
+
+cat << EOF
+==== s6-linux-init ====
+add your service manager in:
+
+/etc/s6/current/scripts/rc.init
+/etc/s6/current/scripts/runlevel
+
+to have them started at boot
+EOF
