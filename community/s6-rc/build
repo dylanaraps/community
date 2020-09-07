@@ -1,4 +1,8 @@
 #!/bin/sh -e
-./configure --prefix=/usr --datadir=/etc --libexecdir=/usr/lib
+
+./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib
+
 make
 make DESTDIR="$1" install
