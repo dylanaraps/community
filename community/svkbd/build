@@ -2,12 +2,5 @@
 
 for layout in arrows de en mobile-intl mobile-plain ru sh; do
     make LAYOUT="$layout"
+    install -Dm755 "svkbd-$layout" -t "$1/usr/bin"
 done
-
-install -Dm755 svkbd-arrows       -t "$1/usr/bin"
-install -Dm755 svkbd-de           -t "$1/usr/bin"
-install -Dm755 svkbd-en           -t "$1/usr/bin"
-install -Dm755 svkbd-mobile-intl  -t "$1/usr/bin"
-install -Dm755 svkbd-mobile-plain -t "$1/usr/bin"
-install -Dm755 svkbd-ru           -t "$1/usr/bin"
-install -Dm755 svkbd-sh           -t "$1/usr/bin"
