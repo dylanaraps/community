@@ -6,11 +6,11 @@
 
 	./configure
 	make check
-	DESTDIR=$PWD/../libressl302 make install
-}
+	make DESTDIR="$PWD/../libressl302" install
+)
 
-OPENSSL_INCLUDE_DIR=$PWD/libressl302/usr/local/include \
-OPENSSL_LIB_DIR=$PWD/libressl302/usr/local/lib \
+OPENSSL_INCLUDE_DIR="$PWD/libressl302/usr/local/include" \
+OPENSSL_LIB_DIR="$PWD/libressl302/usr/local/lib" \
 cargo build \
     --release \
     --no-default-features \
