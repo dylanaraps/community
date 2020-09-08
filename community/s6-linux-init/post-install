@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ ! -e /etc/s6-linux-init/current ]; then
+    s6-linux-init-maker /etc/s6-linux-init/current
+fi
+
+echo 's6-linux-init: Remember to add your service manager in /etc/s6-linux-init/current/scripts/*'
