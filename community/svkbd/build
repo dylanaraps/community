@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+for layout in arrows de en mobile-intl mobile-plain ru sh; do
+    make LAYOUT="$layout"
+    install -Dm755 "svkbd-$layout" -t "$1/usr/bin"
+done
