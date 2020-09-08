@@ -1,0 +1,3 @@
+https://github.com/Spotifyd/spotifyd/archive/v0.2.24.tar.gz
+https://static.crates.io/crates/openssl-sys/openssl-sys-0.9.53.crate vendor
+patches/libressl.patch
