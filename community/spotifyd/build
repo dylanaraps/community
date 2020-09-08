@@ -1,16 +1,19 @@
 #!/bin/sh -e
 
-# Spotifyd won't compile with libressl versions past 3.0.2 :/
-(
-	cd libressl
+crate_ver=0.9.53
 
-	./configure
-	make check
-	make DESTDIR="$PWD/../libressl302" install
+(
+    cd vendor
+    tar xf openssl-sys-*.crate
 )
 
-OPENSSL_INCLUDE_DIR="$PWD/libressl302/usr/local/include" \
-OPENSSL_LIB_DIR="$PWD/libressl302/usr/local/lib" \
+patch -p1 < libressl.patch
+
+cat <<EOF >> Cargo.toml
+[patch.crates-io]
+openssl-sys = { path = "vendor/openssl-sys-$crate_ver" }
+EOF
+
 cargo build \
     --release \
     --no-default-features \
