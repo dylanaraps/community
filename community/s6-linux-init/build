@@ -2,7 +2,8 @@
 
 ./configure \
     --prefix=/usr \
-    --libexecdir=/usr/lib
+    --libexecdir=/usr/lib \
+    --skeldir=/etc/s6-linux-init/skel
 
 make
 make DESTDIR="$1" install
