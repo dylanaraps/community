@@ -1,0 +1,4 @@
+#!/bin/sh
+export LIBSEAT_BACKEND=seatd
+
+exec seatd -g video
