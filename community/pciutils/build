@@ -12,4 +12,6 @@ mk() {
 }
 
 mk
-mk DESTDIR="$1" install install-lib
+mk SHARED=yes
+mk DESTDIR="$1" install    install-lib
+mk DESTDIR="$1" SHARED=yes install-lib
