@@ -10,3 +10,6 @@ cmake -B build \
     
 cmake --build   build
 cmake --install build
+
+rm -rf "$1/usr/lib64"
+rm -rf "$1/usr/include"
