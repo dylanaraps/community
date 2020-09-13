@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DENABLE_ANALYTICS=OFF \
+    -DENABLE_QT=OFF
+    
+cmake --build   build
+cmake --install build
+
+rm -rf "$1/usr/lib64"
+rm -rf "$1/usr/include"
