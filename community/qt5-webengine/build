@@ -10,9 +10,6 @@ sed -i '/os.unlink(outputHTmp)/d' \
 
 # Remove dbus dependency.
 {
-    sed -i 's/dbus//g' \
-        src/buildtools/config/support.pri
-
     sed -i 's/use_dbus.*/use_dbus=false/' \
         src/3rdparty/chromium/build/config/features.gni
 }
