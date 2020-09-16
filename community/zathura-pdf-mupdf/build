@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < mupdf-1.17.patch
-
 export DESTDIR="$1"
 
 meson \
