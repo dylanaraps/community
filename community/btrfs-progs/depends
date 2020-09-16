@@ -1,5 +1,6 @@
 e2fsprogs
 lzo
+pkgconf make
 python
 util-linux
 zlib
