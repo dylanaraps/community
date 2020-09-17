@@ -1,5 +1,5 @@
 #!/bin/sh -e
 
 ./configure \
-	--prefix=/usr
+    --prefix=/usr
 make DESTDIR="$1" install
