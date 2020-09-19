@@ -11,7 +11,8 @@ mk() {
         "$@"
 }
 
-mk
 mk SHARED=yes
-mk DESTDIR="$1" install    install-lib
-mk DESTDIR="$1" SHARED=yes install-lib
+mk SHARED=yes DESTDIR="$1" install
+
+mk -B
+install -Dm644 lib/libpci.a "$1/usr/lib/libpci.a"
