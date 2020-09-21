@@ -1,0 +1,10 @@
+libX11
+libXau
+libXext
+libXi
+libevdev
+libinput
+libxcb
+linux-headers make
+pkgconf       make
+xorg-server
