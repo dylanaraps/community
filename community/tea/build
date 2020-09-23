@@ -3,4 +3,3 @@
 make build
 
 install -Dm755 tea "$1/usr/bin/tea"
-install -Dm644 bash_autocomplete "$1/usr/share/bash-completion/completions/tea"
