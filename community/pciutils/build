@@ -11,8 +11,10 @@ mk() {
         "$@"
 }
 
-mk SHARED=yes
-mk SHARED=yes DESTDIR="$1" install
 
-mk -B
-install -Dm644 lib/libpci.a "$1/usr/lib/libpci.a"
+for shared in yes no; do (
+    cd "$shared"
+
+    mk SHARED="$shared"
+    mk SHARED="$shared" DESTDIR="$1" install install-pcilib
+) done
