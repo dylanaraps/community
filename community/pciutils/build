@@ -11,18 +11,10 @@ mk() {
         "$@"
 }
 
-mk SHARED=yes
-mk SHARED=yes DESTDIR="$1" install
 
-# The Makefile of pciutils is really bad and inconsistent. You cannot install
-# both static and dynamic libraries at the same time. If you try to do that, it
-# will symlink the dynamic library to the static library. Even though I haven't
-# personally had this issue, @aosync reported that their library was linked to
-# the static one even with 'SHARED=yes' install. That's why we are taking this
-# to our hands to handle the library hassle.
-# See: #1280, #1282, #1283, #1288 on kisslinux/community
-mk -B
-install -Dm644 lib/libpci.a "$1/usr/lib/libpci.a"
+for shared in yes no; do (
+    cd "$shared"
 
-libver=$(grep ABI_VERSION= Makefile) libver=${libver##*.}
-ln -sf "libpci.so.$2" "$1/usr/lib/libpci.so.$libver"
+    mk SHARED="$shared"
+    mk SHARED="$shared" DESTDIR="$1" install install-pcilib
+) done
