@@ -3,4 +3,4 @@
 patch -p1 < channel.patch
 
 make 
-make DESTDIR="$1" install
+make PREFIX=/usr DESTDIR="$1" install
