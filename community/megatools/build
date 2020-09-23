@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-docs
+
+make
+
+./install-sh -c -d "$1/usr/bin"
+./install-sh -c -d "$1/usr/share/doc/megatools"
+./install-sh -c -d "$1/usr/share/man/man1"
+./install-sh -c -d "$1/usr/share/man/man5"
+./install-sh -c -d "$1/usr/share/man/man7"
+./install-sh -c -m 755 megacopy "$1/usr/bin"
+./install-sh -c -m 755 megadf "$1/usr/bin"
+./install-sh -c -m 755 megadl "$1/usr/bin"
+./install-sh -c -m 755 megaget "$1/usr/bin"
+./install-sh -c -m 755 megals "$1/usr/bin"
+./install-sh -c -m 755 megamkdir "$1/usr/bin"
+./install-sh -c -m 755 megaput "$1/usr/bin"
+./install-sh -c -m 755 megareg "$1/usr/bin"
+./install-sh -c -m 755 megarm "$1/usr/bin"
+./install-sh -c -m 644 docs/megadf.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megaget.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megals.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megamkdir.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megaput.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megareg.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megarm.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megacopy.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megadl.1 "$1/usr/share/man/man1"
+./install-sh -c -m 644 docs/megarc.5 "$1/usr/share/man/man5"
+./install-sh -c -m 644 docs/megatools.7 "$1/usr/share/man/man7"
