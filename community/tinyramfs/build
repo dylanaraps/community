@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+make PREFIX=/usr DESTDIR="$1" install
