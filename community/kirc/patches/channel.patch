@@ -1,13 +1,13 @@
 diff --git a/kirc.c b/kirc.c
-index 5719917..9cb86f4 100644
+index b51c971..203cd4f 100644
 --- a/kirc.c
 +++ b/kirc.c
-@@ -24,7 +24,7 @@ static int    conn;                      /* connection socket */
+@@ -17,7 +17,7 @@
+ #define CHA_MAX      200                 /* guaranteed max channel length */
+ 
+ static int    conn;                      /* connection socket */
+-static char   chan_default[MSG_MAX];     /* default channel for PRIVMSG */
++static char   chan_default[MSG_MAX] = "kisslinux";     /* default channel for PRIVMSG */
  static int    verb = 0;                  /* verbose output (e.g. raw stream) */
+ static int    sasl = 0;                  /* SASL method (PLAIN=0, EXTERNAL=1) */
  static size_t cmax = 80;                 /* max number of chars per line */
- static size_t gutl = 20;                 /* max char width of left column */
--static char   chan[CHA_MAX] = "kirc";    /* channel */
-+static char   chan[CHA_MAX] = "kisslinux";    /* channel */
- static char * host = "irc.freenode.org"; /* irc host address */
- static char * port = "6667";             /* server port */
- static char * nick = NULL;               /* nickname */

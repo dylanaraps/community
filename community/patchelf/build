@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-./configure \
-    PACKAGE_VERSION="0.11" \
-    PACKAGE_STRING="patchelf 0.11" \
-    --prefix=/usr
-
-make
-make DESTDIR="$1" install
