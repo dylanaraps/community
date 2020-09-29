@@ -15,6 +15,9 @@ sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
 sed -i '/po_files \*\.po/d'  Source/WebCore/platform/gtk/po/CMakeLists.txt
 sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 
+# Fix wayland build.
+sed -i '239,244d' Source/WebKit/WebProcess/InjectedBundle/InjectedBundle.cpp
+
 export DESTDIR="$1"
 
 cmake -B build \
