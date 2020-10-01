@@ -3,5 +3,5 @@
 cargo build --release
 
 install -Dm755 target/release/bat "$1/usr/bin/bat"
-find . -name bat.1 -exec install -Dm644 {} \
-    "$1/usr/share/man/man1/bat.1" \;
+install -Dm644 target/release/build/bat-*/out/assets/manual/bat.1 \
+    "$1/usr/share/man/man1/bat.1"
