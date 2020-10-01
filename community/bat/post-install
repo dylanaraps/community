@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cat <<EOF
+
+NOTE: For 'bat' to work properly, switch to the newly installed 'less' pager by executing 'kiss a less /usr/bin/less'.
+
+EOF
