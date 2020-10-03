@@ -1,13 +1,13 @@
 diff --git a/kirc.c b/kirc.c
-index b51c971..203cd4f 100644
+index 3396610..0fc28b5 100644
 --- a/kirc.c
 +++ b/kirc.c
-@@ -17,7 +17,7 @@
- #define CHA_MAX      200                 /* guaranteed max channel length */
+@@ -19,7 +19,7 @@
+ #define CHA_MAX              200                 /* max channel length */
  
- static int    conn;                      /* connection socket */
--static char   chan_default[MSG_MAX];     /* default channel for PRIVMSG */
-+static char   chan_default[MSG_MAX] = "kisslinux";     /* default channel for PRIVMSG */
- static int    verb = 0;                  /* verbose output (e.g. raw stream) */
- static int    sasl = 0;                  /* SASL method (PLAIN=0, EXTERNAL=1) */
- static size_t cmax = 80;                 /* max number of chars per line */
+ static int            conn;                      /* connection socket */
+-static char           chan_default[MSG_MAX];     /* default PRIVMSG channel */
++static char           chan_default[MSG_MAX] = "kisslinux";     /* default PRIVMSG channel */
+ static int            verb = 0;                  /* verbose output */
+ static int            sasl = 0;                  /* SASL method */
+ static size_t         gutl = 20;                 /* max printed nick chars */
