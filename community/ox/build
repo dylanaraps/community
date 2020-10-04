@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+cargo build --release
+
+install target/release/ox -Dm755 "$1/usr/bin/ox"
