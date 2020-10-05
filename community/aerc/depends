@@ -1,1 +1,2 @@
-go make
+go    make
+scdoc make
