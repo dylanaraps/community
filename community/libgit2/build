@@ -2,8 +2,6 @@
 
 export DESTDIR="$1"
 
-mkdir -p build
-
 cmake -B build \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
