@@ -1,13 +1,15 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 -i "$patch"
-done
+patch -p1 < 0018-prevent-pow-optimization.patch
+patch -p1 < fcommon.patch
 
 # Fix missing <sys/sysmacros.h> include.
 sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
 
-make efi64 installer
+make -j1 \
+    PYTHON=python \
+    bios efi64 installer
+
 make -j1 \
     INSTALLROOT="$1" \
     MANDIR=/usr/share/man \
