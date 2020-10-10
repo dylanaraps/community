@@ -6,6 +6,9 @@ patch -p1 < fcommon.patch
 # Fix missing <sys/sysmacros.h> include.
 sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
 
+# Disable debugging and development "stuff".
+: > mk/devel.mk
+
 make -j1 \
     PYTHON=python \
     bios efi64 installer
