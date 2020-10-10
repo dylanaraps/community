@@ -4,6 +4,9 @@ for patch in *.patch; do
     patch -p1 -i "$patch"
 done
 
+# Fix missing <sys/sysmacros.h> include.
+sed -i 's@vfs.h>@vfs.h>\n#include <sys/sysmacros.h>@' extlinux/main.c
+
 make efi64 installer
 make -j1 \
     INSTALLROOT="$1" \
