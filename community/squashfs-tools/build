@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+cd squashfs-tools
+
+# fix build failure against gcc-10
+sed -i "s/struct cache \*b/extern struct cache \*b/g"  mksquashfs.h
+
+make XZ_SUPPORT=1 LZO_SUPPORT=0 LZ4_SUPPORT=0 ZSTD_SUPPORT=0
+
+install -Dm755 mksquashfs "$1/usr/bin/mksquashfs"
+install -Dm755 unsquashfs "$1/usr/bin/unsquashfs"
