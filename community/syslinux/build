@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 -i "$patch"
+done
+
+make efi64 installer
+make -j1 \
+    INSTALLROOT="$1" \
+    MANDIR=/usr/share/man \
+    SBINDIR=/usr/bin \
+    AUXDIR=/usr/lib/syslinux \
+    bios efi64 install
