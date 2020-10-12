@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 cloc "$1/usr/bin/cloc"
