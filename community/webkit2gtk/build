@@ -18,6 +18,10 @@ sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 # Fix wayland build.
 sed -i '239,244d' Source/WebKit/WebProcess/InjectedBundle/InjectedBundle.cpp
 
+# Fix clang build.
+sed -i '/LC_ALL/d'       Source/JavaScriptCore/jsc.cpp
+sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
+
 export DESTDIR="$1"
 
 cmake -B build \
