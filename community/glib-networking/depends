@@ -1,3 +1,4 @@
 glib
 gnutls
 meson make
+pkgconf make
