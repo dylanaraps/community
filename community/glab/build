@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make 
+
+install -Dm755 bin/glab "$1/usr/bin/glab"
