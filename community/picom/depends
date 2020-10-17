@@ -1,7 +1,8 @@
 libconfig
 libev
-meson make
+meson   make
 pixman
-uthash make
+pkgconf make
+uthash  make
 xcb-util-image
 xcb-util-renderutil
