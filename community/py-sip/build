@@ -18,5 +18,5 @@ python configure.py \
 
 make DESTDIR="$1" install
 
-mv "$1/usr/include/python3.8/sip.h" "$1/usr/include/sip.h"
-rm -rf                              "$1/usr/include/python3.8"
+mv "$1/usr/include/python3.9/sip.h" "$1/usr/include/sip.h"
+rm -rf                              "$1/usr/include/python3.9"
