@@ -4,10 +4,6 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
-# Fix a build error introduced with bison 3.7
-sed -i '/os.unlink(outputHTmp)/d' \
-    src/3rdparty/chromium/third_party/blink/renderer/build/scripts/rule_bison.py
-
 # Remove dbus dependency.
 {
     sed -i 's/use_dbus.*/use_dbus=false/' \
