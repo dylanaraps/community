@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-./configure \
-    --prefix=/usr \
-    --disable-mpers
-
-make
-make DESTDIR="$1" install
