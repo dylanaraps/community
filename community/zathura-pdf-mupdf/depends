@@ -5,4 +5,5 @@ libmupdf make
 libressl
 meson make
 openjpeg2
+pkgconf make
 zathura
