@@ -5,7 +5,8 @@ sed -i 's/as_fn_error.*libtool/: "/g' configure
 
 ./configure \
     --prefix=/usr \
-    --sbindir=/usr/bin
+    --sbindir=/usr/bin \
+    --without-python
 
 make
 make DESTDIR="$1" install
