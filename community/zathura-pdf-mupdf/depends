@@ -1,4 +1,5 @@
 cairo
+gumbo-parser
 jbig2dec
 libjpeg-turbo
 libmupdf make
