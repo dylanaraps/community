@@ -1,0 +1,20 @@
+diff a/meson.build b/meson.build
+index 23cdc6a..f016e50 100644
+--- a/meson.build
++++ b/meson.build
+@@ -18,6 +18,7 @@ desktopdir = join_paths(datadir, 'applications')
+ zathura = dependency('zathura', version: '>=0.3.9')
+ girara = dependency('girara-gtk3')
+ glib = dependency('glib-2.0')
++gumbo = cc.find_library('gumbo')
+ cairo = dependency('cairo')
+ mupdf = cc.find_library('mupdf')
+ mupdfthird = cc.find_library('mupdf-third')
+@@ -26,6 +27,7 @@ build_dependencies = [
+   zathura,
+   girara,
+   glib,
++  gumbo,
+   cairo,
+   mupdf,
+   mupdfthird

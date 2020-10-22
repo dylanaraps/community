@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < gumbo-dep.patch
+
 export DESTDIR="$1"
 
 meson \
