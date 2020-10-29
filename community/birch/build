@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 birch "$1/usr/bin/birch"

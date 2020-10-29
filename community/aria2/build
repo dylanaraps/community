@@ -5,7 +5,8 @@
     --disable-nls \
     --disable-metalink \
     --disable-websocket \
-    --disable-epoll \
+    --without-libxml2 \
+    --without-libexpat \
     --without-sqlite3
 
 make

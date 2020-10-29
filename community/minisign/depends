@@ -1,2 +1,3 @@
-cmake make
+cmake   make
 libsodium
+pkgconf make

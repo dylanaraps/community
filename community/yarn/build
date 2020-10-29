@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin"
+mkdir -p "$1/usr/share/node_modules/yarn"
+
+rm -rf bin/*.cmd
+rm LICENSE
+rm README.md
+
+cp -R ./* "$1/usr/share/node_modules/yarn"
+
+ln -s /usr/share/node_modules/yarn/bin/yarn.js "$1/usr/bin/yarn"
+ln -s /usr/share/node_modules/yarn/bin/yarn.js "$1/usr/bin/yarnpkg"

@@ -1,3 +1,4 @@
 glib
-libressl
+gnutls
 meson make
+pkgconf make

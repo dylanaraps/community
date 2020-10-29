@@ -1,4 +1,7 @@
 cmake   make
+freetype-harfbuzz
 imlib2
+libXft
 lua     make
 ncurses
+pkgconf make

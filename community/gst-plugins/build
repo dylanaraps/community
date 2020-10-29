@@ -8,6 +8,7 @@ for plugin in libav good bad ugly; do (
     meson \
         --prefix=/usr \
         -Dexample=false \
+        -Dqt5=disabled \
         . output
 
     ninja -C output

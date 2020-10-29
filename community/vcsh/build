@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+sed -i 's/install: all/install:/g' Makefile
+make DESTDIR="$1" install

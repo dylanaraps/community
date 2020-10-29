@@ -1,0 +1,27 @@
+#!/bin/sh -e
+# POSIX shell variant for ubase respawn
+
+usage() {
+    printf 'usage: %s [-d N] cmd [args...]\n' "${0##*/}"
+    exit "${1:-0}"
+}
+
+die() { printf '%s\n' "$@" >&2; exit 1;}
+
+case "$1" in
+    -d) [ "$3" ] || usage 1
+        [ "$2" -gt 0 ] || die "Not a number: $2"
+        delay=$2; shift 2
+        ;;
+    --help|-h|'') usage ;;
+    -*) usage 1
+esac
+
+while :; do
+    "$@" || err=$?
+    case $err in
+        # Usually Ctrl+C interrupt.
+        12[7-9]|130) exit 0
+    esac
+    [ "$delay" ] && sleep "$delay"
+done

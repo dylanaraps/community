@@ -8,7 +8,8 @@
     --disable-nls \
     --without-modules \
     --without-magick-plus-plus \
-    --without-perl
+    --without-perl \
+    --without-xml
 
 make
 make DESTDIR="$1" install-binPROGRAMS install-exec-local

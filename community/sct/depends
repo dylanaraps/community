@@ -1,0 +1,6 @@
+libX11
+libXau
+libXext
+libXrandr
+libXrender
+libxcb

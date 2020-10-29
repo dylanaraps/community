@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cat <<EOF
+
+NOTE: In order to use sls you must run the following commands.
+NOTE: Change <grp> to group of current user (see: id -gn)
+
+-> chown root:<grp> /usr/bin/sls
+-> chmod gu+s /usr/bin/sls
+
+EOF

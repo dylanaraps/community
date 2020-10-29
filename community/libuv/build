@@ -1,9 +1,10 @@
 #!/bin/sh -e
 
-./autogen.sh
-./configure \
-    --prefix=/usr \
-    --disable-static 
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib
+
+cmake --build   build
+cmake --install build

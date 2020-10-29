@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# Makefile uses a flag which is incompatible with busybox.
+sed -i 's/644 -T/644 /g' Makefile
+
+make
+make PREFIX=/usr SBINDIR=/usr/bin DESTDIR="$1" install
+
+# Remove systemd, dracut and autocompletion files
+rm -rf "$1/usr/lib"
+rm -rf "$1/etc/udev"
+rm -rf "$1/usr/share/zsh"
+rm -rf "$1/usr/share/bash-completion"

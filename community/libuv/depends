@@ -1,2 +1,1 @@
-automake make
-libtool  make
+cmake make

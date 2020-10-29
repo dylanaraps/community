@@ -8,6 +8,7 @@ mk() {
         LIBDIR=/usr/lib \
         PKGCONFIGDIR=/usr/lib/pkgconfig \
         RAISE_SETFCAP=no \
+        INDENT=" " \
         "$@"
 }
 
