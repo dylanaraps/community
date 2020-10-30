@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-install -Dm755 "lux.sh" "$1/usr/bin/lux"
-install -Dm755 "99-lux.rules" "$1/etc/udev/rules.d/99-lux.rules"
