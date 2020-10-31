@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+# Build py-sip modules.
+python configure.py \
+    CFLAGS="$CFLAGS" \
+    LFLAGS="$LDFLAGS"
+
+make DESTDIR="$1" install
+
+make clean
+
+# Build py-sip-pyqt5 modules.
+python configure.py \
+    CFLAGS="$CFLAGS" \
+    LFLAGS="$LDFLAGS" \
+    --sip-module PyQt5.sip \
+    --no-tools
+
+make DESTDIR="$1" install
+
+mv "$1/usr/include/python3.9/sip.h" "$1/usr/include/sip.h"
+rm -rf                              "$1/usr/include/python3.9"

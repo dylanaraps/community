@@ -1,0 +1,7 @@
+https://github.com/qutebrowser/qutebrowser/archive/v1.13.1.tar.gz
+https://github.com/python-attrs/attrs/archive/20.2.0.tar.gz py-attrs
+https://github.com/pallets/jinja/archive/2.11.2.tar.gz py-jinja
+https://github.com/pallets/markupsafe/archive/2.0.0a1.tar.gz py-markupsafe
+https://github.com/pygments/pygments/archive/2.7.0.tar.gz py-pygments
+https://files.pythonhosted.org/packages/f9/bd/10398e2c2d2070cc8a9c7153abfbd4ddb2895a2c52a32722ab8689e0cc7d/pyPEG2-2.15.2.tar.gz py-pypeg
+https://github.com/yaml/pyyaml/archive/5.3.1.tar.gz py-yaml
