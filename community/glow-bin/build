@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 glow "$1/usr/bin/glow"
