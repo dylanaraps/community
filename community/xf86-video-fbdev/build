@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# Fix make error '#if with no expression'
+sed -i 's/^#if XV$/#ifdef XV/g' src/fbdev.c
+
+./configure \
+    --prefix=/usr
+
+make 
+make DESTDIR="$1" install
