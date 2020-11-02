@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-python configure.py
-
-make
-make -j1 INSTALL_ROOT="$1" install
