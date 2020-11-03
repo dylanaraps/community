@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export GOPATH="$PWD/go"
+mkdir -p bin
+go build \
+    -trimpath \
+    -modcacherw \
+    -buildmode=pie \
+    -o bin filippo.io/age/cmd/...
+
+mkdir -p "$1/usr/bin"
+install -Dm755 bin/age        "$1/usr/bin"
+install -Dm755 bin/age-keygen "$1/usr/bin"
