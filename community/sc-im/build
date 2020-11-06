@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -fcommon"
+
 make -C src
 make -C src \
     DESTDIR="$1" \
