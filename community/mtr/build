@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --without-gtk \
+    --sbindir=/usr/bin
+
+make
+make DESTDIR="$1" install
