@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+go run build.go
+
+install -Dm755 restic "$1/usr/bin/restic"
+install -Dm644 -t "$1/usr/share/man/man1/" doc/man/*.1 
+install -Dm644 doc/bash-completion.sh "$1/usr/share/bash-completion/completions/restic"
+install -Dm644 doc/zsh-completion.zsh "$1/usr/share/zsh/site-functions/_restic"
