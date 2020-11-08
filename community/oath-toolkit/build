@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < intprops.patch
-
 ./configure \
     --prefix=/usr \
     --disable-pam
