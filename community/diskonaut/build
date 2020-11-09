@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+cargo build --release --all-features --locked 
+
+install -Dm755 target/release/diskonaut "$1/usr/bin/diskonaut"
