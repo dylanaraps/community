@@ -3,6 +3,7 @@
 ./configure --prefix=/usr \
             --sbindir=/usr/bin \
             --libexecdir=/usr/lib/gnupg \
+            --disable-gnutls \
             --enable-symcryptrun \
             --enable-gpg-is-gpg2 \
             --disable-ldap \

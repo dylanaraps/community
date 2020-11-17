@@ -1,12 +1,13 @@
 #!/bin/sh -e
 
-# Enable streaming related options if gstreamer
-# is installed.
+# Enable streaming related options if gstreamer is installed.
 kiss l gst-plugins-base && streaming=ON
 
-# Enable the use of openjpeg if the package is
-# installed.
+# Enable the use of openjpeg if the package is installed.
 kiss l openjpeg2 && jpeg=ON
+
+# Enable WEB_CRYPTO if libtasn1 is installed.
+kiss l libtasn1 && tasn=ON
 
 patch -p1 < fix-musl.patch
 
@@ -15,10 +16,17 @@ sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
 sed -i '/po_files \*\.po/d'  Source/WebCore/platform/gtk/po/CMakeLists.txt
 sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 
+# Fix wayland build.
+sed -i '239,244d' Source/WebKit/WebProcess/InjectedBundle/InjectedBundle.cpp
+
+# Fix clang build.
+sed -i '/LC_ALL/d'       Source/JavaScriptCore/jsc.cpp
+sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
+
 export DESTDIR="$1"
 
 cmake -B build \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=/usr/lib \
     -DPORT=GTK \
@@ -39,9 +47,10 @@ cmake -B build \
     -DUSE_LIBNOTIFY=OFF \
     -DUSE_LIBSECRET=OFF \
     -DUSE_OPENJPEG=${jpeg:-OFF} \
+    -DUSE_SYSTEMD=OFF \
     -DUSE_WOFF2=OFF \
     -DUSE_WPE_RENDERER=OFF \
-    -DENABLE_WEB_CRYPTO=OFF \
+    -DENABLE_WEB_CRYPTO=${tasn:-OFF} \
     -DENABLE_MEDIASOURCE=${streaming:-OFF} \
     -Wno-dev
 

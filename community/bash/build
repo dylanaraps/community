@@ -14,3 +14,5 @@ done
 
 make
 make DESTDIR="$1" install
+
+ln -s bash "$1/usr/bin/sh"

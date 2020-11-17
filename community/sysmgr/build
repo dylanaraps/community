@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+make
 make DESTDIR="$1" PREFIX=/usr install
+
 install -Dm644 sysmgr.boot         "$1/etc/rc.d/sysmgr.boot"
 install -Dm644 sysmgr.pre.shutdown "$1/usr/lib/init/rc.d/sysmgr.pre.shutdown"
+install -Dm755 respawn             "$1/usr/bin/respawn"

@@ -1,1 +1,1 @@
-# while :; do /usr/bin/sysmgr; done &
+# respawn sysmgr &

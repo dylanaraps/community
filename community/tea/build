@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+make build
+
+install -Dm755 tea "$1/usr/bin/tea"

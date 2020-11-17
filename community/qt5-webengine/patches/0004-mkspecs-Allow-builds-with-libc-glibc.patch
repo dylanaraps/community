@@ -9,18 +9,164 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  1 file changed, 5 deletions(-)
 
 diff --git a/src/buildtools/config/support.pri b/src/buildtools/config/support.pri
-index 5bdd808d..19540787 100644
+--- a/src/buildtools/configure.json
++++ b/src/buildtools/configure.json
+@@ -14,12 +14,6 @@
+         }
+     },
+     "libraries": {
+-        "webengine-dbus": {
+-            "label": "d-bus",
+-            "sources": [
+-                { "type": "pkgConfig", "args": "dbus-1" }
+-            ]
+-        },
+         "webengine-fontconfig": {
+             "label": "fontconfig",
+             "sources": [
+@@ -263,18 +257,6 @@
+             "label": "system gn",
+             "type": "detectGn"
+         },
+-        "webengine-glibc": {
+-            "label": "glibc > 2.16",
+-            "type": "compile",
+-            "test": {
+-                "include": "features.h",
+-                "tail": [
+-                    "#if __GLIBC__ < 2 || __GLIBC_MINOR__ < 17",
+-                    "#error glibc versions below 2.17 are not supported",
+-                    "#endif"
+-                ]
+-            }
+-        },
+         "webengine-gperf": {
+             "label": "gperf",
+             "type": "detectGperf"
+@@ -376,10 +358,8 @@
+                          && (!config.sanitizer || features.webengine-sanitizer)
+                          && (!config.linux || features.pkg-config)
+                          && (!config.linux || features.webengine-host-pkg-config)
+-                         && (!config.linux || features.webengine-system-glibc)
+                          && (!config.linux || features.webengine-system-khr)
+                          && (!config.linux || features.webengine-system-nss)
+-                         && (!config.linux || features.webengine-system-dbus)
+                          && (!config.linux || features.webengine-system-fontconfig)
+                          && (!config.linux || !features.pkg-config || !features.xcb || features.webengine-ozone-x11)
+                          && (!config.win32 || features.webengine-win-compiler64)
+@@ -453,11 +433,6 @@
+             "condition": "libs.webengine-fontconfig",
+             "output": [ "privateFeature" ]
+         },
+-        "webengine-system-dbus": {
+-            "label": "dbus",
+-            "condition": "libs.webengine-dbus",
+-            "output": [ "privateFeature" ]
+-        },
+         "webengine-system-libdrm": {
+             "label": "libdrm",
+             "condition": "libs.webengine-libdrm",
+@@ -499,11 +474,6 @@
+             "condition": "config.unix && !config.darwin && libs.webengine-nss",
+             "output": [ "privateFeature" ]
+         },
+-        "webengine-system-glibc": {
+-            "label": "glibc",
+-            "condition": "config.linux && tests.webengine-glibc",
+-            "output": [ "privateFeature" ]
+-        },
+         "webengine-system-x11" : {
+             "label": "x11",
+             "condition": "config.unix && libs.webengine-x11",
+@@ -741,10 +711,8 @@
+                     "condition": "config.unix && !config.macos && !config.ios",
+                     "entries": [
+                         "webengine-system-fontconfig",
+-                        "webengine-system-dbus",
+                         "webengine-system-nss",
+-                        "webengine-system-khr",
+-                        "webengine-system-glibc"
++                        "webengine-system-khr"
+                     ]
+                 },
+                 {
 --- a/src/buildtools/config/support.pri
 +++ b/src/buildtools/config/support.pri
-@@ -89,11 +89,6 @@ defineTest(qtwebengine_checkErrorForLinux) {
-         return(false)
-     }
+@@ -3,61 +3,6 @@
+     export(skipBuildReason)
+ }
  
--    !qtConfig(webengine-system-glibc) {
--        qtwebengine_skipBuild("A suitable version >= 2.27 of libc required to build QtWebEngine could not be found.")
+-# this should match webengine-core-support
+-defineReplace(qtwebengine_checkWebEngineCoreError) {
+-    !linux:!win32:!macos {
+-        qtwebengine_skipBuild("QtWebEngine can be built only on Linux, Windows or macOS.")
 -        return(false)
 -    }
+-    static {
+-        qtwebengine_skipBuild("Static builds of QtWebEngine are not supported.")
+-        return(false)
+-    }
+-    !qtwebengine_checkForGui(QtWebEngine):return(false)
+-    !qtwebengine_checkForSubmodule(QtWebEngine):return(false)
+-    !qtwebengine_checkForWhiteSpace(QtWebEngine):return(false)
+-    !qtwebengine_checkForPlatform(QtWebEngine):return(false)
+-    !qtwebengine_checkForArch(QtWebEngine):return(false)
+-    !qtwebengine_checkForGperf(QtWebEngine):return(false)
+-    !qtwebengine_checkForBison(QtWebEngine):return(false)
+-    !qtwebengine_checkForFlex(QtWebEngine):return(false)
+-    !qtwebengine_checkForPython2(QtWebengine):return(false)
+-    !qtwebengine_checkForSanitizer(QtWebEngine):return(false)
+-    linux:!qtwebengine_checkForPkgCfg(QtWebEngine):return(false)
+-    linux:!qtwebengine_checkForHostPkgCfg(QtWebEngine):return(false)
+-    linux:!qtwebengine_checkForGlibc(QtWebEngine):return(false)
+-    linux:!qtwebengine_checkForKhronos(QtWebEngine):return(false)
+-    linux:!qtwebengine_checkForPackage(QtWebEngine,nss):return(false)
+-    linux:!qtwebengine_checkForPackage(QtWebEngine,dbus):return(false)
+-    linux:!qtwebengine_checkForPackage(QtWebEngine,fontconfig):return(false)
+-    linux:!qtwebengine_checkForQpaXcb(QtWebEngine):return(false)
+-    win32:!qtwebengine_checkForCompiler64(QtWebEngine):return(false)
+-    win32:!qtwebengine_checkForWinVersion(QtWebEngine):return(false)
+-    return(true)
+-}
 -
-     !qtConfig(webengine-system-khr) {
-         qtwebengine_skipBuild("Khronos development headers required to build QtWebEngine are missing (see mesa/libegl1-mesa-dev)")
+-# this shuold match webengine-qtpdf-support
+-defineReplace(qtwebengine_checkPdfError) {
+-    !linux:!win32:!macos:!ios {
+-        qtwebengine_skipBuild("QtPdf can be built only on Linux, Windows, macOS or iOS.")
+-        return(false)
+-    }
+-    !qtwebengine_checkForGui(QtPdf):return(false)
+-    !qtwebengine_checkForSubmodule(QtPdf):return(false)
+-    !qtwebengine_checkForWhiteSpace(QtPdf):return(false)
+-    !qtwebengine_checkForPlatform(QtPdf):return(false)
+-    !qtwebengine_checkForArch(QtPdf):return(false)
+-    !qtwebengine_checkForGperf(QtPdf):return(false)
+-    !qtwebengine_checkForBison(QtPdf):return(false)
+-    !qtwebengine_checkForFlex(QtPdf):return(false)
+-    !qtwebengine_checkForPython2(QtPdf):return(false)
+-    !qtwebengine_checkForSanitizer(QtPdf):return(false)
+-    linux:!qtwebengine_checkForPkgCfg(QtPdf):return(false)
+-    linux:!qtwebengine_checkForHostPkgCfg(QtPdf):return(false)
+-    win32:!qtwebengine_checkForWinVersion(QtPdf):return(false)
+-    return(true)
+-}
+-
+ defineTest(qtwebengine_checkForGui) {
+     module = $$1
+     !qtHaveModule(gui) {
+@@ -174,15 +119,6 @@
+     module = $$1
+     !qtConfig(webengine-host-pkg-config) {
+         qtwebengine_skipBuild("Host pkg-config is required to build $${module}.")
+-        return(false)
+-    }
+-    return(true)
+-}
+-
+-defineTest(qtwebengine_checkForGlibc) {
+-    module = $$1
+-    !qtConfig(webengine-system-glibc) {
+-        qtwebengine_skipBuild("A suitable version >= 2.27 of libc required to build $${module} could not be found.")
          return(false)
+     }
+     return(true)

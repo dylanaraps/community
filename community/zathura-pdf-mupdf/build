@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-patch -p1 < mupdf-1.17.patch
+patch -p1 < gumbo-dep.patch
 
 export DESTDIR="$1"
 

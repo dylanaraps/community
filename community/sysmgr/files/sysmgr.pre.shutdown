@@ -1,3 +1,4 @@
 log "Waiting for sysmgr services to stop..."; {
+    svctl stop /var/sysmgr/* >/dev/null 2>&1
     svctl kill /var/sysmgr/* >/dev/null 2>&1
 }

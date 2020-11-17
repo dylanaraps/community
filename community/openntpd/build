@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+# GCC 10.
+export CFLAGS="$CFLAGS -fcommon"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --with-privsep-user=openntpd \
+    --with-cacert=/etc/ssl/cert.pem
+
+make
+make DESTDIR="$1" install
+
+install -Dm755 ntpd.run "$1/etc/sv/openntpd/run"
+ln -sf /run/runit/supervise.openntpd "$1/etc/sv/openntpd/supervise"

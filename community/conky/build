@@ -1,13 +1,14 @@
-#!/bin/sh -e
+#!/bin/sh
 
-cmake . \
+export DESTDIR="$1"
+
+cmake -B build \
     -DRELEASE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DBUILD_I18N=OFF \
     -DCURSES_NEED_WIDE=ON \
-    -DCURSES_INCLUDE_PATH=/usr/include \
-    -DBUILD_I18N=OFF
+    -DCURSES_INCLUDE_PATH=/usr/include
 
-make
-make DESTDIR="$1" install
+cmake --build   build
+cmake --install build

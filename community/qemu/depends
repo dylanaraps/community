@@ -3,5 +3,6 @@ libffi
 ncurses
 perl make
 pixman
+pkgconf make
 python
 sdl2

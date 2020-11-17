@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+cargo build --release
+
+install -Dm755 target/release/bat "$1/usr/bin/bat"
+install -Dm644 target/release/build/bat-*/out/assets/manual/bat.1 \
+    "$1/usr/share/man/man1/bat.1"

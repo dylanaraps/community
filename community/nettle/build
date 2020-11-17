@@ -3,7 +3,7 @@
 ./configure \
     --prefix=/usr \
     --enable-shared \
-    --disable-static \
+    --enable-static \
     --enable-mini-gmp \
     --disable-documentation
 

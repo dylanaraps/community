@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < fno-common.patch
+
 export DESTDIR="$1"
 
 cmake -B build \

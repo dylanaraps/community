@@ -4,6 +4,9 @@ export NSS_USE_SYSTEM_SQLITE=1
 export NSS_ENABLE_WERROR=0
 export USE_64=1
 export BUILD_OPT=1
+export CC="${CC:-cc}"
+export CCC="${CXX:-c++}"
+export CXX="${CXX:-c++}"
 
 make -j1 -C nss nss_build_all
 

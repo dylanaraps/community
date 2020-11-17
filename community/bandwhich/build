@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+cargo build --release --locked
+
+install -Dm755 "target/release/bandwhich" "$1/usr/bin/bandwhich"
+install -Dm644 "docs/bandwhich.1" "$1/usr/share/man/man1/bandwhich.1"

@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 shfm "$1/usr/bin/shfm"

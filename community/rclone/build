@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+export CGO_ENABLED="0"
+
+go build -v -ldflags "-s -X github.com/rclone/rclone/fs.Version=v1.53.2"
+
+install -Dm755 rclone "$1/usr/bin/rclone" 
+install -Dm644 rclone.1 "$1"/usr/share/man/man1/rclone.1

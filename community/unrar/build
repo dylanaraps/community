@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+make \
+    CXXFLAGS="$CXXFLAGS" \
+    STRIP=:
+
+make DESTDIR="$1/usr" install

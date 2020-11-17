@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+export GOPATH="$PWD/go"
+
+go build
+install -Dm755 duf "$1/usr/bin/duf"

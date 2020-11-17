@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+crate_ver=0.9.53
+
+(
+    cd vendor
+    tar xf openssl-sys-*.crate
+)
+
+patch -p1 < libressl.patch
+
+cat <<EOF >> Cargo.toml
+[patch.crates-io]
+openssl-sys = { path = "vendor/openssl-sys-$crate_ver" }
+EOF
+
+cargo build \
+    --release \
+    --no-default-features \
+    --features alsa_backend
+
+install -Dm755 target/release/spotifyd "$1/usr/bin/spotifyd"

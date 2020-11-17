@@ -33,7 +33,8 @@ sed -i 's/define QLOG/define N/g' \
     -system-sqlite \
     -system-zlib \
     -system-freetype \
-    -system-harfbuzz
+    -system-harfbuzz \
+    -silent 
 
 make
 make INSTALL_ROOT="$1" install

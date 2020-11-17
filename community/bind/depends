@@ -2,6 +2,7 @@ json-c
 libcap
 libressl
 libuv
-libxml2
+perl    make
+pkgconf make
 xz
 zlib

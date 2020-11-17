@@ -1,1 +1,2 @@
 https://downloads.sourceforge.net/freeglut/freeglut-3.2.1.tar.gz
+patches/fno-common.patch

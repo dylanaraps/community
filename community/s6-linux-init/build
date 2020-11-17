@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    --skeldir=/etc/s6-linux-init/skel
+
+make
+make DESTDIR="$1" install
+
+# Create symbolic links so they can be used by kiss alternatives.
+for file in halt poweroff reboot init shutdown telinit; do
+    ln -s "/etc/s6-linux-init/current/bin/$file" "$1/usr/bin"
+done
