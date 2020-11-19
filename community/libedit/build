@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Allows compilation as long as wchar_t is 32 bits (signed or unsigned), even if
+# __STDC_ISO_10646__ isn't defined, which seems to be the case for musl + LLVM
+# without gcc.
+sed -i 's/#ifndef __STDC_ISO_10646__/#if WCHAR_MAX < 2147483647/' src/chartype.h
+
 ./configure \
     --prefix=/usr
 
