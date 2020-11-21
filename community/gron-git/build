@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+go build -o gron .
+
+install -Dm755 gron "$1/usr/bin/gron"
