@@ -22,8 +22,8 @@
 +#endif
  DEFINEFUNC(int, SSL_session_reused, SSL *a, a, return 0, return)
  DEFINEFUNC2(unsigned long, SSL_CTX_set_options, SSL_CTX *ctx, ctx, unsigned long op, op, return 0, return)
- #ifdef TLS1_3_VERSION
-@@ -354,12 +363,14 @@
+ DEFINEFUNC(int, SSL_CTX_get_security_level, const SSL_CTX *ctx, ctx, return -1, return)
+@@ -356,12 +365,14 @@
  DEFINEFUNC2(int, SSL_CTX_use_RSAPrivateKey, SSL_CTX *a, a, RSA *b, b, return -1, return)
  DEFINEFUNC3(int, SSL_CTX_use_PrivateKey_file, SSL_CTX *a, a, const char *b, b, int c, c, return -1, return)
  DEFINEFUNC(X509_STORE *, SSL_CTX_get_cert_store, const SSL_CTX *a, a, return nullptr, return)
@@ -38,7 +38,7 @@
  DEFINEFUNC(void, SSL_free, SSL *a, a, return, DUMMYARG)
  DEFINEFUNC(STACK_OF(SSL_CIPHER) *, SSL_get_ciphers, const SSL *a, a, return nullptr, return)
  DEFINEFUNC(const SSL_CIPHER *, SSL_get_current_cipher, SSL *a, a, return nullptr, return)
-@@ -736,8 +747,8 @@
+@@ -738,8 +749,8 @@
  #endif
  #if defined(SHLIB_VERSION_NUMBER) && !defined(Q_OS_QNX) // on QNX, the libs are always libssl.so and libcrypto.so
      // first attempt: the canonical name is libssl.so.<SHLIB_VERSION_NUMBER>
@@ -49,7 +49,7 @@
      if (libcrypto->load() && libssl->load()) {
          // libssl.so.<SHLIB_VERSION_NUMBER> and libcrypto.so.<SHLIB_VERSION_NUMBER> found
          return result;
-@@ -848,12 +859,21 @@
+@@ -850,12 +861,21 @@
      RESOLVEFUNC(EVP_PKEY_CTX_free)
      RESOLVEFUNC(EVP_PKEY_base_id)
      RESOLVEFUNC(RSA_bits)
@@ -70,8 +70,8 @@
 +#endif
      RESOLVEFUNC(DH_get0_pqg)
      RESOLVEFUNC(SSL_CTX_set_options)
- 
-@@ -895,7 +915,9 @@
+     RESOLVEFUNC(SSL_CTX_get_security_level)
+@@ -898,7 +918,9 @@
  
      RESOLVEFUNC(SSL_SESSION_get_ticket_lifetime_hint)
      RESOLVEFUNC(DH_bits)
@@ -81,7 +81,7 @@
  
  #if QT_CONFIG(dtls)
      RESOLVEFUNC(DTLSv1_listen)
-@@ -1055,12 +1077,14 @@
+@@ -1058,12 +1080,14 @@
      RESOLVEFUNC(SSL_CTX_use_RSAPrivateKey)
      RESOLVEFUNC(SSL_CTX_use_PrivateKey_file)
      RESOLVEFUNC(SSL_CTX_get_cert_store);
