@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
 ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
     --with-xz \
     --with-zlib
 
