@@ -16,12 +16,13 @@ sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
 sed -i '/po_files \*\.po/d'  Source/WebCore/platform/gtk/po/CMakeLists.txt
 sed -i '/^GETTEXT_C/d'       Source/WebCore/platform/gtk/po/CMakeLists.txt
 
-# Fix wayland build.
-sed -i '239,244d' Source/WebKit/WebProcess/InjectedBundle/InjectedBundle.cpp
-
 # Fix clang build.
 sed -i '/LC_ALL/d'       Source/JavaScriptCore/jsc.cpp
 sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
+
+# Fix icu 68_1.
+printf 'add_compile_definitions("U_DEFINE_FALSE_AND_TRUE=1")\n' \
+    >> Source/WTF/wtf/CMakeLists.txt
 
 export DESTDIR="$1"
 
