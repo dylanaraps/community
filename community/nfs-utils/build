@@ -5,6 +5,7 @@
     --sysconfdir=/etc \
     --disable-nfsv4 \
     --disable-gss \
+    --disable-uuid \
     --sbindir=/usr/sbin
 
 sed -i "s|sbindir = /sbin|sbindir = /usr/bin|" ./utils/mount/Makefile

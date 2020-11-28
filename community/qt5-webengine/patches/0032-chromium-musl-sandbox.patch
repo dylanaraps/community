@@ -75,20 +75,6 @@ index 7dbcc8752..782be7840 100644
      case __NR_msync:
      case __NR_munlockall:
      case __NR_readahead:
-diff --git a/src/3rdparty/chromium/sandbox/linux/system_headers/x86_64_linux_syscalls.h b/src/3rdparty/chromium/sandbox/linux/system_headers/x86_64_linux_syscalls.h
-index 349504aee..ea3c7c91d 100644
---- a/src/3rdparty/chromium/sandbox/linux/system_headers/x86_64_linux_syscalls.h
-+++ b/src/3rdparty/chromium/sandbox/linux/system_headers/x86_64_linux_syscalls.h
-@@ -1290,5 +1290,9 @@
- #define __NR_memfd_create 319
- #endif
-
-+#if !defined(__NR_membarrier)
-+#define __NR_membarrier 324
-+#endif
-+
- #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_X86_64_LINUX_SYSCALLS_H_
-
 diff --git a/src/3rdparty/chromium/services/service_manager/sandbox/linux/bpf_renderer_policy_linux.cc b/src/3rdparty/chromium/services/service_manager/sandbox/linux/bpf_renderer_policy_linux.cc
 index 017f13cf7..5cfdb7a09 100644
 --- a/src/3rdparty/chromium/services/service_manager/sandbox/linux/bpf_renderer_policy_linux.cc

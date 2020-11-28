@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+install -D -m755 gt5 "$1/usr/bin/gt5"
+install -D -m644 gt5.1 "$1/usr/share/man/man1/gt5.1"
