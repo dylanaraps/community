@@ -1,0 +1,10 @@
+meson
+xcb-util
+xcb-util-cursor
+xcb-util-keysyms
+xcb-util-wm
+libxkbcommon
+yajl
+pcre
+cairo
+pango 

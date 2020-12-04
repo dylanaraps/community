@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+# Remove the libstartup-notification dependency.
+patch -p0 < i3-no-libstartup-notification.patch
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dexample=false \
+    . output
+
+ninja -C output
+ninja -C output install
