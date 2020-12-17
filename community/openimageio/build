@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DOIIO_BUILD_TESTS=OFF \
+    -DBUILD_MISSING_FMT=OFF \
+    -DCMAKE_SKIP_RPATH=ON \
+    -DSTOP_ON_WARNING=OFF \
+    -DUSE_EXTERNAL_PUGIXML=ON \
+    -DUSE_PYTHON=ON \
+    -DINSTALL_FONTS=OFF \
+    -Wno-dev
+
+             cmake --build   build
+DESTDIR="$1" cmake --install build

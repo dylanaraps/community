@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+patch -p1 < 0001-musl-fixes.patch
+patch -p1 < 0002-fix-linking-issue.patch
+patch -p1 < 0003-increase-thread-stack-size-for-musl.patch
+
+export CFLAGS="$CFLAGS -D__MUSL__"
+export CXXFLAGS="$CXXFLAGS -D__MUSL__"
+
+cmake -B build \
+    -Cbuild_files/cmake/config/blender_release.cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DWITH_CYCLES_EMBREE=ON \
+    -DWITH_PYTHON_INSTALL=OFF \
+    -DWITH_INSTALL_PORTABLE=OFF \
+    -DWITH_SYSTEM_LZO=ON \
+    -DPYTHON_VERSION="$(python3 -c 'import sys; print("%i.%i" % (sys.version_info.major, sys.version_info.minor))')"
+
+             cmake --build   build
+DESTDIR="$1" cmake --install build
