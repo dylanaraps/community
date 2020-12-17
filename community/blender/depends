@@ -1,0 +1,27 @@
+boost
+cmake make
+embree
+ffmpeg
+fftw
+freetype-harfbuzz
+gmp
+libX11
+libXfixes
+libXi
+libXrender
+libXxf86vm
+libjpeg-turbo
+libpng
+libsndfile
+llvm  make
+lzo
+mesa
+opencolorio
+openexr
+openimagedenoise
+openimageio
+opensubdiv
+python-numpy
+sdl2
+tiff
+zlib
