@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+patch -p1 < amdocl64icd.patch
+patch -p1 < include.patch
+patch -p1 < musl.patch
+
+# https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-libs/rocm-opencl-runtime/rocm-opencl-runtime-3.10.0.ebuild
+sed -i "s/set(CMAKE_SHARED_LINKER_FLAGS \${CMAKE_SHARED_LINKER_FLAGS} \"/set(CMAKE_SHARED_LINKER_FLAGS \"\${CMAKE_SHARED_LINKER_FLAGS} /" amdocl/CMakeLists.txt
+
+# https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime/issues/120
+export CFLAGS="$CFLAGS -fcommon"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DUSE_COMGR_LIBRARY=YES \
+    -DROCclr_DIR=/usr/include/rocclr \
+    -DLIBROCclr_STATIC_DIR=/usr/lib/cmake/rocclr \
+    -DBUILD_TESTS=OFF
+
+cmake --build  build
+cmake --install build

@@ -1,0 +1,4 @@
+https://github.com/ROCm-Developer-Tools/ROCclr/archive/rocm-4.0.0.tar.gz
+https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime/archive/rocm-4.0.0.tar.gz opencl-runtime/
+patches/install.patch
+patches/musl.patch

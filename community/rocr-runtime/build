@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cd src
+patch -p1 < ../install.patch
+
+sed -i "s:find_package(Clang REQUIRED HINTS \${CMAKE_INSTALL_PREFIX}/llvm \${CMAKE_PREFIX_PATH}/llvm PATHS /opt/rocm/llvm ):find_package(Clang REQUIRED HINTS /usr/lib/llvm/roc ):" image/blit_src/CMakeLists.txt
+sed -i "s:/opt/rocm/amdgcn/bitcode:/usr/lib/amdgcn/bitcode:" image/blit_src/CMakeLists.txt
+
+export LD_LIBRARY_PATH="/usr/lib/llvm/roc/lib:$LD_LIBRARY_PATH"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release
+
+cmake --build   build
+cmake --install build

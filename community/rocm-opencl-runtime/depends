@@ -1,0 +1,4 @@
+cmake    make
+rocclr
+rocm-comgr
+rocr-runtime

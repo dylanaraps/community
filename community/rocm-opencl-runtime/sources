@@ -1,0 +1,4 @@
+https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime/archive/rocm-4.0.0.tar.gz
+patches/amdocl64icd.patch
+patches/include.patch
+patches/musl.patch

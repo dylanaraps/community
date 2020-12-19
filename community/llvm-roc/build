@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+patch -p1 < musl.patch
+
+cmake -B build -S llvm \
+    -DCMAKE_INSTALL_PREFIX=/usr/lib/llvm/roc \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_VERSION_SUFFIX=roc \
+    -DLLVM_TARGETS_TO_BUILD="AMDGPU;X86" \
+    -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
+    -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
+    -DLLVM_BUILD_UTILS=ON \
+    -DLLVM_ENABLE_BINDINGS=OFF \
+    -DLLVM_ENABLE_OCAMLDOC=OFF \
+    -DLLVM_BUILD_EXAMPLES=OFF \
+    -DLLVM_BUILD_DOCS=OFF \
+    -DLLVM_BUILD_TESTS=OFF \
+    -DLLVM_ENABLE_LIBXML2=OFF \
+    -Wno-dev
+
+cmake --build   build
+cmake --install build

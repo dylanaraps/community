@@ -1,0 +1,5 @@
+cmake    make
+llvm-roc make
+ncurses
+rocm-device-libs
+zlib

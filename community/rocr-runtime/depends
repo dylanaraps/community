@@ -1,0 +1,5 @@
+cmake make
+libelf
+rocm-comgr
+roct-thunk-interface
+vim   make

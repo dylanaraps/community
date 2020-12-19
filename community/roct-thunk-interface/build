@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+# https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/issues/65
+patch -p1 < musl.patch
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release
+
+cmake --build build
+cmake --install build

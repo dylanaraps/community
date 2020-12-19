@@ -1,0 +1,27 @@
+diff --git a/src/libhsakmt.h b/src/libhsakmt.h
+index 1cae43a..37d72b3 100644
+--- a/src/libhsakmt.h
++++ b/src/libhsakmt.h
+@@ -32,6 +32,10 @@
+ #include <stdint.h>
+ #include <limits.h>
+ 
++#ifdef PAGE_SIZE
++#undef PAGE_SIZE
++#endif
++
+ extern int kfd_fd;
+ extern unsigned long kfd_open_count;
+ extern bool hsakmt_forked;
+diff --git a/src/topology.c b/src/topology.c
+index 36ef987..d0b487e 100644
+--- a/src/topology.c
++++ b/src/topology.c
+@@ -34,6 +34,7 @@
+ 
+ #include <errno.h>
+ #include <sys/sysinfo.h>
++#include <sys/param.h>
+ 
+ #include "libhsakmt.h"
+ #include "fmm.h"

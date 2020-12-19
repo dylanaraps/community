@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch -p1 < musl.patch
+
+./configure --prefix=/usr
+
+make
+make DESTDIR="$1" install

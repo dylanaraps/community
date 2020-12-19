@@ -1,0 +1,5 @@
+cmake    make
+llvm-roc make
+ncurses
+rocr-runtime
+zlib

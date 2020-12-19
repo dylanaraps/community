@@ -1,0 +1,4 @@
+cmake  make
+ncurses
+python make
+zlib

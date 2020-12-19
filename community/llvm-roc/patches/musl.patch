@@ -1,0 +1,22 @@
+diff --git a/compiler-rt/cmake/config-ix.cmake b/compiler-rt/cmake/config-ix.cmake
+index d13e75e41..aa03102d8 100644
+--- a/compiler-rt/cmake/config-ix.cmake
++++ b/compiler-rt/cmake/config-ix.cmake
+@@ -301,6 +301,8 @@ set(ALL_ASAN_SUPPORTED_ARCH ${X86} ${X86_64} ${ARM32} ${ARM64} ${RISCV64}
+ set(ALL_CRT_SUPPORTED_ARCH ${X86} ${X86_64} ${ARM32} ${ARM64} ${RISCV32} ${RISCV64})
+ set(ALL_DFSAN_SUPPORTED_ARCH ${X86_64} ${MIPS64} ${ARM64})
+ 
++string(REGEX MATCH "musl[^-]*$" LLVM_ENV_MUSL ${LLVM_HOST_TRIPLE})
++
+ if(ANDROID)
+   set(OS_NAME "Android")
+ else()
+@@ -644,7 +646,7 @@ set(COMPILER_RT_SANITIZERS_TO_BUILD all CACHE STRING
+     "sanitizers to build if supported on the target (all;${ALL_SANITIZERS})")
+ list_replace(COMPILER_RT_SANITIZERS_TO_BUILD all "${ALL_SANITIZERS}")
+ 
+-if (SANITIZER_COMMON_SUPPORTED_ARCH AND NOT LLVM_USE_SANITIZER AND
++if (SANITIZER_COMMON_SUPPORTED_ARCH AND NOT LLVM_USE_SANITIZER AND NOT LLVM_ENV_MUSL AND
+     (OS_NAME MATCHES "Android|Darwin|Linux|FreeBSD|NetBSD|OpenBSD|Fuchsia|SunOS" OR
+     (OS_NAME MATCHES "Windows" AND NOT CYGWIN AND
+         (NOT MINGW OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"))))

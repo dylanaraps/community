@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+sed -i "s:amdgcn/bitcode:lib/amdgcn/bitcode:" cmake/OCL.cmake
+sed -i "s:amdgcn/bitcode:lib/amdgcn/bitcode:" cmake/Packages.cmake
+
+export LD_LIBRARY_PATH="/usr/lib/llvm/roc/lib:$LD_LIBRARY_PATH"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_DIR="/usr/lib/llvm/roc/lib/cmake/llvm"
+
+cmake --build   build
+cmake --install build
