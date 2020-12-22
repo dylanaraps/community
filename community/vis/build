@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export LDFLAGS=-L/usr/lib/lua/5.4/
-
 ./configure \
 	--prefix=/usr \
 	--enable-lua \
