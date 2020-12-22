@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export LDFLAGS=-L/usr/lib/lua/5.4/
+
+./configure \
+	--prefix=/usr \
+	--enable-lua \
+	--enable-lpeg-static
+
+make
+make DESTDIR="$1" install
