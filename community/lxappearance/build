@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < no-intltool.patch
+
+./configure \
+    --prefix=/usr \
+    --enable-gtk3
+
+for target in data src; do
+    make -C "$target" && make -C "$target" DESTDIR="$1" install
+done
