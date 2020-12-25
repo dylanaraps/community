@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-#patch -p1 < stdexcept.patch
-
 ./configure \
     --prefix=/usr
 
