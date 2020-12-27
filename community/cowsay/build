@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+patch -p 1 -i cowsay.patch
+./install.sh "$1/usr"

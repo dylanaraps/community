@@ -26,7 +26,12 @@ make \
     PREFIX=/usr \
     TARGET=framebuffer \
     NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
-    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/
+    NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/ \
+    NETSURF_USE_WEBP=YES \
+    NETSURF_FB_FONTLIB=freetype \
+    NETSURF_FB_FONTPATH=/usr/share/fonts/TTF/ \
+    NETSURF_HOMEPAGE=https://lite.duckduckgo.com/lite \
+    NETSURF_USE_DUKTAPE=YES
 
 make \
     LIBDIR=lib \
@@ -36,4 +41,9 @@ make \
     DESTDIR="$1" \
     NETSURF_FB_RESPATH=/usr/share/netsurf-fb/ \
     NETSURF_FRAMEBUFFER_RESOURCES=/usr/share/netsurf-fb/ \
+    NETSURF_USE_WEBP=YES \
+    NETSURF_FB_FONTLIB=freetype \
+    NETSURF_FB_FONTPATH=/usr/share/fonts/TTF/ \
+    NETSURF_HOMEPAGE=https://lite.duckduckgo.com/lite \
+    NETSURF_USE_DUKTAPE=YES \
     install

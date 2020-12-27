@@ -1,0 +1,4 @@
+https://download.blender.org/source/blender-2.91.0.tar.xz
+patches/0001-musl-fixes.patch
+patches/0002-fix-linking-issue.patch
+patches/0003-increase-thread-stack-size-for-musl.patch

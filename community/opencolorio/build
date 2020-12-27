@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+patch -p1 < cmake.patch
+
+sed -i "s/-Werror//g"                   src/core/CMakeLists.txt
+sed -i "s/-Werror//g"                   src/pyglue/CMakeLists.txt
+sed -i "s/push(hidden)/push(default)/g" src/core/OCIOYaml.cpp
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DUSE_EXTERNAL_LCMS=TRUE
+
+             cmake --build   build
+DESTDIR="$1" cmake --install build

@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+make
+
+install -Dm755 jo "$1/usr/bin/jo"
+install -Dm644 jo.bash "$1/usr/share/bash-completion/completions/jo"
+install -Dm644 jo.1 "$1/usr/share/man/man1/jo.1"
