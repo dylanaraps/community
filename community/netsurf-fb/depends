@@ -1,12 +1,9 @@
 bison make
+dejavu-ttf
 gperf make
 libpng
 libressl
 libwebp
 linux-headers make
 perl make
-#sdl - uncomment to build  with additional sdl interface
-xcb-util
-xcb-util-image
-xcb-util-keysyms
-xcb-util-wm
+sdl
