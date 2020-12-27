@@ -2,10 +2,6 @@
 
 export CFLAGS="$CFLAGS -fPIC"
 
-for patch in readline80-00*; do
-    patch -p0 < "$patch"
-done
-
 ./configure \
     --prefix=/usr
 
