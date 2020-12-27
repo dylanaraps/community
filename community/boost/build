@@ -1,5 +1,17 @@
 #!/bin/sh -e
 
-./bootstrap.sh --prefix="$1/usr"
-./b2 stage threading=multi
-./b2 install threading=multi
+./bootstrap.sh \
+    --prefix="$1/usr" \
+    --with-python=/usr/bin/python3
+
+for action in stage install; do
+    ./b2 $action \
+        variant=release \
+        debug-symbols=off \
+        threading=multi \
+        python=3.9
+done
+
+# https://github.com/boostorg/python/issues/203#issuecomment-391477685
+ln -s "$1/usr/lib/libboost_python39.so" "$1/usr/lib/libboost_python3.so"
+ln -s "$1/usr/lib/libboost_numpy39.so"  "$1/usr/lib/libboost_numpy3.so"
