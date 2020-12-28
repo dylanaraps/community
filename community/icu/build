@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+export CC="${CC:-/usr/bin/cc}"
+export CXX="${CXX:-/usr/bin/c++}"
+
 source/configure \
     --prefix=/usr \
     --sbindir=/usr/bin
