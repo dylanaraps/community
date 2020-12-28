@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+# ccache is causing the issue to expect clang instead of gcc.
+# Just disable it.
 export CC="${CC:-/usr/bin/cc}"
 export CXX="${CXX:-/usr/bin/c++}"
 
