@@ -1,6 +1,19 @@
 #!/bin/sh -e
 
-patch -p1 < no-intltool.patch
+sed -i '/INTLTOOL_APPLIED_VERSION=/d' configure
+sed -i "/version|grep '(GNU/d"        configure
+
+export MSGFMT=/usr/bin/true
+export MSGMERGE=/usr/bin/true
+export XGETTEXT=/usr/bin/true
+export mfversion=9.99.99
+export mmversion=9.99.99
+export xgversion=9.99.99
+export INTLTOOL_MERGE=/usr/bin/true
+export INTLTOOL_UPDATE=/usr/bin/true
+export INTLTOOL_EXTRACT=/usr/bin/true
+export INTLTOOL_PERL=/usr/bin/true
+export INTLTOOL_APPLIED_VERSION=9.99.99
 
 ./configure \
     --prefix=/usr \
