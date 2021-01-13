@@ -13,6 +13,9 @@ done
 # Avoid falling back to preprocessor mode when sources contain time macros
 kiss l ccache && export CCACHE_SLOPPINESS=time_macros
 
+# System zlib related ???????????????
+sed -i 's/"third_party\/zlib\/zlib.h"/<zlib.h>/g' v8/src/snapshot/snapshot-utils.cc
+
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
