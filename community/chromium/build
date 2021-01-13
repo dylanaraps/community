@@ -1,21 +1,25 @@
 #!/bin/sh -e
 
 kiss l musl && {
-    for patch in *.patch; do
+    for patch in musl-*.patch; do
         patch -p1 < "$patch"
     done
 }
 
+for patch in chromium-*.patch; do
+    patch -p1 < "$patch"
+done
+
 # Avoid falling back to preprocessor mode when sources contain time macros
 kiss l ccache && export CCACHE_SLOPPINESS=time_macros
 
-export CC=clang
-export CXX=clang++
-export AR=ar
-export NM=nm
-
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
+
+export CC=gcc
+export CXX=g++
+export AR=ar
+export NM=nm
 
 # compile gn early, so it can be used to generate gni stuff
 python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
@@ -58,7 +62,7 @@ conf='
     enable_nacl=false
     enable_nacl_nonsfi=false
     enable_js_type_check=false
-    is_clang=true
+    is_clang=false
     is_debug=false
     clang_use_chrome_plugins=false
     custom_toolchain="//build/toolchain/linux/unbundle:default"
@@ -80,6 +84,7 @@ conf='
     use_pulseaudio=false
     use_gold=false
     use_gnome_keyring=false
+    use_x11=true
     ozone_platform_wayland=false
     enable_widevine=false
     enable_hangout_services_extension=false
