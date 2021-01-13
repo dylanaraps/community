@@ -1,7 +1,6 @@
 alsa-lib
 bison              make
 bzip2
-clang              make
 ffmpeg
 flac
 fontconfig
