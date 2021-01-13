@@ -1,0 +1,98 @@
+#!/bin/sh -e
+
+kiss l musl && {
+    for patch in *.patch; do
+        patch -p1 < "$patch"
+    done
+}
+
+# Avoid falling back to preprocessor mode when sources contain time macros
+kiss l ccache && export CCACHE_SLOPPINESS=time_macros
+
+export CC=clang
+export CXX=clang++
+export AR=ar
+export NM=nm
+
+mkdir -p third_party/node/linux/node-linux-x64/bin
+ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
+
+# compile gn early, so it can be used to generate gni stuff
+python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+
+system="
+    ffmpeg
+    flac
+    fontconfig
+    freetype
+    harfbuzz-ng
+    libdrm
+    libjpeg
+    libpng
+    libwebp
+    libxslt
+    opus
+    zlib
+"
+
+# remove build scripts for system provided dependencies - basically does the
+# same as the bundled script to remove bundled libs, but this way we don't
+# have to list the remaining libs
+for LIB in "$system" libjpeg_turbo; do
+    find -type f -path "*third_party/$LIB/*" \
+        \! -path "*third_party/$LIB/chromium/*" \
+        \! -path "*third_party/$LIB/google/*" \
+        \! -path './base/third_party/icu/*' \
+        \! -path './third_party/pdfium/third_party/freetype/include/pstables.h' \
+        \! -path './third_party/harfbuzz-ng/utils/hb_scoped.h' \
+        \! -regex '.*\.\(gn\|gni\|isolate\|py\)' \
+        -delete
+done
+
+# switch to system provided dependencies
+python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
+
+python2 third_party/libaddressinput/chromium/tools/update-strings.py
+
+conf='
+    enable_nacl=false
+    enable_nacl_nonsfi=false
+    enable_js_type_check=false
+    is_clang=true
+    is_debug=false
+    clang_use_chrome_plugins=false
+    custom_toolchain="//build/toolchain/linux/unbundle:default"
+    host_toolchain="//build/toolchain/linux/unbundle:default"
+    blink_symbol_level=0
+    symbol_level=0
+    is_cfi=false
+    icu_use_data_file=true
+    use_allocator="none"
+    use_allocator_shim=false
+    use_cups=false
+    use_dbus=false
+    use_glib=false
+    use_sysroot=false
+    use_system_harfbuzz=true
+    use_vaapi=false
+    use_custom_libcxx=false
+    use_lld=false
+    use_pulseaudio=false
+    use_gold=false
+    use_gnome_keyring=false
+    ozone_platform_wayland=false
+    enable_widevine=false
+    enable_hangout_services_extension=false
+    is_desktop_linux=true
+    rtc_use_pipewire=false
+    link_pulseaudio=false
+    proprietary_codecs=false
+    ffmpeg_branding="Chrome"
+    treat_warnings_as_errors=false
+    fatal_linker_warnings=false
+    fieldtrial_testing_like_official_build=true
+'
+
+out/Release/gn gen out/Release --args="$conf" --script-executable=python2
+
+ninja -C out/Release chrome

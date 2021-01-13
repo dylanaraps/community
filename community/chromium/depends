@@ -1,0 +1,31 @@
+alsa-lib
+bison              make
+bzip2
+clang              make
+ffmpeg
+flac
+fontconfig
+freetype-harfbuzz
+glib
+gperf              make
+gtk+3
+libXcomposite
+libXdamage
+libXi
+libXrandr
+libXslt
+libdrm
+libexif
+libgcrypt
+libjpeg-turbo
+libpng
+libxkbcommon       make
+nodejs             make
+nss
+pciutils
+perl               make
+pkgconf            make
+python             make
+samurai            make
+xcb-proto
+zlib

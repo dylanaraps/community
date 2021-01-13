@@ -1,0 +1,10 @@
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-87.0.4280.141.tar.xz
+patches/default-pthread-stacksize.patch
+patches/musl-crashpad.patch
+patches/musl-fixes.patch
+patches/musl-hacks.patch
+patches/musl-libc++.patch
+patches/musl-sandbox.patch
+patches/musl-sync.patch
+patches/no-mallinfo.patch
+patches/resolver.patch
