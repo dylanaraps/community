@@ -75,7 +75,6 @@ conf='
     use_allocator="none"
     use_allocator_shim=false
     use_cups=false
-    use_dbus=false
     use_sysroot=false
     use_system_harfbuzz=true
     use_vaapi=false
