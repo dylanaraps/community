@@ -15,9 +15,6 @@ kiss l ccache && export CCACHE_SLOPPINESS=time_macros
 
 # Force script incompatible with Python 3 to use /usr/bin/python2
 sed -i '1s|python$|&2|' third_party/dom_distiller_js/protoc_plugins/*.py
- 
-mkdir -p third_party/node/linux/node-linux-x64/bin
-ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
 export CC=gcc
 export CXX=g++
@@ -60,25 +57,28 @@ python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
 
 python2 third_party/libaddressinput/chromium/tools/update-strings.py
 
-conf='
+vaapi=false
+kiss l libva && vaapi=true
+
+conf="
     enable_nacl=false
     enable_nacl_nonsfi=false
     enable_js_type_check=false
     is_clang=false
     is_debug=false
     clang_use_chrome_plugins=false
-    custom_toolchain="//build/toolchain/linux/unbundle:default"
-    host_toolchain="//build/toolchain/linux/unbundle:default"
+    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
     blink_symbol_level=0
     symbol_level=0
     is_cfi=false
     icu_use_data_file=true
-    use_allocator="none"
+    use_allocator=\"none\"
     use_allocator_shim=false
     use_cups=false
     use_sysroot=false
     use_system_harfbuzz=true
-    use_vaapi=false
+    use_vaapi=$vaapi
     use_custom_libcxx=false
     use_lld=false
     use_pulseaudio=false
@@ -91,14 +91,27 @@ conf='
     is_desktop_linux=true
     rtc_use_pipewire=false
     link_pulseaudio=false
-    proprietary_codecs=false
-    ffmpeg_branding="Chrome"
+    proprietary_codecs=true
+    ffmpeg_branding=\"Chrome\"
     treat_warnings_as_errors=false
     fatal_linker_warnings=false
     fieldtrial_testing_like_official_build=true
-'
+"
 
 out/Release/gn gen out/Release --args="$conf" --script-executable=python2
 
 ulimit -n 4096
 ninja -C out/Release chrome mksnapshot
+
+install -Dm755 chromium.sh        "$1/usr/bin/chromium"
+install -Dm755 out/Release/chrome "$1/usr/lib/chromium/chromium"
+install -Dm644 out/Release/icudtl.dat     -t "$1/usr/lib/chromium"
+install -D "out/Release/swiftshader/*.so" -t "$1/usr/lib/chromium/swiftshader"
+
+for lib in libEGL.so libGLESv2.so; do
+    install -Dm755 "out/Release/$lib" -t "$1/usr/lib/chromium"
+done
+
+for stuff in bin pak; do
+    install -D "out/Release/*.$stuff" -t "$1/usr/lib/chromium"
+done
