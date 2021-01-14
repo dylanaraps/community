@@ -1,7 +1,5 @@
 alsa-lib
-at-spi2-core
 atk
-atk-bridge
 bison              make
 bzip2
 ffmpeg
