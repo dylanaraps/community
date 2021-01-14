@@ -12,6 +12,7 @@ patches/chromium-87-v8-icu68.patch
 patches/chromium-88-ozone-deps.patch
 patches/chromium-88-vaapi-attribute.patch
 patches/chromium-fix-char_traits.patch
+patches/chromium-libc_malloc.patch
 patches/chromium-no-execinfo.patch
 patches/chromium-system-nodejs.patch
 patches/musl-crashpad.patch

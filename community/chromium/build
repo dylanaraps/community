@@ -2,7 +2,7 @@
 
 kiss l musl && {
     for patch in musl-*.patch; do
-        patch -p1 < "$patch"
+        patch -p0 < "$patch"
     done
 }
 

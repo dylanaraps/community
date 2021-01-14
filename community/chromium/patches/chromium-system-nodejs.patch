@@ -1,7 +1,7 @@
 diff --git third_party/node/node.py third_party/node/node.py
 index 8097e2c49..10e6a16ea 100755
---- third_party/node/node.py
-+++ third_party/node/node.py
+--- a/third_party/node/node.py
++++ b/third_party/node/node.py
 @@ -10,11 +10,12 @@ import sys
  
  

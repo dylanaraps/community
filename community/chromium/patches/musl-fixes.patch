@@ -1,8 +1,23 @@
 --- ./third_party/lss/linux_syscall_support.h.orig
 +++ ./third_party/lss/linux_syscall_support.h
-@@ -1127,6 +1127,12 @@
- #ifndef __NR_fallocate
- #define __NR_fallocate          285
+@@ -139,12 +139,14 @@
+  */
+ #pragma push_macro("stat64")
+ #pragma push_macro("fstat64")
++#pragma push_macro("fstatat64")
+ #pragma push_macro("lstat64")
+ #pragma push_macro("pread64")
+ #pragma push_macro("pwrite64")
+ #pragma push_macro("getdents64")
+ #undef stat64
+ #undef fstat64
++#undef fstatat64
+ #undef lstat64
+ #undef pread64
+ #undef pwrite64
+@@ -1258,6 +1260,12 @@
+ #ifndef __NR_getrandom
+ #define __NR_getrandom          318
  #endif
 +
 +#undef __NR_pread
@@ -13,29 +28,15 @@
  /* End of x86-64 definitions                                                 */
  #elif defined(__mips__)
  #if _MIPS_SIM == _MIPS_SIM_ABI32
---- ./third_party/breakpad/breakpad/src/client/linux/dump_writer_common/ucontext_reader.h.orig
-+++ ./third_party/breakpad/breakpad/src/client/linux/dump_writer_common/ucontext_reader.h
-@@ -37,6 +37,10 @@
- #include "common/memory.h"
- #include "google_breakpad/common/minidump_format.h"
- 
-+#if !defined(__GLIBC__)
-+	#define _libc_fpstate _fpstate
-+#endif
-+
- namespace google_breakpad {
- 
- // Wraps platform-dependent implementations of accessors to ucontext_t structs.
---- ./third_party/breakpad/breakpad/src/common/linux/elf_core_dump.h.orig
-+++ ./third_party/breakpad/breakpad/src/common/linux/elf_core_dump.h
-@@ -36,6 +36,7 @@
- #include <elf.h>
- #include <link.h>
- #include <stddef.h>
-+#include <limits.h>
- 
- #include "common/memory_range.h"
- 
+@@ -4545,6 +4553,7 @@
+  * corresponding #pragma push_macro near the top of this file. */
+ #pragma pop_macro("stat64")
+ #pragma pop_macro("fstat64")
++#pragma pop_macro("fstatat64")
+ #pragma pop_macro("lstat64")
+ #pragma pop_macro("pread64")
+ #pragma pop_macro("pwrite64")
+
 --- ./sandbox/linux/suid/process_util.h.orig
 +++ ./sandbox/linux/suid/process_util.h
 @@ -11,6 +11,14 @@
@@ -96,16 +97,6 @@ diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b
    base::Version version(gnu_get_libc_version());
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
---- services/device/serial/serial_io_handler_posix.cc.orig	2019-07-03 10:57:32.568171835 -0400
-+++ services/device/serial/serial_io_handler_posix.cc	2019-07-03 10:57:16.867983031 -0400
-@@ -6,6 +6,7 @@
- 
- #include <sys/ioctl.h>
- #include <termios.h>
-+#include <asm-generic/ioctls.h>
- 
- #include <algorithm>
- #include <utility>
 diff --git a/third_party/ots/include/opentype-sanitiser.h b/third_party/ots/include/opentype-sanitiser.h
 --- third_party/ots/include/opentype-sanitiser.h
 +++ third_party/ots/include/opentype-sanitiser.h
@@ -139,7 +130,7 @@ diff --git a/third_party/ots/include/opentype-sanitiser.h b/third_party/ots/incl
 +#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FREEBSD) || \
      defined(OS_FUCHSIA)
    // pthread_getattr_np() can fail if the thread is not invoked by
-   // pthread_create() (e.g., the main thread of blink_unittests).
+   // pthread_create() (e.g., the main thread of webkit_unit_tests).
 @@ -96,7 +96,7 @@
  }
  
@@ -190,8 +181,10 @@ diff --git a/third_party/ots/include/opentype-sanitiser.h b/third_party/ots/incl
  
  /*
   * GNU-specific, but avoids the realpath(..., NULL)
---- mojo/public/cpp/platform/named_platform_channel_posix.cc.orig	2020-07-19 13:26:10.696171063 -0400
-+++ mojo/public/cpp/platform/named_platform_channel_posix.cc	2020-07-19 13:26:43.680151714 -0400
+diff --git a/mojo/public/cpp/platform/named_platform_channel_posix.cc ./mojo/public/cpp/platform/named_platform_channel_posix.cc
+index 9082ac4..cbedae6 100644
+--- a/mojo/public/cpp/platform/named_platform_channel_posix.cc
++++ ./mojo/public/cpp/platform/named_platform_channel_posix.cc
 @@ -5,6 +5,7 @@
  #include "mojo/public/cpp/platform/named_platform_channel.h"
  
