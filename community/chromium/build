@@ -35,7 +35,6 @@ system="
     harfbuzz-ng
     libdrm
     libjpeg
-    libpng
     libwebp
     libxslt
     opus
