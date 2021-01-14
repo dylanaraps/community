@@ -14,6 +14,8 @@ patches/chromium-88-vaapi-attribute.patch
 patches/chromium-fix-char_traits.patch
 patches/chromium-libc_malloc.patch
 patches/chromium-no-execinfo.patch
+patches/chromium-optional-atk.patch
+patches/chromium-optional-dbus.patch
 patches/chromium-system-nodejs.patch
 patches/musl-crashpad.patch
 patches/musl-default-pthread-stacksize.patch
