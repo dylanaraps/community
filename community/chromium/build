@@ -77,7 +77,6 @@ conf='
     use_allocator_shim=false
     use_cups=false
     use_dbus=false
-    use_glib=false
     use_sysroot=false
     use_system_harfbuzz=true
     use_vaapi=false
@@ -102,4 +101,5 @@ conf='
 
 out/Release/gn gen out/Release --args="$conf" --script-executable=python2
 
-ninja -C out/Release chrome
+ulimit -n 4096
+ninja -C out/Release chrome mksnapshot
