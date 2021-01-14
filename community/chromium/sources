@@ -24,3 +24,4 @@ patches/musl-no-mallinfo.patch
 patches/musl-resolver.patch
 patches/musl-sandbox.patch
 patches/musl-sync.patch
+patches/musl-v8-monotonic-pthread-cont_timedwait.patch
