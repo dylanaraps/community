@@ -44,7 +44,7 @@ system="
 # same as the bundled script to remove bundled libs, but this way we don't
 # have to list the remaining libs
 for LIB in "$system" libjpeg_turbo; do
-    find -type f -path "*third_party/$LIB/*" \
+    find . -type f -path "*third_party/$LIB/*" \
         \! -path "*third_party/$LIB/chromium/*" \
         \! -path "*third_party/$LIB/google/*" \
         \! -path './base/third_party/icu/*' \
@@ -55,6 +55,7 @@ for LIB in "$system" libjpeg_turbo; do
 done
 
 # switch to system provided dependencies
+# shellcheck disable=2086
 python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
 
 python2 third_party/libaddressinput/chromium/tools/update-strings.py
