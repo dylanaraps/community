@@ -102,7 +102,10 @@ conf="
 
 out/Release/gn gen out/Release --args="$conf" --script-executable=python2
 
+# final link needs lots of file descriptors
+# shellcheck disable=2039
 ulimit -n 4096
+
 ninja -C out/Release chrome mksnapshot
 
 install -Dm755 chromium.sh        "$1/usr/bin/chromium"
