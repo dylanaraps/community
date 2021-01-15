@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-kiss l musl && {
+kiss list musl && {
     for patch in musl-*.patch; do
         patch -p0 < "$patch"
     done
@@ -11,7 +11,7 @@ for patch in chromium-*.patch; do
 done
 
 # Avoid falling back to preprocessor mode when sources contain time macros
-kiss l ccache && export CCACHE_SLOPPINESS=time_macros
+kiss list ccache && export CCACHE_SLOPPINESS=time_macros
 
 # Force script incompatible with Python 3 to use /usr/bin/python2
 sed -i '1s|python$|&2|' third_party/dom_distiller_js/protoc_plugins/*.py
@@ -58,7 +58,7 @@ python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
 python2 third_party/libaddressinput/chromium/tools/update-strings.py
 
 vaapi=false
-kiss l libva && vaapi=true
+kiss list libva && vaapi=true
 
 conf="
     enable_nacl=false
@@ -66,7 +66,6 @@ conf="
     enable_js_type_check=false
     is_clang=false
     is_debug=false
-    clang_use_chrome_plugins=false
     custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
     host_toolchain=\"//build/toolchain/linux/unbundle:default\"
     blink_symbol_level=0
