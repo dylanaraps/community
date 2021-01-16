@@ -21,7 +21,7 @@ libexif
 libgcrypt
 libjpeg-turbo
 libwebp
-libxkbcommon       make
+libxkbcommon
 mesa
 nodejs             make
 nss
