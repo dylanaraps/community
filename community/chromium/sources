@@ -13,7 +13,6 @@ patches/chromium-88-ozone-deps.patch
 patches/chromium-88-vaapi-attribute.patch
 patches/chromium-fix-char_traits.patch
 patches/chromium-libc_malloc.patch
-patches/chromium-no-execinfo.patch
 patches/chromium-no-getcontext.patch
 patches/chromium-optional-atk.patch
 patches/chromium-optional-dbus.patch
@@ -23,8 +22,10 @@ patches/musl-default-pthread-stacksize.patch
 patches/musl-fixes.patch
 patches/musl-hacks.patch
 patches/musl-libc++.patch
+patches/musl-no-execinfo.patch
 patches/musl-no-mallinfo.patch
 patches/musl-resolver.patch
 patches/musl-sandbox.patch
+patches/musl-stacktrace.patch
 patches/musl-sync.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch

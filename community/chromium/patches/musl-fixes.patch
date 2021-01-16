@@ -1,17 +1,3 @@
-diff --git base/logging.cc base/logging.cc
-index b5cf2c4..7d88b75 100644
---- base/logging.cc
-+++ base/logging.cc
-@@ -548,8 +548,7 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
- 
- LogMessage::~LogMessage() {
-   size_t stack_start = stream_.tellp();
--#if !defined(OFFICIAL_BUILD) && !defined(OS_NACL) && !defined(__UCLIBC__) && \
--    !defined(OS_AIX)
-+#if !defined(OFFICIAL_BUILD) && !defined(OS_NACL) && defined(__GLIBC__)
-   if (severity_ == LOG_FATAL && !base::debug::BeingDebugged()) {
-     // Include a stack trace on a fatal, unless a debugger is attached.
-     base::debug::StackTrace stack_trace;
 diff --git chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 index b57a994..dbb117f 100644
 --- chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
