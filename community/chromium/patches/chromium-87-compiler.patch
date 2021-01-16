@@ -1,14 +1,5 @@
-From f4d0b0eb899005b4b8b6388e1d8bb82cc0018fc8 Mon Sep 17 00:00:00 2001
-From: Mike Gilbert <floppym@gentoo.org>
-Date: Thu, 1 Oct 2020 18:14:51 +0000
-Subject: [PATCH] Disable various compiler configs
-
----
- build/config/compiler/BUILD.gn | 71 ++++++++--------------------------
- 1 file changed, 17 insertions(+), 54 deletions(-)
-
 diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
-index 4f6461b..b5d2c77 100644
+index 63eb15f..b5d2c77 100644
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
 @@ -254,8 +254,6 @@ config("compiler") {
@@ -20,7 +11,7 @@ index 4f6461b..b5d2c77 100644
      ":compiler_codegen",
      ":compiler_deterministic",
    ]
-@@ -480,36 +478,6 @@ config("compiler") {
+@@ -480,17 +478,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -33,31 +24,12 @@ index 4f6461b..b5d2c77 100644
 -      "-mllvm",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
--
--    # Pinned clang has enable-dse-memoryssa enabled by default but it's broken,
--    # so we have to force it off.
--    # Trunk clang has it disabled by default but it might work, so we force it
--    # on so the ToT bots can check if it works now.
--    if (!llvm_force_head_revision) {
--      cflags += [
--        # TODO(https://crbug.com/1127713): Investigate, remove.
--        "-mllvm",
--        "-enable-dse-memoryssa=false",
--      ]
--    }
--    if (llvm_force_head_revision) {
--      cflags += [
--        # TODO(https://crbug.com/1127713): Investigate, remove.
--        "-mllvm",
--        "-enable-dse-memoryssa=true",
--      ]
--    }
 -  }
 -
    # C11/C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
-@@ -1571,7 +1539,7 @@ config("chromium_code") {
+@@ -1552,7 +1539,7 @@ config("chromium_code") {
        defines = [ "_HAS_NODISCARD" ]
      }
    } else {
@@ -66,7 +38,7 @@ index 4f6461b..b5d2c77 100644
      if (treat_warnings_as_errors) {
        cflags += [ "-Werror" ]
  
-@@ -1580,10 +1548,6 @@ config("chromium_code") {
+@@ -1561,10 +1548,6 @@ config("chromium_code") {
        # well.
        ldflags = [ "-Werror" ]
      }
@@ -77,7 +49,7 @@ index 4f6461b..b5d2c77 100644
  
      # In Chromium code, we define __STDC_foo_MACROS in order to get the
      # C99 macros on Mac and Linux.
-@@ -1592,15 +1556,6 @@ config("chromium_code") {
+@@ -1573,15 +1556,6 @@ config("chromium_code") {
        "__STDC_FORMAT_MACROS",
      ]
  
@@ -93,7 +65,7 @@ index 4f6461b..b5d2c77 100644
      if (is_mac) {
        cflags_objc = [ "-Wobjc-missing-property-synthesis" ]
        cflags_objcc = [ "-Wobjc-missing-property-synthesis" ]
-@@ -1998,7 +1953,8 @@ config("default_stack_frames") {
+@@ -1979,7 +1953,8 @@ config("default_stack_frames") {
  }
  
  # Default "optimization on" config.
@@ -103,7 +75,7 @@ index 4f6461b..b5d2c77 100644
    if (is_win) {
      if (chrome_pgo_phase != 2) {
        # Favor size over speed, /O1 must be before the common flags.
-@@ -2033,7 +1989,8 @@ config("optimize") {
+@@ -2014,7 +1989,8 @@ config("optimize") {
  }
  
  # Turn off optimizations.
@@ -113,7 +85,7 @@ index 4f6461b..b5d2c77 100644
    if (is_win) {
      cflags = [
        "/Od",  # Disable optimization.
-@@ -2073,7 +2030,8 @@ config("no_optimize") {
+@@ -2054,7 +2030,8 @@ config("no_optimize") {
  # Turns up the optimization level. On Windows, this implies whole program
  # optimization and link-time code generation which is very expensive and should
  # be used sparingly.
@@ -123,7 +95,7 @@ index 4f6461b..b5d2c77 100644
    if (is_nacl && is_nacl_irt) {
      # The NaCl IRT is a special case and always wants its own config.
      # Various components do:
-@@ -2105,7 +2063,8 @@ config("optimize_max") {
+@@ -2086,7 +2063,8 @@ config("optimize_max") {
  #
  # TODO(crbug.com/621335) - rework how all of these configs are related
  # so that we don't need this disclaimer.
@@ -133,7 +105,7 @@ index 4f6461b..b5d2c77 100644
    if (is_nacl && is_nacl_irt) {
      # The NaCl IRT is a special case and always wants its own config.
      # Various components do:
-@@ -2130,7 +2089,8 @@ config("optimize_speed") {
+@@ -2111,7 +2089,8 @@ config("optimize_speed") {
    }
  }
  
@@ -143,7 +115,7 @@ index 4f6461b..b5d2c77 100644
    cflags = [ "-O1" ] + common_optimize_on_cflags
    ldflags = common_optimize_on_ldflags
    visibility = [ ":default_optimization" ]
-@@ -2247,7 +2207,8 @@ config("win_pdbaltpath") {
+@@ -2228,7 +2207,8 @@ config("win_pdbaltpath") {
  }
  
  # Full symbols.
@@ -153,7 +125,7 @@ index 4f6461b..b5d2c77 100644
    if (is_win) {
      if (is_clang) {
        cflags = [ "/Z7" ]  # Debug information in the .obj files.
-@@ -2355,7 +2316,8 @@ config("symbols") {
+@@ -2336,7 +2316,8 @@ config("symbols") {
  # Minimal symbols.
  # This config guarantees to hold symbol for stack trace which are shown to user
  # when crash happens in unittests running on buildbot.
@@ -163,7 +135,7 @@ index 4f6461b..b5d2c77 100644
    if (is_win) {
      # Functions, files, and line tables only.
      cflags = []
-@@ -2408,7 +2370,8 @@ config("minimal_symbols") {
+@@ -2389,7 +2370,8 @@ config("minimal_symbols") {
  # This configuration contains function names only. That is, the compiler is
  # told to not generate debug information and the linker then just puts function
  # names in the final debug information.
@@ -173,6 +145,3 @@ index 4f6461b..b5d2c77 100644
    if (is_win) {
      ldflags = [ "/DEBUG" ]
  
--- 
-2.26.2
-

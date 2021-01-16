@@ -11,25 +11,19 @@ for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
 
-# Don't apply ungoogled patchset if $GOOGLE is set
-[ -z "$GOOGLE" ] && {
-    printf "Applying ungoogled patchset\n"
-    sleep 1
+printf "Pruning binaries\n"
+python3 ungoogled-chromium/utils/prune_binaries.py \
+    ./ ungoogled-chromium/pruning.list
 
-    printf "Pruning binaries\n"
-    python3 ungoogled-chromium/utils/prune_binaries.py \
-        ./ ungoogled-chromium/pruning.list
+printf "Applying patches\n"
+python3 ungoogled-chromium/utils/patches.py apply \
+    ./ ungoogled-chromium/patches
 
-    printf "Applying patches\n"
-    python3 ungoogled-chromium/utils/patches.py apply \
-        ./ ungoogled-chromium/patches
-
-    printf "Applying domain substitution\n"
-    python3 ungoogled-chromium/utils/domain_substitution.py apply \
-        -r ungoogled-chromium/domain_regex.list \
-        -f ungoogled-chromium/domain_substitution.list \
-        -c domainsubcache.tar.gz ./
-}
+printf "Applying domain substitution\n"
+python3 ungoogled-chromium/utils/domain_substitution.py apply \
+    -r ungoogled-chromium/domain_regex.list \
+    -f ungoogled-chromium/domain_substitution.list \
+    -c domainsubcache.tar.gz ./
 
 # Avoid falling back to preprocessor mode when sources contain time macros
 kiss list ccache && export CCACHE_SLOPPINESS=time_macros
