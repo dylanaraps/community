@@ -25,6 +25,7 @@ libxkbcommon       make
 mesa
 nodejs             make
 nss
+patch              make
 pciutils
 perl               make
 pkgconf            make

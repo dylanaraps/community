@@ -16,21 +16,26 @@ done
     printf "Applying ungoogled patchset\n"
     sleep 1
 
+    printf "Pruning binaries\n"
     python3 ungoogled-chromium/utils/prune_binaries.py \
-        ungoogled-chromium/pruning.list
+        ./ ungoogled-chromium/pruning.list
 
+    printf "Applying patches\n"
     python3 ungoogled-chromium/utils/patches.py apply \
-        ungoogled-chromium/patches
+        ./ ungoogled-chromium/patches
 
-    python3 ungoogled-chromium/utils/domain_substitution.py apply -r \
-        ungoogled-chromium/domain_regex.list    
+    printf "Applying domain substitution\n"
+    python3 ungoogled-chromium/utils/domain_substitution.py apply \
+        -r ungoogled-chromium/domain_regex.list \
+        -f ungoogled-chromium/domain_substitution.list \
+        -c domainsubcache.tar.gz ./
 }
 
 # Avoid falling back to preprocessor mode when sources contain time macros
 kiss list ccache && export CCACHE_SLOPPINESS=time_macros
 
 # Force script incompatible with Python 3 to use /usr/bin/python2
-sed -i '1s|python$|&2|' third_party/dom_distiller_js/protoc_plugins/*.py
+sed -i "1s|python$|&2|" third_party/dom_distiller_js/protoc_plugins/*.py
 
 export CC=gcc
 export CXX=g++
