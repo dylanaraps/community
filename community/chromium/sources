@@ -1,4 +1,5 @@
 https://commondatastorage.googleapis.com/chromium-browser-official/chromium-87.0.4280.141.tar.xz
+https://github.com/Eloston/ungoogled-chromium/archive/87.0.4280.141-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-78-protobuf-RepeatedPtrField-export.patch
 patches/chromium-79-gcc-protobuf-alignas.patch
