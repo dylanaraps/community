@@ -15,6 +15,7 @@ libXdamage
 libXi
 libXrandr
 libXslt
+libXtst
 libdrm
 libexif
 libgcrypt
@@ -27,6 +28,7 @@ nss
 pciutils
 perl               make
 pkgconf            make
+python             make
 python2            make
 samurai            make
 xcb-proto
