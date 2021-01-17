@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+patch --version >/dev/null 2>&1 || {
+    printf "/usr/bin/patch must be owned by GNU patch\n"
+    exit 1
+}
+
 # Don't apply musl patches on any other libc
 kiss list musl && {
     for patch in musl-*.patch; do
