@@ -1,0 +1,162 @@
+#!/bin/sh -e
+
+patch --version >/dev/null 2>&1 || {
+    printf "/usr/bin/patch must be owned by GNU patch\n"
+    exit 1
+}
+
+# Don't apply musl patches on any other libc
+kiss list musl && {
+    for patch in musl-*.patch; do
+        patch -p0 < "$patch"
+    done
+}
+
+printf "Pruning binaries\n"
+python3 ungoogled-chromium/utils/prune_binaries.py \
+    ./ ungoogled-chromium/pruning.list
+
+printf "Applying patches\n"
+python3 ungoogled-chromium/utils/patches.py apply \
+    ./ ungoogled-chromium/patches
+
+printf "Applying domain substitution\n"
+python3 ungoogled-chromium/utils/domain_substitution.py apply \
+    -r ungoogled-chromium/domain_regex.list \
+    -f ungoogled-chromium/domain_substitution.list \
+    -c domainsubcache.tar.gz ./
+
+# Apply rest of the patches later
+# chromium-87-compiler.patch is based on an ungoogled patch
+
+for patch in chromium-*.patch; do
+    patch -p1 < "$patch"
+done
+
+# Avoid falling back to preprocessor mode when sources contain time macros
+kiss list ccache && export CCACHE_SLOPPINESS=time_macros
+
+# Force script incompatible with Python 3 to use /usr/bin/python2
+sed -i "1s|python$|&2|" third_party/dom_distiller_js/protoc_plugins/*.py
+
+export CC=gcc
+export CXX=g++
+export AR=ar
+export NM=nm
+
+# compile gn early, so it can be used to generate gni stuff
+python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+
+# system libpng causes build to fail ?
+system="
+    ffmpeg
+    flac
+    fontconfig
+    freetype
+    harfbuzz-ng
+    libdrm
+    libjpeg
+    libwebp
+    libxslt
+    opus
+"
+
+# remove build scripts for system provided dependencies - basically does the
+# same as the bundled script to remove bundled libs, but this way we don't
+# have to list the remaining libs
+for LIB in "$system" libjpeg_turbo; do
+    find . -type f -path "*third_party/$LIB/*" \
+        \! -path "*third_party/$LIB/chromium/*" \
+        \! -path "*third_party/$LIB/google/*" \
+        \! -path './base/third_party/icu/*' \
+        \! -path './third_party/pdfium/third_party/freetype/include/pstables.h' \
+        \! -path './third_party/harfbuzz-ng/utils/hb_scoped.h' \
+        \! -regex '.*\.\(gn\|gni\|isolate\|py\)' \
+        -delete
+done
+
+# switch to system provided dependencies
+# shellcheck disable=2086
+python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
+
+python2 third_party/libaddressinput/chromium/tools/update-strings.py
+
+kiss list libva && vaapi=true
+
+conf="
+    is_clang=false
+    is_debug=false
+    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    blink_symbol_level=0
+    symbol_level=0
+    is_cfi=false
+    icu_use_data_file=true
+    use_allocator=\"none\"
+    use_allocator_shim=false
+    use_atk=false
+    use_cups=false
+    use_dbus=false
+    use_sysroot=false
+    use_system_harfbuzz=true
+    use_vaapi=${vaapi:-false}
+    use_custom_libcxx=false
+    use_kerberos=false
+    use_lld=false
+    use_pulseaudio=false
+    use_gold=false
+    use_gnome_keyring=false
+    use_x11=true
+    ozone_platform_wayland=false
+    enable_widevine=false
+    is_desktop_linux=true
+    rtc_use_pipewire=false
+    link_pulseaudio=false
+    proprietary_codecs=true
+    ffmpeg_branding=\"Chrome\"
+    treat_warnings_as_errors=false
+    fatal_linker_warnings=false
+    chrome_pgo_phase=0
+    enable_hangout_services_extension=false
+    enable_js_type_check=false
+    enable_mdns=false
+    enable_mse_mpeg2ts_stream_parser=true
+    enable_nacl=false
+    enable_nacl_nonsfi=false
+    enable_one_click_signin=false
+    enable_reading_list=false
+    enable_remoting=false
+    enable_reporting=false
+    enable_service_discovery=false
+    exclude_unwind_tables=true
+    fieldtrial_testing_like_official_build=true
+    google_api_key=\"\"
+    google_default_client_id=\"\"
+    google_default_client_secret=\"\"
+    safe_browsing_mode=0
+    use_official_google_api_keys=false
+    use_unofficial_version_number=false
+"
+
+out/Release/gn gen out/Release --args="$conf" --script-executable=python2
+
+# final link needs lots of file descriptors, almost all shells support the -n flag
+# shellcheck disable=2039
+ulimit -n 4096
+
+ninja -C out/Release chrome mksnapshot
+
+# Package
+install -Dm755 chromium.sh            "$1/usr/bin/chromium"
+install -Dm755 out/Release/chrome     "$1/usr/lib/chromium/chromium"
+install -Dm644 out/Release/icudtl.dat "$1/usr/lib/chromium"
+install -Dm644 out/Release/locales/*.pak    -t "$1/usr/lib/chromium/locales"
+install -Dm755 out/Release/swiftshader/*.so -t "$1/usr/lib/chromium/swiftshader"
+
+for lib in libEGL.so libGLESv2.so; do
+    install -Dm755 "out/Release/$lib" "$1/usr/lib/chromium"
+done
+
+for stuff in bin pak; do
+    install -Dm644 out/Release/*.$stuff "$1/usr/lib/chromium"
+done
