@@ -109,7 +109,6 @@ conf="
     use_x11=true
     ozone_platform_wayland=false
     enable_widevine=false
-    is_desktop_linux=true
     rtc_use_pipewire=false
     link_pulseaudio=false
     proprietary_codecs=true
