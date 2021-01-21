@@ -16,5 +16,5 @@ for shared in yes no; do (
     cd "$shared"
 
     mk SHARED="$shared"
-    mk SHARED="$shared" DESTDIR="$1" install install-pcilib
+    mk SHARED="$shared" DESTDIR="$1" install install-lib
 ) done
