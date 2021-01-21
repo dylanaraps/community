@@ -8,7 +8,6 @@ patches/chromium-no-getcontext.patch
 patches/chromium-optional-atk.patch
 patches/chromium-optional-dbus.patch
 patches/chromium-system-nodejs.patch
-patches/chromium-ungoogled-patchset-88.0.4324.96.patch
 patches/musl-crashpad.patch
 patches/musl-default-pthread-stacksize.patch
 patches/musl-fixes.patch
@@ -21,3 +20,4 @@ patches/musl-sandbox.patch
 patches/musl-stacktrace.patch
 patches/musl-sync.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch
+patches/ungoogled-patchset-88.0.4324.96.patch
