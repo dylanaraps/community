@@ -12,11 +12,18 @@ kiss list musl && {
     done
 }
 
+for patch in chromium-*.patch; do
+    patch -p1 < "$patch"
+done
+
+# Update ungoogled patchset
+patch -d ungoogled-chromium -p1 < ungoogled-patchset-88.0.4324.96.patch
+
 printf "Pruning binaries\n"
 python3 ungoogled-chromium/utils/prune_binaries.py \
     ./ ungoogled-chromium/pruning.list
 
-printf "Applying patches\n"
+printf "Applying ungoogled patchset\n"
 python3 ungoogled-chromium/utils/patches.py apply \
     ./ ungoogled-chromium/patches
 
@@ -25,13 +32,6 @@ python3 ungoogled-chromium/utils/domain_substitution.py apply \
     -r ungoogled-chromium/domain_regex.list \
     -f ungoogled-chromium/domain_substitution.list \
     -c domainsubcache.tar.gz ./
-
-# Apply rest of the patches later
-# chromium-87-compiler.patch is based on an ungoogled patch
-
-for patch in chromium-*.patch; do
-    patch -p1 < "$patch"
-done
 
 # Avoid falling back to preprocessor mode when sources contain time macros
 kiss list ccache && export CCACHE_SLOPPINESS=time_macros
@@ -109,7 +109,6 @@ conf="
     use_x11=true
     ozone_platform_wayland=false
     enable_widevine=false
-    is_desktop_linux=true
     rtc_use_pipewire=false
     link_pulseaudio=false
     proprietary_codecs=true

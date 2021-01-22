@@ -1,18 +1,8 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-87.0.4280.141.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-88.0.4324.96.tar.xz
 https://github.com/Eloston/ungoogled-chromium/archive/87.0.4280.141-1.tar.gz ungoogled-chromium
+https://github.com/stha09/chromium-patches/releases/download/chromium-88-patchset-3/chromium-88-patchset-3.tar.xz
 files/chromium.sh
-patches/chromium-78-protobuf-RepeatedPtrField-export.patch
-patches/chromium-79-gcc-protobuf-alignas.patch
-patches/chromium-84-blink-disable-clang-format.patch
-patches/chromium-87-CursorFactory-include.patch
-patches/chromium-87-ServiceWorkerContainerHost-crash.patch
-patches/chromium-87-compiler.patch
-patches/chromium-87-icu68.patch
-patches/chromium-87-openscreen-include.patch
-patches/chromium-87-v8-icu68.patch
 patches/chromium-88-ozone-deps.patch
-patches/chromium-88-vaapi-attribute.patch
-patches/chromium-fix-char_traits.patch
 patches/chromium-libc_malloc.patch
 patches/chromium-no-getcontext.patch
 patches/chromium-optional-atk.patch
@@ -30,3 +20,4 @@ patches/musl-sandbox.patch
 patches/musl-stacktrace.patch
 patches/musl-sync.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch
+patches/ungoogled-patchset-88.0.4324.96.patch
