@@ -39,6 +39,9 @@ kiss list ccache && export CCACHE_SLOPPINESS=time_macros
 # Force script incompatible with Python 3 to use /usr/bin/python2
 sed -i "1s|python$|&2|" third_party/dom_distiller_js/protoc_plugins/*.py
 
+mkdir -p third_party/node/linux/node-linux-x64/bin
+ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
+
 export CC=gcc
 export CXX=g++
 export AR=ar
@@ -47,7 +50,8 @@ export NM=nm
 # compile gn early, so it can be used to generate gni stuff
 python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
-# system libpng causes build to fail ?
+# libpng: KISS builds with APNG patch (https://crbug.com/752403#c10)
+# zlib: KISS builds without minizip
 system="
     ffmpeg
     flac
@@ -55,8 +59,10 @@ system="
     freetype
     harfbuzz-ng
     libdrm
+    libevent
     libjpeg
     libwebp
+    libxml
     libxslt
     opus
 "
@@ -84,37 +90,36 @@ python2 third_party/libaddressinput/chromium/tools/update-strings.py
 kiss list libva && vaapi=true
 
 conf="
+    blink_symbol_level=0
+    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    enable_widevine=false
+    fatal_linker_warnings=false
+    ffmpeg_branding=\"Chrome\"
+    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    icu_use_data_file=true
+    is_cfi=false
     is_clang=false
     is_debug=false
-    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    blink_symbol_level=0
+    link_pulseaudio=false
+    ozone_platform_wayland=false
+    proprietary_codecs=true
+    rtc_use_pipewire=false
     symbol_level=0
-    is_cfi=false
-    icu_use_data_file=true
     use_allocator=\"none\"
     use_allocator_shim=false
     use_atk=false
     use_cups=false
-    use_dbus=false
-    use_sysroot=false
-    use_system_harfbuzz=true
-    use_vaapi=${vaapi:-false}
     use_custom_libcxx=false
+    use_dbus=false
+    use_gnome_keyring=false
+    use_gold=false
     use_kerberos=false
     use_lld=false
     use_pulseaudio=false
-    use_gold=false
-    use_gnome_keyring=false
+    use_sysroot=false
+    use_system_harfbuzz=true
+    use_vaapi=${vaapi:-false}
     use_x11=true
-    ozone_platform_wayland=false
-    enable_widevine=false
-    rtc_use_pipewire=false
-    link_pulseaudio=false
-    proprietary_codecs=true
-    ffmpeg_branding=\"Chrome\"
-    treat_warnings_as_errors=false
-    fatal_linker_warnings=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
     enable_js_type_check=false
@@ -133,6 +138,7 @@ conf="
     google_default_client_id=\"\"
     google_default_client_secret=\"\"
     safe_browsing_mode=0
+    treat_warnings_as_errors=false
     use_official_google_api_keys=false
     use_unofficial_version_number=false
 "

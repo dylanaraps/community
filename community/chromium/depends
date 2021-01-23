@@ -17,11 +17,13 @@ libXrandr
 libXslt
 libXtst
 libdrm
+libevent
 libexif
 libgcrypt
 libjpeg-turbo
 libwebp
 libxkbcommon
+libxml2
 mesa
 nodejs             make
 nss
