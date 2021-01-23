@@ -40,7 +40,7 @@ sed nss/pkg/pkg-config/nss.pc.in \
     -e "s,%exec_prefix%,/usr/bin,g" \
     -e "s,%includedir%,/usr/include/nss,g" \
     -e "s,%NSPR_VERSION%,4.20,g" \
-    -e "s,%NSS_VERSION%,3.49.1,g" |
+    -e "s,%NSS_VERSION%,3.61,g" |
 install -Dm644 /dev/stdin "$1/usr/lib/pkgconfig/nss.pc"
 
 # This is disgusting and I hate this package with a passion.
