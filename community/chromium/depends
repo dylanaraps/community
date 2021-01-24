@@ -2,7 +2,6 @@ alsa-lib
 atk
 bison              make
 bzip2
-eudev
 ffmpeg
 flac
 fontconfig
@@ -22,13 +21,12 @@ libexif
 libgcrypt
 libjpeg-turbo
 libwebp
-libxkbcommon
 libxml2
 mesa
 nodejs             make
 nss
+opus
 patch              make
-pciutils           make
 perl               make
 pkgconf            make
 python             make
