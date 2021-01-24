@@ -2,7 +2,7 @@
 
 export CFLAGS="$CFLAGS -static"
 
-for patch in bash50-0??; do
+for patch in bash51-0??; do
     patch -p0 < "$patch"
 done
 
