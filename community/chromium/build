@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+printf "NOTE: It is HIGHLY recommended to build this package with ccache enabled!\n"
+
 patch --version >/dev/null 2>&1 || {
     printf "/usr/bin/patch must be owned by GNU patch\n"
     exit 1
@@ -114,12 +116,15 @@ conf="
     use_gnome_keyring=false
     use_gold=false
     use_kerberos=false
+    use_libpci=false
     use_lld=false
     use_pulseaudio=false
     use_sysroot=false
     use_system_harfbuzz=true
+    use_udev=false
     use_vaapi=${vaapi:-false}
     use_x11=true
+    use_xkbcommon=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
     enable_js_type_check=false
