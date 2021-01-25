@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-cd otfs
-
-for font in *.otf; do
-    install -Dm755 "$font" "$1/usr/share/fonts/OTF/$font"
-done
