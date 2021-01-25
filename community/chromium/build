@@ -121,7 +121,6 @@ conf="
     use_pulseaudio=false
     use_sysroot=false
     use_system_harfbuzz=true
-    use_udev=false
     use_vaapi=${vaapi:-false}
     use_x11=true
     use_xkbcommon=false
