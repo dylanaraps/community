@@ -1,4 +1,4 @@
 ncurses make
 libtermkey make
 lua make
-lua-lpeg make
+lpeg make

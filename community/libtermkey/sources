@@ -1,1 +1,2 @@
 http://www.leonerd.org.uk/code/libtermkey/libtermkey-0.22.tar.gz
+patches/remove-libtool.patch
