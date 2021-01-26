@@ -2,7 +2,6 @@ alsa-lib
 atk
 bison              make
 bzip2
-eudev
 ffmpeg
 flac
 fontconfig
