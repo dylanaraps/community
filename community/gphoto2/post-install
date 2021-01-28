@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE:
+
+Add the user to the group 'camera' in
+order to use gphoto2.
+
+EOF
