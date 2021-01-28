@@ -60,6 +60,7 @@ system="
     fontconfig
     freetype
     harfbuzz-ng
+    icu
     libdrm
     libevent
     libjpeg
@@ -76,7 +77,6 @@ for LIB in "$system" libjpeg_turbo; do
     find . -type f -path "*third_party/$LIB/*" \
         \! -path "*third_party/$LIB/chromium/*" \
         \! -path "*third_party/$LIB/google/*" \
-        \! -path './base/third_party/icu/*' \
         \! -path './third_party/pdfium/third_party/freetype/include/pstables.h' \
         \! -path './third_party/harfbuzz-ng/utils/hb_scoped.h' \
         \! -regex '.*\.\(gn\|gni\|isolate\|py\)' \
@@ -98,7 +98,7 @@ conf="
     fatal_linker_warnings=false
     ffmpeg_branding=\"Chrome\"
     host_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    icu_use_data_file=true
+    icu_use_data_file=false
     is_cfi=false
     is_clang=false
     is_debug=false
@@ -158,7 +158,6 @@ ninja -C out/Release chrome mksnapshot
 # Package
 install -Dm755 chromium.sh            "$1/usr/bin/chromium"
 install -Dm755 out/Release/chrome     "$1/usr/lib/chromium/chromium"
-install -Dm644 out/Release/icudtl.dat "$1/usr/lib/chromium"
 install -Dm644 out/Release/locales/*.pak    -t "$1/usr/lib/chromium/locales"
 install -Dm755 out/Release/swiftshader/*.so -t "$1/usr/lib/chromium/swiftshader"
 
