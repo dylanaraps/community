@@ -2,6 +2,8 @@
 
 export CFLAGS="$CFLAGS -static"
 
+patch -p1 < bash-5.1-parallel_make.patch
+
 for patch in bash51-0??; do
     patch -p0 < "$patch"
 done
