@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+cd Project/GNU/Library
+
+./autogen.sh
+
+./configure \
+    --prefix=/usr \
+    --enable-shared \
+    --disable-static \
+    --with-libcurl \
+    --with-libmms 
+	
+make
+make DESTDIR="$1" install
