@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p    "$1/usr/share/consolefonts"
-cp ./*.psfu "$1/usr/share/consolefonts"
