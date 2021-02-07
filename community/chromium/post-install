@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+cat << EOF
+'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for the sandbox to work.
+
+The '--no-sandbox' flag should be avoided, the SUID sandbox should be built \
+if support for user namespaces is not available:
+
+* Change the 'ninja' command to:
+    ninja -C out/Release chrome chrome_sandbox
+* Package the sandbox:
+    install -Dm4755 out/Release/chrome_sandbox "\$1/usr/lib/chromium/chrome-sandbox"
+EOF
