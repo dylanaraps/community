@@ -1,0 +1,16 @@
+boost
+cmake make
+ffmpeg
+fmt
+freetype-harfbuzz
+libjpeg-turbo
+libpng
+libtbb
+libwebp
+opencolorio
+openexr
+pugixml
+pybind11
+python
+tiff
+zlib

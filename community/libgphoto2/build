@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --disable-rpath
+	
+make
+make DESTDIR="$1" install
+
+# Set path of libraries such that print-camera-list can find them
+# If LB_LIBRARY_PATH is already defined, just add a new path
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$1/usr/lib"
+
+# Create and install udev rules for the user in group 'camera'
+mkdir -p "$1"/usr/lib/udev/rules.d
+mkdir -p "$1"/usr/lib/udev/hwdb.d
+"$1"/usr/lib/libgphoto2/print-camera-list udev-rules version 201 group camera > "$1"/usr/lib/udev/rules.d/40-gphoto.rules
+"$1"/usr/lib/libgphoto2/print-camera-list hwdb > "$1"/usr/lib/udev/hwdb.d/20-gphoto.hwdb

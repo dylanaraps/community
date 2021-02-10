@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+patch -p1 < musl.patch
+
+sed -i "s|CPLUS = g..|CPLUS = $(CXX)|g"                         build/linux.gcc.inc
+sed -i "s|CONLY = gcc|CONLY = $(CC)|g"                          build/linux.gcc.inc
+sed -i "s@#define MALLOC_UNIXLIKE_OVERLOAD_ENABLED __linux__@@" src/tbbmalloc/proxy.h
+
+make
+
+mkdir -p "$1/usr/lib"
+mv build/linux_*/*.so* "$1/usr/lib"
+mkdir -p "$1/usr/include"
+mv include/tbb "$1/usr/include"
+
+
+cmake \
+    -DINSTALL_DIR="$1/usr/lib/cmake/TBB" \
+    -DSYSTEM_NAME=Linux \
+    -DLIB_REL_PATH=../.. \
+    -DINC_REL_PATH=../../../include \
+    -P cmake/tbb_config_installer.cmake
+
+install -Dm0644 ./*.pc -t "$1/usr/lib/pkgconfig"

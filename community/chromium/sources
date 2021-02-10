@@ -1,0 +1,22 @@
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-88.0.4324.150.tar.xz
+https://github.com/Eloston/ungoogled-chromium/archive/88.0.4324.150-1.tar.gz ungoogled-chromium
+https://github.com/stha09/chromium-patches/releases/download/chromium-88-patchset-3/chromium-88-patchset-3.tar.xz
+files/chromium.sh
+patches/chromium-88-ozone-deps.patch
+patches/chromium-no-getcontext.patch
+patches/chromium-optional-atk.patch
+patches/chromium-optional-dbus.patch
+patches/glibc-2.33.patch
+patches/glibc-malloc.patch
+patches/musl-crashpad.patch
+patches/musl-default-pthread-stacksize.patch
+patches/musl-fixes.patch
+patches/musl-hacks.patch
+patches/musl-libc++.patch
+patches/musl-no-execinfo.patch
+patches/musl-no-mallinfo.patch
+patches/musl-resolver.patch
+patches/musl-sandbox.patch
+patches/musl-stacktrace.patch
+patches/musl-sync.patch
+patches/musl-v8-monotonic-pthread-cont_timedwait.patch

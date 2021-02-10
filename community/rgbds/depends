@@ -1,0 +1,4 @@
+bison make
+pkgconf make
+libpng make
+

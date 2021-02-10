@@ -1,3 +1,5 @@
-boost make
+boost
+curl
 libmpdclient
+ncurses
 readline

@@ -1,0 +1,5 @@
+https://github.com/oneapi-src/oneTBB/archive/v2020.3.tar.gz
+files/tbb.pc
+files/tbbmalloc.pc
+files/tbbmalloc_proxy.pc
+patches/musl.patch

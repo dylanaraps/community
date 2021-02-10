@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch < build-static-lib.patch
+
+make
+
+mkdir -p "$1/usr/lib/"
+install -Dm644 lpeg.a "$1/usr/lib/liblpeg.a"
