@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-:> nostrip
-
-go build
-install -Dm755 elvish "$1/usr/bin/elvish"
