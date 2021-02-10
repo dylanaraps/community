@@ -9,20 +9,16 @@ freetype-harfbuzz
 glib
 gperf              make
 gtk+3
-icu
 libXcomposite
 libXdamage
 libXi
 libXrandr
-libXslt
 libXtst
 libdrm
-libevent
 libexif
 libgcrypt
 libjpeg-turbo
 libwebp
-libxml2
 mesa
 nodejs             make
 nss
