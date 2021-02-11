@@ -7,11 +7,9 @@ gperf make
 libXcomposite
 libXcursor
 libXi
-libXslt
 libXtst
 libdrm
 libevent
-libxml2
 linux-headers make
 nss
 python2 make

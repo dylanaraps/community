@@ -9,7 +9,6 @@ libXext
 libXi
 libXrandr
 libXrender
-libXslt
 libinput
 libjpeg-turbo
 libpng
