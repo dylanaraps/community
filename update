@@ -1,0 +1,3 @@
+#!/bin/sh
+
+printf "'sls' users should install 'ssu' to avoid having problems with 'KISS_SU', the project has been renamed.\n"
