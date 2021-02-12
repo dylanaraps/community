@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-python setup.py build
-python setup.py install --prefix=/usr --root="$1"
