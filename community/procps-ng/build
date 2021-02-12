@@ -1,10 +1,14 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
-
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin
 
-make
+# Fix includes for w.c
+sed -i 's|HAVE_UTMPX_H|NO|g' w.c
+
+# Fix includes for proc/escape.c
+sed -i '/\#endif/a #include <langinfo.h>' proc/escape.c
+
+make CCLD="${CC:-cc} -all-static"
 make DESTDIR="$1" install
