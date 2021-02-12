@@ -2,6 +2,7 @@
 
 ./configure \
     --prefix=/usr \
+    --with-tls=libtls \
     --disable-nls
     
 make
