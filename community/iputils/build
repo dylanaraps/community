@@ -6,6 +6,7 @@ sed -i 's/cap_setuid/cap_setuserid/g' ninfod/ninfod.c
 
 meson \
     --prefix=/usr \
+    --sbindir=/usr/bin \
     -DUSE_CAP=true \
     -DNO_SETCAP_OR_SUID=true \
     -DBUILD_MANS=false \
