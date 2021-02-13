@@ -3,8 +3,11 @@ xcb-util
 xcb-util-cursor
 xcb-util-keysyms
 xcb-util-wm
+xcb-util-xrm
 libxkbcommon
 yajl
 pcre
 cairo
 pango 
+libev
+bash
