@@ -6,8 +6,6 @@
 
 # Change always inline to work with musl
 sed -i 's|__always_inline|inline __attribute__((__always_inline__))|g' filesystems/zstd/fse_decompress.c filesystems/zstd/huf_decompress.c filesystems/zstd/zstd_internal.h
-# Fix GCC10+ builds
-sed -i 's|-fno-strict-aliasing|& -fno-tree-loop-distribute-patterns|' Make.common
 # Remove the path prefix from the css reference, so that the css can live in the same directory.
 sed -i 's|../Styles/||g' "docs/refind/"*.html
 # Hardcode RefindDir, so that refind-install can find refind_x64.efi
