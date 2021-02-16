@@ -35,7 +35,7 @@ install -Dm 0644 keys/*.cer -t "$1/etc/refind.d/keys"
 install -Dm 0644 keys/*.crt -t "$1/etc/refind.d/keys"
 
 # Keysdir
-install -Dm 0700 "$1/etc/refind.d/keys"
+install -dm 0700 "$1/etc/refind.d/keys"
 
 # Fonts
 install -Dm 0644 fonts/*.png -t "$1/usr/share/refind/fonts"
