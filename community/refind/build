@@ -1,0 +1,71 @@
+#!/bin/sh -e
+# Single quotes are used intentionally, and should not expand.
+# shellcheck disable=SC2016
+
+# Prepare it
+
+# Change always inline to work with musl
+sed -i 's|__always_inline|inline __attribute__((__always_inline__))|g' filesystems/zstd/fse_decompress.c filesystems/zstd/huf_decompress.c filesystems/zstd/zstd_internal.h
+# Fix GCC10+ builds
+sed -i 's|-fno-strict-aliasing|& -fno-tree-loop-distribute-patterns|' Make.common
+# Remove the path prefix from the css reference, so that the css can live in the same directory.
+sed -i 's|../Styles/||g' "docs/refind/"*.html
+# Hardcode RefindDir, so that refind-install can find refind_x64.efi
+sed -i 's|RefindDir=\"\$ThisDir/refind\"|RefindDir="/usr/share/refind/"|g' refind-install
+
+# Build it
+
+make
+make fs -j1 # Linker errors if done in parallel
+
+# Package it
+
+# Must be done manually, and not with `make install`, as that runs `refind-install`
+
+# EFI bins
+install -Dm 0644 refind/*.efi -t "$1/usr/share/refind"
+install -Dm 0644 drivers_x64/*.efi -t "$1/usr/share/refind/drivers_x64"
+install -Dm 0644 gptsync/*.efi -t "$1/usr/share/refind/tools_x64"
+
+# Sample config
+install -Dm 0644 refind.conf-sample -t "$1/usr/share/refind"
+
+# Keys
+install -Dm 0644 keys/*.cer -t "$1/etc/refind.d/keys"
+install -Dm 0644 keys/*.crt -t "$1/etc/refind.d/keys"
+
+# Keysdir
+install -Dm 0700 "$1/etc/refind.d/keys"
+
+# Fonts
+install -Dm 0644 fonts/*.png -t "$1/usr/share/refind/fonts"
+
+# Icons
+install -Dm 0644 icons/*.png -t "$1/usr/share/refind/icons"
+install -Dm 0644 icons/svg/*.svg -t "$1/usr/share/refind/icons/svg"
+
+# Scripts
+
+for script in refind-install refind-mkdefault mkrlconf mvrefind; do
+  install -Dm 0755 "$script" -t "$1/usr/bin"
+done
+
+install -Dm 0755 fonts/mkfont.sh "$1/usr/bin/refind-mkfont"
+
+# Man pages
+install -Dm 0644 docs/man/*.8 -t "$1/usr/share/man/man8"
+
+# Docs
+for doc in CREDITS NEWS README; do
+  install -Dm 0644 "$doc.txt" -t "$1/usr/share/doc/refind"
+done
+
+install -Dm 0644 fonts/README.txt "$1/usr/share/doc/refind/README.refind-mkfont.txt"
+install -Dm 0644 icons/README "$1/usr/share/doc/refind/README.icons.txt"
+install -Dm 0644 keys/README.txt "$1/usr/share/doc/refind/README.keys.txt"
+
+for suffix in html png svg txt; do
+  install -Dm 0644 "docs/refind/"*.$suffix -t "$1/usr/share/doc/refind/html"
+done
+
+install -Dm 0644 docs/Styles/*.css -t "$1/usr/share/doc/refind/html"
