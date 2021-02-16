@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+make
+make -C lib
+make -C gnuefi
+make -C inc
+make -C apps
+
+make INSTALLROOT="$1" PREFIX='/usr' install
+install -vDm 644 apps/*.efi -t "$1/usr/share/gnu-efi/apps/x86_64"
+install -vDm 644 README.efilib -t "$1/usr/share/licenses/gnu-efi"
+install -vDm 644 ChangeLog README.gnuefi README.git README.elilo -t "$1/usr/share/doc/gnu-efi"
