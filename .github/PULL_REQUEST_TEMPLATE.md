@@ -1,6 +1,6 @@
 Please fill out the template.
 
-Read: https://k1ss.org/wiki/kiss/style-guide
+Read: https://kiss.armaanb.net/wiki/kiss/style-guide
 
 ---
 
@@ -19,7 +19,7 @@ MANIFEST HERE
 
 - [ ] Latest upstream version.
 - [ ] I agree to maintain this package.
-- [ ] I agree to notify @dylanaraps if I can no longer maintain this package.
+- [ ] I agree to notify the @kiss-community maintainers if I can no longer maintain this package.
 
 ## Existing package
 

@@ -1,5 +1,5 @@
 |/
-|\ISS                                                           https://k1ss.org
+|\ISS                                                   https://kiss.armaanb.net
 ________________________________________________________________________________
 
 
@@ -12,10 +12,10 @@ The community repository for KISS Linux.
 Documentation
 ________________________________________________________________________________
 
-- https://k1ss.org/package-system
-- https://k1ss.org/package-manager
-- https://k1ss.org/wiki/kiss/style-guide
-- https://k1ss.org/software
+- https://kiss.armaanb.net/package-system
+- https://kiss.armaanb.net/package-manager
+- https://kiss.armaanb.net/wiki/kiss/style-guide
+- https://kiss.armaanb.net/software
 
 
 Maintenance
@@ -71,5 +71,3 @@ Contributions to this repository should adhere to the following commit style.
 |   $ git commit -m "pkg_name: fixed build failure ..."                        |
 |                                                                              |
 +------------------------------------------------------------------------------+
-
-
