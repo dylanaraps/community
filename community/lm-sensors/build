@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+make
+make \
+    DESTDIR="$1" \
+    PREFIX=/usr \
+    SBINDIR=/usr/bin \
+    MANDIR=/usr/share/man \
+    install
