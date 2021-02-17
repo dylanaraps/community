@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-systemd-unit-dir=no
+
+make
+make DESTDIR="$1" install
