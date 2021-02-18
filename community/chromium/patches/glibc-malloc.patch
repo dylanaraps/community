@@ -1,6 +1,8 @@
---- a/base/process/memory_linux.cc.orig	2017-09-15 08:41:43.000000000 +0000
-+++ b/base/process/memory_linux.cc	2017-09-15 08:44:39.804995469 +0000
-@@ -21,6 +21,12 @@
+diff --git a/base/process/memory_linux.cc b/base/process/memory_linux.cc
+index 3bada77..a8a31ca 100644
+--- a/base/process/memory_linux.cc
++++ b/base/process/memory_linux.cc
+@@ -23,6 +23,12 @@
  #include "third_party/tcmalloc/chromium/src/gperftools/tcmalloc.h"
  #endif
  
@@ -13,9 +15,7 @@
  namespace base {
  
  size_t g_oom_size = 0U;
---- a/base/process/memory_linux.cc.orig	2020-08-30 14:18:35.401132593 -0400
-+++ b/base/process/memory_linux.cc	2020-08-30 14:19:08.030199189 -0400
-@@ -141,7 +141,7 @@
+@@ -151,7 +157,7 @@ bool UncheckedMalloc(size_t size, void** result) {
      (!defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC))
    *result = malloc(size);
  #elif defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC)

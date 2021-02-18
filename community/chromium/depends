@@ -23,7 +23,6 @@ mesa
 nodejs             make
 nss
 opus
-patch              make
 perl               make
 pkgconf            make
 python             make

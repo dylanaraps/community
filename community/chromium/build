@@ -2,15 +2,10 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with ccache enabled!\n"
 
-patch --version >/dev/null 2>&1 || {
-    printf "/usr/bin/patch must be owned by GNU patch\n"
-    exit 1
-}
-
 # Don't apply musl patches on any other libc.
 kiss list musl && {
     for patch in musl-*.patch; do
-        patch -p0 < "$patch"
+        patch -p1 < "$patch"
     done
 }
 
@@ -21,19 +16,21 @@ kiss list glibc && {
     done
 }
 
+# Glob includes the GCC patchset aswell.
 for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
 
-printf "Pruning binaries\n"
+( cd ungoogled-chromium && patch -p1 < ../ungoogled-patchset-88.0.4324.182.patch )
+
 python3 ungoogled-chromium/utils/prune_binaries.py \
     ./ ungoogled-chromium/pruning.list
 
-printf "Applying ungoogled patchset\n"
-python3 ungoogled-chromium/utils/patches.py apply \
-    ./ ungoogled-chromium/patches
+# Bypass the Python script and apply patches ourselves to avoid GNU patch.
+while read -r patch; do
+    patch -p1 < "ungoogled-chromium/patches/$patch"
+done < ungoogled-chromium/patches/series
 
-printf "Applying domain substitution\n"
 python3 ungoogled-chromium/utils/domain_substitution.py apply \
     -r ungoogled-chromium/domain_regex.list \
     -f ungoogled-chromium/domain_substitution.list \
@@ -57,7 +54,7 @@ export NM=nm
 python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
 # icu, libxml2, libXslt: dropped from community.
-# libevent: _might_ be the cause of random freezes.
+# libevent: Random freezes with javascript.
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
 # libxml2: need to use bundled with libXslt due to mismatches and stuff.
 # zlib: KISS builds without minizip.
@@ -80,10 +77,12 @@ for LIB in "$system" libjpeg_turbo; do
     find . -type f -path "*third_party/$LIB/*" \
         \! -path "*third_party/$LIB/chromium/*" \
         \! -path "*third_party/$LIB/google/*" \
-        \! -path './base/third_party/icu/*' \
         \! -path './third_party/pdfium/third_party/freetype/include/pstables.h' \
         \! -path './third_party/harfbuzz-ng/utils/hb_scoped.h' \
-        \! -regex '.*\.\(gn\|gni\|isolate\|py\)' \
+        \! -name '*.gn' \
+        \! -name '*.gni' \
+        \! -name '*.isolate' \
+        \! -name '*.py' \
         -delete
 done
 
@@ -96,8 +95,14 @@ python2 third_party/libaddressinput/chromium/tools/update-strings.py
 kiss list libva && vaapi=true
 
 conf="
+    angle_enable_vulkan=false
     blink_symbol_level=0
+    build_dawn_tests=false
     custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    dawn_enable_vulkan=false
+    enable_perfetto_unittests=false
+    enable_swiftshader_vulkan=false
+    enable_vr=false
     enable_widevine=false
     fatal_linker_warnings=false
     ffmpeg_branding=\"Chrome\"
@@ -127,6 +132,7 @@ conf="
     use_vaapi=${vaapi:-false}
     use_x11=true
     use_xkbcommon=false
+    v8_enable_i18n_support=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
     enable_js_type_check=false
@@ -156,7 +162,7 @@ out/Release/gn gen out/Release --args="$conf" --script-executable=python2
 # shellcheck disable=2039
 ulimit -n 4096
 
-ninja -C out/Release chrome mksnapshot
+ninja -C out/Release chrome
 
 # Package the monster.
 install -Dm755 chromium.sh            "$1/usr/bin/chromium"
