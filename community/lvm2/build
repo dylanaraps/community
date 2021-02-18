@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < fix-stdio-usage.patch
-patch -p1 < disable-symver.patch
-patch -p1 < bashism.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 # LVM2 calls 'fmt -1' throughout the build process.
 # Busybox doesn't provide this command, however
