@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export GOPATH="$PWD/go"
+export GO111MODULE=on
+
+cd cmd/pdfcpu
+
+go build \
+   -modcacherw \
+   -trimpath
+
+install -Dm755 pdfcpu "$1/usr/bin/pdfcpu"
