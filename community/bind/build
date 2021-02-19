@@ -1,12 +1,33 @@
 #!/bin/sh -e
 
+# Build static 'libnghttp2' for 'bind'.
+(
+    cd libnghttp2
+
+    ./configure \
+        --prefix=/usr \
+        --disable-examples \
+        --disable-python-bindings \
+        --disable-shared \
+        --enable-lib-only
+
+    make
+    make DESTDIR="$PWD/../nghttp2" install
+)
+
+export PKG_CONFIG_PATH="$PWD/nghttp2/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+export CFLAGS="$CFLAGS -I$PWD/nghttp2/usr/include"
+export LDFLAGS="$CFLAGS -L$PWD/nghttp2/usr/lib"
+
 # Remove libtool dependency.
 sed -i 's/as_fn_error.*libtool/: "/g' configure
 
-./configure \
+LIBNGHTTP2_CFLAGS="-static" ./configure \
     --prefix=/usr \
-    --sbindir=/usr/bin \
-    --without-python
+    --sbindir=/usr/bin
 
 make
 make DESTDIR="$1" install
+
+# Why are tests installed to $DESTDIR's /tmp ?
+rm -rf "$1/tmp"
