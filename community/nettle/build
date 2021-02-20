@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-shared \
+    --enable-static \
+    --enable-mini-gmp \
+    --disable-documentation
+
+make
+make DESTDIR="$1" install
