@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix="$1/usr" \
+    --disable-etags
+
+make
+make install
