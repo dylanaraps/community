@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-make build
-install -Dm755 bin/gocloc "$1/usr/bin/gocloc"
