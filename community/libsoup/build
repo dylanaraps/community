@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    -Dtls_check=false \
+    -Dvapi=disabled \
+    -Dgssapi=disabled \
+    -Dbrotli=disabled \
+    -Dsysprof=disabled \
+    . output
+
+ninja -C output
+ninja -C output install

@@ -1,0 +1,8 @@
+glib
+glib-networking
+libpsl
+libxml2
+meson make
+pkgconf make
+sqlite
+zlib
