@@ -1,9 +1,7 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
-
 ./configure --prefix=/usr
 make
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$1" install
 install -Dm 644 editors/proto.vim  -t "$1/usr/share/vim/vimfiles/syntax"
