@@ -1,11 +1,13 @@
 #!/bin/sh
 
-printf "==============================
-
-Make your voice heard in the future of KISS! Participate in the BDFL survey.
-
-https://kiss-poll.armaanb.net
-
-Form closes 2021-02-24.
-
-==============================\n"
+printf "+-----------------------------------------------------+
+|                   ATTN KISS USERS                   |
++-----------------------------------------------------+
+| Just 2 more days to participate in the BDFL vote!   |
+| Make your vote heard and take this quick 2 question |
+| survey!                                             |
+|                                                     |
+| https://kiss-poll.armaanb.net                       |
+|                                                     |
+| Form closes 2021-02-24.                             |
++-----------------------------------------------------+\n"
