@@ -1,13 +1,17 @@
 #!/bin/sh
 
 printf "+-----------------------------------------------------+
-|                   ATTN KISS USERS                   |
+| ATTENTION KISS USERS                     2021-02-23 |
 +-----------------------------------------------------+
-| Just 2 more days to participate in the BDFL vote!   |
-| Make your vote heard and take this quick 2 question |
-| survey!                                             |
+| The BDFL poll was shut down early due to a lack of  |
+| meaningful participation.                           |
 |                                                     |
-| https://kiss-poll.armaanb.net                       |
+| Because of this, kiss-community is now proud to     |
+| declare Dilyn Corner as the new KISS BDFL!          |
 |                                                     |
-| Form closes 2021-02-24.                             |
+| A summary of the poll results is here:              |
+| https://i.imgur.com/7fudIqe.png                     |
+|                                                     |
+| A blog post and more offical announcements will     |
+| follow soon.                                        |
 +-----------------------------------------------------+\n"
