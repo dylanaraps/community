@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < remove-libtool.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 make
 make PREFIX=/usr DESTDIR="$1" install

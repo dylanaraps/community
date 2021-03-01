@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cat <<EOF
+
+NOTE: This update reverts the name of the shared object to libtermkey's default 
+      therefore you must rebuild vis.
+
+EOF

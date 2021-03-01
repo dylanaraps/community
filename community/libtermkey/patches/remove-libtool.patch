@@ -1,29 +1,23 @@
 --- a/Makefile
 +++ b/Makefile
-@@ -35,16 +35,8 @@
- endif
+@@ -1,15 +1,5 @@
+ pkgconfig = $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config $(1))
  
- OBJECTS=termkey.lo driver-csi.lo driver-ti.lo
--LIBRARY=libtermkey.la
-+LIBRARY=libtermkey.so
- 
--DEMOS=demo demo-async
--
--ifeq ($(call pkgconfig, glib-2.0 && echo 1),1)
--  DEMOS+=demo-glib
+-ifeq ($(shell uname),Darwin)
+-  LIBTOOL ?= glibtool
+-else
+-  LIBTOOL ?= libtool
 -endif
 -
--DEMO_OBJECTS=$(DEMOS:=.lo)
+-ifneq ($(VERBOSE),1)
+-  LIBTOOL +=--quiet
+-endif
 -
- TESTSOURCES=$(wildcard t/[0-9]*.c)
- TESTFILES=$(TESTSOURCES:.c=.t)
+ override CFLAGS +=-Wall -std=c99
  
-@@ -64,49 +56,34 @@
- MAN3DIR=$(MANDIR)/man3
- MAN7DIR=$(MANDIR)/man7
- 
--all: $(LIBRARY) $(DEMOS)
-+all: $(LIBRARY) libtermkey.a
+ ifeq ($(DEBUG),1)
+@@ -67,31 +57,31 @@
+ all: $(LIBRARY) $(DEMOS)
  
  %.lo: %.c termkey.h termkey-internal.h
 -	$(LIBTOOL) --mode=compile --tag=CC $(CC) $(CFLAGS) -o $@ -c $<
@@ -31,46 +25,53 @@
  
  $(LIBRARY): $(OBJECTS)
 -	$(LIBTOOL) --mode=link --tag=CC $(CC) -rpath $(LIBDIR) -version-info $(VERSION_CURRENT):$(VERSION_REVISION):$(VERSION_AGE) $(LDFLAGS) -o $@ $^
-+	$(CC) -shared -Wl,-rpath,$(LIBDIR) $(LDFLAGS) -o $@ $^
++	$(CC) -shared -Wl,-rpath,$(LIBDIR),$(LDFLAGS) -o $@ $^
  
--demo: $(LIBRARY) demo.lo
--	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
-+libtermkey.a: $(OBJECTS)
+ libtermkey.a: $(OBJECTS)
+-	$(LIBTOOL) --mode=link $(CC) -o $@ $^
 +	$(AR) rc $@ $^
  
--demo-async: $(LIBRARY) demo-async.lo
+ demo: $(LIBRARY) demo.lo
 -	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
--
--demo-glib.lo: demo-glib.c termkey.h
++	$(CC) -o $@ $^
+ 
+ demo-async: $(LIBRARY) demo-async.lo
+-	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
++	$(CC) -o $@ $^
+ 
+ demo-glib.lo: demo-glib.c termkey.h
 -	$(LIBTOOL) --mode=compile --tag=CC $(CC) -o $@ -c $< $(call pkgconfig, glib-2.0 --cflags)
--
--demo-glib: $(LIBRARY) demo-glib.lo
++	$(CC) -shared -o $@ -c $< $(call pkgconfig, glib-2.0 --cflags)
+ 
+ demo-glib: $(LIBRARY) demo-glib.lo
 -	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^ $(call pkgconfig, glib-2.0 --libs)
--
++	$(CC) -o $@ $^ $(call pkgconfig, glib-2.0 --libs)
+ 
  t/%.t: t/%.c $(LIBRARY) t/taplib.lo
 -	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
 +	$(CC) -o $@ $^
  
  t/taplib.lo: t/taplib.c
 -	$(LIBTOOL) --mode=compile --tag=CC $(CC) $(CFLAGS) -o $@ -c $^
-+	$(CFLAGS) -o $@ -c $^
++	$(CC) -shared $(CFLAGS) -o $@ -c $^
  
  .PHONY: test
  test: $(TESTFILES)
- 	prove -e ""
+@@ -99,17 +89,16 @@
  
--.PHONY: clean-test
--clean-test:
+ .PHONY: clean-test
+ clean-test:
 -	$(LIBTOOL) --mode=clean rm -f $(TESTFILES) t/taplib.lo
--
++	rm -f $(TESTFILES) t/taplib.lo
+ 
  .PHONY: clean
--clean: clean-test
+ clean: clean-test
 -	$(LIBTOOL) --mode=clean rm -f $(OBJECTS) $(DEMO_OBJECTS)
 -	$(LIBTOOL) --mode=clean rm -f $(LIBRARY)
 -	$(LIBTOOL) --mode=clean rm -rf $(DEMOS)
-+clean:
-+	rm -f $(OBJECTS)
++	rm -f $(OBJECTS) $(DEMO_OBJECTS)
 +	rm -f $(LIBRARY)
++	rm -rf $(DEMOS)
  
  .PHONY: install
  install: install-inc install-lib install-man
@@ -78,12 +79,13 @@
  
  install-inc: termkey.h
  	install -d $(DESTDIR)$(INCDIR)
-@@ -116,7 +93,8 @@
+@@ -119,8 +108,8 @@
  
- install-lib: $(LIBRARY)
+ install-lib: $(LIBRARY) libtermkey.a
  	install -d $(DESTDIR)$(LIBDIR)
 -	$(LIBTOOL) --mode=install install libtermkey.la $(DESTDIR)$(LIBDIR)/libtermkey.la
-+	install $(LIBRARY) $(DESTDIR)$(LIBDIR)/$(LIBRARY)
+-	$(LIBTOOL) --mode=install install libtermkey.a $(DESTDIR)$(LIBDIR)/libtermkey.a
++	install libtermkey.la $(DESTDIR)$(LIBDIR)/libtermkey.la
 +	install libtermkey.a $(DESTDIR)$(LIBDIR)/libtermkey.a
  
  install-man:
