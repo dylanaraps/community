@@ -130,7 +130,6 @@ conf="
     use_vaapi=${vaapi:-false}
     use_x11=true
     use_xkbcommon=false
-    v8_enable_i18n_support=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
     enable_js_type_check=false
