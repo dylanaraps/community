@@ -1,22 +1,39 @@
+diff --git a/build/config/ui.gni b/build/config/ui.gni
+index 3d23eff..a51d2aa 100644
+--- a/build/config/ui.gni
++++ b/build/config/ui.gni
+@@ -47,8 +47,10 @@ declare_args() {
+ # Make sure glib is not used if building for ChromeOS/Chromecast
+ assert(!use_glib || (is_linux && !is_chromecast))
+ 
+-# Whether to use atk, the Accessibility ToolKit library
+-use_atk = is_linux && !is_chromecast && use_glib
++declare_args() {
++  # Whether to use atk, the Accessibility ToolKit library
++  use_atk = is_linux && !is_chromecast && use_glib
++}
+ 
+ # Whether using Xvfb to provide a display server for a test might be
+ # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index f6ce26c..271ac75 100644
+index 441a46a..2593c2e 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -101,7 +101,7 @@ void ChromeBrowserMainPartsLinux::PostProfileInit() {
+@@ -102,7 +102,7 @@ void ChromeBrowserMainPartsLinux::PostProfileInit() {
  }
  
  void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
--#if !defined(OS_CHROMEOS)
-+#if !defined(OS_CHROMEOS) && defined(USE_DBUS)
+-#if !BUILDFLAG(IS_CHROMEOS_ASH)
++#if !BUILDFLAG(IS_CHROMEOS_ASH) && defined(USE_DBUS)
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
  #endif
  
-@@ -109,7 +109,7 @@ void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
+@@ -110,7 +110,7 @@ void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
  }
  
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
--#if !defined(OS_CHROMEOS)
-+#if !defined(OS_CHROMEOS) && defined(USE_DBUS)
+-#if !BUILDFLAG(IS_CHROMEOS_ASH)
++#if !BUILDFLAG(IS_CHROMEOS_ASH) && defined(USE_DBUS)
    bluez::BluezDBusManager::Shutdown();
    bluez::BluezDBusThreadManager::Shutdown();
  #endif
@@ -93,7 +110,7 @@ index cbe3372..cfbfbc2 100644
  
  void OpenExternal(Profile* profile, const GURL& url) {
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
-index 2679828..d74bfc5 100644
+index 2fa8e06..329fa52 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
 +++ b/device/bluetooth/bluetooth_adapter_factory.cc
 @@ -46,7 +46,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
@@ -115,7 +132,7 @@ index 2679828..d74bfc5 100644
  #else
    return false;
 diff --git a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
-index fc8a696..5e5a047 100644
+index 776abf0..4e15678 100644
 --- a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 +++ b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 @@ -1339,7 +1339,7 @@ void BluetoothLowEnergyCreateServiceFunction::DoWork() {
@@ -181,7 +198,7 @@ index 3526876..dbaa872 100644
    DISALLOW_COPY_AND_ASSIGN(BatteryStatusManagerDefault);
  };
 diff --git a/services/device/wake_lock/power_save_blocker/BUILD.gn b/services/device/wake_lock/power_save_blocker/BUILD.gn
-index 17bd601..64d7ab9 100644
+index 8ca1d4d..5326d82 100644
 --- a/services/device/wake_lock/power_save_blocker/BUILD.gn
 +++ b/services/device/wake_lock/power_save_blocker/BUILD.gn
 @@ -83,6 +83,9 @@ if (is_android) {

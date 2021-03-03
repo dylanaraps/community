@@ -1,8 +1,8 @@
 diff --git a/base/threading/platform_thread_linux.cc b/base/threading/platform_thread_linux.cc
-index c1a705e..f322fdb 100644
+index de2e0c1..53cb90d 100644
 --- a/base/threading/platform_thread_linux.cc
 +++ b/base/threading/platform_thread_linux.cc
-@@ -377,7 +377,8 @@ void TerminateOnThread() {}
+@@ -437,7 +437,8 @@ void TerminateOnThread() {}
  
  size_t GetDefaultThreadStackSize(const pthread_attr_t& attributes) {
  #if !defined(THREAD_SANITIZER)

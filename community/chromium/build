@@ -1,15 +1,14 @@
 #!/bin/sh -e
 
-printf "NOTE: It is HIGHLY recommended to build this package with ccache enabled!\n"
+printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
-# Don't apply musl patches on any other libc.
 kiss list musl && {
     for patch in musl-*.patch; do
         patch -p1 < "$patch"
     done
 }
 
-# Don't apply glibc patches on any other libc.
+# Saves me from having to duplicate this package in 'gcommunity' just for 2 patches.
 kiss list glibc && {
     for patch in glibc-*.patch; do
         patch -p1 < "$patch"
@@ -20,6 +19,8 @@ kiss list glibc && {
 for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
+
+( cd ungoogled-chromium; patch -p1 < ../ungoogled-patchset-89.0.4389.40.patch )
 
 python3 ungoogled-chromium/utils/prune_binaries.py \
     ./ ungoogled-chromium/pruning.list
@@ -43,18 +44,21 @@ sed -i "1s|python$|&2|" third_party/dom_distiller_js/protoc_plugins/*.py
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
-export CC=gcc
-export CXX=g++
-export AR=ar
-export NM=nm
+export CC="${CC:-cc}"
+export CXX="${CXX:-c++}"
+export AR="${AR:-ar}"
+export NM="${NM:-nm}"
+
+# 'clang' builds are untested but should most likely work fine with our flags.
+case $("$CC" --version) in (*clang*)
+    clang=true
+esac
 
 # compile gn early, so it can be used to generate gni stuff.
 python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
-# icu, libxml2, libXslt: dropped from community.
 # libevent: Random freezes with javascript.
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
-# libxml2: need to use bundled with libXslt due to mismatches and stuff.
 # zlib: KISS builds without minizip.
 system="
     ffmpeg
@@ -75,13 +79,14 @@ for LIB in "$system" libjpeg_turbo; do
     find . -type f -path "*third_party/$LIB/*" \
         \! -path "*third_party/$LIB/chromium/*" \
         \! -path "*third_party/$LIB/google/*" \
+        \! -path './base/third_party/icu/*' \
         \! -path './third_party/pdfium/third_party/freetype/include/pstables.h' \
         \! -path './third_party/harfbuzz-ng/utils/hb_scoped.h' \
         \! -name '*.gn' \
         \! -name '*.gni' \
         \! -name '*.isolate' \
         \! -name '*.py' \
-        -delete
+        -exec rm -rf {} +
 done
 
 # switch to system provided dependencies.
@@ -106,8 +111,9 @@ conf="
     ffmpeg_branding=\"Chrome\"
     host_toolchain=\"//build/toolchain/linux/unbundle:default\"
     is_cfi=false
-    is_clang=false
+    is_clang=${clang:-false}
     is_debug=false
+    is_unsafe_developer_build=false
     link_pulseaudio=false
     ozone_platform_wayland=false
     proprietary_codecs=true

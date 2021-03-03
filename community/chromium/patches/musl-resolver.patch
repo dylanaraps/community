@@ -15,10 +15,10 @@ index 0672e71..ff1f795 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 3f8016b..a623069 100644
+index 760be32..cf7ac3c 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -2903,8 +2903,7 @@ HostResolverManager::HostResolverManager(
+@@ -2562,8 +2562,7 @@ HostResolverManager::HostResolverManager(
    NetworkChangeNotifier::AddConnectionTypeObserver(this);
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
