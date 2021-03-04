@@ -116,6 +116,7 @@ conf="
     link_pulseaudio=false
     ozone_platform_wayland=false
     proprietary_codecs=true
+    rtc_build_examples=false
     rtc_use_pipewire=false
     symbol_level=0
     use_allocator=\"none\"
