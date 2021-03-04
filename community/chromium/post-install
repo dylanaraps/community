@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
 cat << EOF
+'eudev' or 'libudev-zero' need to be installed for the 'udev loader' checks to work.
+
 'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for the sandbox to work.
 
 The '--no-sandbox' flag should be avoided, the SUID sandbox should be built \

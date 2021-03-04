@@ -55,11 +55,10 @@ case $("$CC" --version) in (*clang*)
 esac
 
 # compile gn early, so it can be used to generate gni stuff.
-python2 tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+./tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
 # libevent: Random freezes with javascript.
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
-# zlib: KISS builds without minizip.
 system="
     ffmpeg
     flac
@@ -91,9 +90,9 @@ done
 
 # switch to system provided dependencies.
 # shellcheck disable=2086
-python2 build/linux/unbundle/replace_gn_files.py --system-libraries $system
+./build/linux/unbundle/replace_gn_files.py --system-libraries $system
 
-python2 third_party/libaddressinput/chromium/tools/update-strings.py
+./third_party/libaddressinput/chromium/tools/update-strings.py
 
 kiss list libva && vaapi=true
 
@@ -133,6 +132,7 @@ conf="
     use_pulseaudio=false
     use_sysroot=false
     use_system_harfbuzz=true
+    use_system_zlib=true
     use_vaapi=${vaapi:-false}
     use_x11=true
     use_xkbcommon=false
@@ -159,7 +159,7 @@ conf="
     use_unofficial_version_number=false
 "
 
-out/Release/gn gen out/Release --args="$conf" --script-executable=python2
+out/Release/gn gen out/Release --args="$conf"
 
 # final link needs lots of file descriptors, almost all shells support the -n flag.
 # shellcheck disable=2039
