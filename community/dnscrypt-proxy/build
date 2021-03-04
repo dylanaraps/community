@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+cd dnscrypt-proxy
+
+export GOPATH="$PWD/go"
+export GO111MODULE=on
+
+go build
+
+install -Dm755 dnscrypt-proxy "$1/usr/bin/dnscrypt-proxy"
+install -Dm644 example-dnscrypt-proxy.toml "$1/etc/dnscrypt-proxy/dnscrypt-proxy.toml"
+
+for config in ./*.txt; do
+    install -Dm644 "$config" "$1/etc/dnscrypt-proxy/$(echo "$config" | sed 's/^.\{10\}//')"
+done
+
+install -Dm755 ../dnscrypt-proxy.run      "$1/etc/sv/dnscrypt-proxy/run"
+ln -s /run/runit/supervise.dnscrypt-proxy "$1/etc/sv/dnscrypt-proxy/supervise"
