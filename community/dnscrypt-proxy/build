@@ -5,7 +5,7 @@ cd dnscrypt-proxy
 export GOPATH="$PWD/go"
 export GO111MODULE=on
 
-go build
+go build -mod=vendor
 
 install -Dm755 dnscrypt-proxy "$1/usr/bin/dnscrypt-proxy"
 install -Dm644 example-dnscrypt-proxy.toml "$1/etc/dnscrypt-proxy/dnscrypt-proxy.toml"
