@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+make
+make PREFIX=/usr DESTDIR="$1" install
+
+install -Dm644 README  "$1/usr/share/doc/dzen/README"
+install -Dm644 CREDITS "$1/usr/share/doc/dzen/CREDITS"
+install -Dm644 LICENSE "$1/usr/share/licenses/dzen/LICENSE"
