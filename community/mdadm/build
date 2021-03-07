@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+sed -i '/<sys\/types.h>/a #include <sys\/sysmacros.h>' mdadm.h
+sed 's@-Werror@@' -i Makefile
+
+make BINDIR=/usr/bin UDEVDIR=/usr/lib
+make DESTDIR="$1" BINDIR=/usr/bin UDEVDIR=/usr/lib install
