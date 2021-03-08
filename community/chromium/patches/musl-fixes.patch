@@ -1,22 +1,23 @@
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 78e4af0..547cc35 100644
+index 78e4af0..41f4f79 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -54,7 +54,7 @@
- 
+@@ -55,7 +55,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
--#if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
-+#if defined(__GLIBC__) || BUILDFLAG(IS_CHROMEOS_LACROS)
+ #if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
++#if defined(__GLIBC__)
  #include <gnu/libc-version.h>
++#endif
  
  #include "base/linux_util.h"
-@@ -316,7 +316,7 @@ void RecordLinuxDistro() {
+ #include "base/strings/string_split.h"
+@@ -316,7 +318,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
 -#if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
-+#if defined(__GLIBC__) || BUILDFLAG(IS_CHROMEOS_LACROS)
++#if (defined(OS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS_LACROS)
    base::Version version(gnu_get_libc_version());
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
