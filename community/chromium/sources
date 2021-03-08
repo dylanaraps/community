@@ -1,4 +1,4 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-89.0.4389.72.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-89.0.4389.82.tar.xz
 https://github.com/Eloston/ungoogled-chromium/archive/88.0.4324.182-1.tar.gz ungoogled-chromium
 https://github.com/stha09/chromium-patches/releases/download/chromium-89-patchset-7/chromium-89-patchset-7.tar.xz
 files/chromium.sh
@@ -18,4 +18,4 @@ patches/musl-sandbox.patch
 patches/musl-stacktrace.patch
 patches/musl-sync.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch
-patches/ungoogled-patchset-89.0.4389.40.patch
+patches/ungoogled-patchset-89.0.4389.82.patch

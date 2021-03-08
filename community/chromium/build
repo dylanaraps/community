@@ -20,7 +20,7 @@ for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
 
-( cd ungoogled-chromium; patch -p1 < ../ungoogled-patchset-89.0.4389.40.patch )
+( cd ungoogled-chromium; patch -p1 < ../ungoogled-patchset-89.0.4389.82.patch )
 
 python3 ungoogled-chromium/utils/prune_binaries.py \
     ./ ungoogled-chromium/pruning.list

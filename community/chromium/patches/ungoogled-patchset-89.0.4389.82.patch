@@ -1,7 +1,7 @@
 From ac9c35ab9ff515e6d2cb40a463de785cef0c9979 Mon Sep 17 00:00:00 2001
 From: Albert Tang <tangalbert919@yahoo.com>
 Date: Mon, 22 Feb 2021 12:46:44 -0600
-Subject: [PATCH 1/3] Upgrade to Chromium 89.0.4389.40
+Subject: [PATCH 1/5] Upgrade to Chromium 89.0.4389.40
 
 ---
  chromium_version.txt                          |    2 +-
@@ -14893,7 +14893,7 @@ index 2e54f12b..ce5fc58d 100644
 From a799a92d01e2a1e5276a499efe0124ed3db79e31 Mon Sep 17 00:00:00 2001
 From: Albert Tang <tangalbert919@yahoo.com>
 Date: Fri, 26 Feb 2021 10:45:06 -0600
-Subject: [PATCH 2/3] Update to Chromium 89.0.4389.58
+Subject: [PATCH 2/5] Update to Chromium 89.0.4389.58
 
 ---
  chromium_version.txt                                        | 2 +-
@@ -15175,7 +15175,7 @@ index ce5fc58d..697ac407 100644
 From fac7a505ac6a4aab36b6b2c739024574d9e59aad Mon Sep 17 00:00:00 2001
 From: Albert Tang <tangalbert919@yahoo.com>
 Date: Tue, 2 Mar 2021 15:22:25 -0600
-Subject: [PATCH 3/3] Update to Chromium 89.0.4389.72
+Subject: [PATCH 3/5] Update to Chromium 89.0.4389.72
 
 ---
  chromium_version.txt                          |  2 +-
@@ -15517,6 +15517,329 @@ index 697ac407..2e90818a 100644
  chrome/browser/ui/app_list/search/search_result_ranker/search_ranker_assets/20190923_example_preprocessor_config.pb
 -chrome/build/pgo_profiles/chrome-linux-4389-1613519706-101f0b782ab5aafc7241018b62ea8259360caad1.profdata
 +chrome/build/pgo_profiles/chrome-linux-4389-1614333145-3fb545b30f8abc065d64d3b5af88abd66c7abb5e.profdata
+ chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/Network Share Test.lnk
+ chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/New folder - Shortcut.lnk
+ chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/long_name.lnk
+
+From 7bc6625f4b576d29edbb7963ab4f7458f5ed922c Mon Sep 17 00:00:00 2001
+From: Albert Tang <tangalbert919@yahoo.com>
+Date: Fri, 5 Mar 2021 17:43:22 -0600
+Subject: [PATCH 4/5] Fix patches
+
+---
+ ...-building-without-enabling-reporting.patch | 154 ++++++++++++++++++
+ .../fix-building-without-safebrowsing.patch   |  12 ++
+ .../add-flag-for-pdf-plugin-name.patch        |   2 +-
+ 3 files changed, 167 insertions(+), 1 deletion(-)
+
+diff --git a/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch b/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
+index ede2d008..6bfecaf3 100644
+--- a/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
++++ b/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
+@@ -22,3 +22,157 @@
+        "net/reporting_service_proxy.cc",
+        "net/reporting_service_proxy.h",
+      ]
++--- a/third_party/blink/renderer/core/frame/local_frame.cc
+++++ b/third_party/blink/renderer/core/frame/local_frame.cc
++@@ -38,6 +38,7 @@
++ #include "base/unguessable_token.h"
++ #include "mojo/public/cpp/bindings/self_owned_receiver.h"
++ #include "mojo/public/cpp/system/message_pipe.h"
+++#include "net/net_buildflags.h"
++ #include "services/data_decoder/public/mojom/resource_snapshot_for_web_bundle.mojom-blink.h"
++ #include "services/network/public/cpp/features.h"
++ #include "services/network/public/mojom/content_security_policy.mojom-blink.h"
++@@ -551,7 +552,9 @@ void LocalFrame::Trace(Visitor* visitor)
++   visitor->Trace(raw_system_clipboard_);
++   visitor->Trace(virtual_keyboard_overlay_changed_observers_);
++   visitor->Trace(pause_handle_receivers_);
+++#if BUILDFLAG(ENABLE_REPORTING)
++   visitor->Trace(reporting_service_);
+++#endif
++ #if defined(OS_MAC)
++   visitor->Trace(text_input_host_);
++ #endif
++@@ -2273,6 +2276,7 @@ const base::UnguessableToken& LocalFrame
++   return base::UnguessableToken::Null();
++ }
++ 
+++#if BUILDFLAG(ENABLE_REPORTING)
++ mojom::blink::ReportingServiceProxy* LocalFrame::GetReportingService() {
++   if (!reporting_service_.is_bound()) {
++     GetBrowserInterfaceBroker().GetInterface(
++@@ -2281,6 +2285,7 @@ mojom::blink::ReportingServiceProxy* Loc
++   }
++   return reporting_service_.get();
++ }
+++#endif
++ 
++ // static
++ void LocalFrame::NotifyUserActivation(
++--- a/third_party/blink/renderer/core/frame/local_frame.h
+++++ b/third_party/blink/renderer/core/frame/local_frame.h
++@@ -38,6 +38,7 @@
++ #include "mojo/public/cpp/bindings/pending_associated_receiver.h"
++ #include "mojo/public/cpp/bindings/pending_receiver.h"
++ #include "mojo/public/cpp/bindings/unique_receiver_set.h"
+++#include "net/net_buildflags.h"
++ #include "third_party/blink/public/common/frame/transient_allow_fullscreen.h"
++ #include "third_party/blink/public/mojom/blob/blob_url_store.mojom-blink.h"
++ #include "third_party/blink/public/mojom/frame/back_forward_cache_controller.mojom-blink.h"
++@@ -521,9 +522,9 @@ class CORE_EXPORT LocalFrame final
++   }
++ 
++   SmoothScrollSequencer& GetSmoothScrollSequencer();
++-
+++#if BUILDFLAG(ENABLE_REPORTING)
++   mojom::blink::ReportingServiceProxy* GetReportingService();
++-
+++#endif
++   // Returns the frame host ptr. The interface returned is backed by an
++   // associated interface with the legacy Chrome IPC channel.
++   mojom::blink::LocalFrameHost& GetLocalFrameHostRemote() const;
++--- a/third_party/blink/renderer/core/frame/reporting_context.cc
+++++ b/third_party/blink/renderer/core/frame/reporting_context.cc
++@@ -4,6 +4,7 @@
++ 
++ #include "third_party/blink/renderer/core/frame/reporting_context.h"
++ 
+++#include "net/net_buildflags.h"
++ #include "third_party/blink/public/common/browser_interface_broker_proxy.h"
++ #include "third_party/blink/public/platform/platform.h"
++ #include "third_party/blink/public/platform/task_type.h"
++@@ -54,7 +55,9 @@ const char ReportingContext::kSupplement
++ ReportingContext::ReportingContext(ExecutionContext& context)
++     : Supplement<ExecutionContext>(context),
++       execution_context_(context),
+++#if BUILDFLAG(ENABLE_REPORTING)
++       reporting_service_(&context),
+++#endif
++       receiver_(this, &context) {}
++ 
++ // static
++@@ -118,7 +121,9 @@ void ReportingContext::Trace(Visitor* vi
++   visitor->Trace(observers_);
++   visitor->Trace(report_buffer_);
++   visitor->Trace(execution_context_);
+++#if BUILDFLAG(ENABLE_REPORTING)
++   visitor->Trace(reporting_service_);
+++#endif
++   visitor->Trace(receiver_);
++   Supplement<ExecutionContext>::Trace(visitor);
++ }
++@@ -140,6 +145,7 @@ void ReportingContext::CountReport(Repor
++   UseCounter::Count(execution_context_, feature);
++ }
++ 
+++#if BUILDFLAG(ENABLE_REPORTING)
++ const HeapMojoRemote<mojom::blink::ReportingServiceProxy>&
++ ReportingContext::GetReportingService() const {
++   if (!reporting_service_.is_bound()) {
++@@ -149,6 +155,7 @@ ReportingContext::GetReportingService()
++   }
++   return reporting_service_;
++ }
+++#endif
++ 
++ void ReportingContext::NotifyInternal(Report* report) {
++   // Buffer the report.
++@@ -171,6 +178,7 @@ void ReportingContext::NotifyInternal(Re
++ 
++ void ReportingContext::SendToReportingAPI(Report* report,
++                                           const String& endpoint) const {
+++#if BUILDFLAG(ENABLE_REPORTING)
++   const String& type = report->type();
++   if (!(type == ReportType::kCSPViolation || type == ReportType::kDeprecation ||
++         type == ReportType::kFeaturePolicyViolation ||
++@@ -227,6 +235,7 @@ void ReportingContext::SendToReportingAP
++         "Document policy violation", body->sourceFile(), line_number,
++         column_number);
++   }
+++#endif
++ }
++ 
++ }  // namespace blink
++--- a/third_party/blink/renderer/core/frame/reporting_context.h
+++++ b/third_party/blink/renderer/core/frame/reporting_context.h
++@@ -5,6 +5,7 @@
++ #ifndef THIRD_PARTY_BLINK_RENDERER_CORE_FRAME_REPORTING_CONTEXT_H_
++ #define THIRD_PARTY_BLINK_RENDERER_CORE_FRAME_REPORTING_CONTEXT_H_
++ 
+++#include "net/net_buildflags.h"
++ #include "third_party/blink/public/mojom/frame/reporting_observer.mojom-blink.h"
++ #include "third_party/blink/public/mojom/reporting/reporting.mojom-blink.h"
++ #include "third_party/blink/renderer/core/core_export.h"
++@@ -53,10 +54,10 @@ class CORE_EXPORT ReportingContext : pub
++  private:
++   // Counts the use of a report type via UseCounter.
++   void CountReport(Report*);
++-
+++#if BUILDFLAG(ENABLE_REPORTING)
++   const HeapMojoRemote<mojom::blink::ReportingServiceProxy>&
++   GetReportingService() const;
++-
+++#endif
++   void NotifyInternal(Report* report);
++   // Send |report| via the Reporting API to |endpoint|.
++   void SendToReportingAPI(Report* report, const String& endpoint) const;
++@@ -67,8 +68,10 @@ class CORE_EXPORT ReportingContext : pub
++ 
++   // This is declared mutable so that the service endpoint can be cached by
++   // const methods.
+++#if BUILDFLAG(ENABLE_REPORTING)
++   mutable HeapMojoRemote<mojom::blink::ReportingServiceProxy>
++       reporting_service_;
+++#endif
++ 
++   HeapMojoReceiver<mojom::blink::ReportingObserver, ReportingContext> receiver_;
++ };
+diff --git a/patches/core/ungoogled-chromium/fix-building-without-safebrowsing.patch b/patches/core/ungoogled-chromium/fix-building-without-safebrowsing.patch
+index e57c4bf7..d1772097 100644
+--- a/patches/core/ungoogled-chromium/fix-building-without-safebrowsing.patch
++++ b/patches/core/ungoogled-chromium/fix-building-without-safebrowsing.patch
+@@ -38,6 +38,18 @@
+  }
+  
+  safe_browsing::RealTimeUrlLookupServiceBase*
++@@ -5347,11 +5336,6 @@ ChromeContentBrowserClient::GetUrlLookup
++         GetForProfile(profile);
++   }
++ #endif
++-
++-  if (is_consumer_lookup_enabled) {
++-    return safe_browsing::RealTimeUrlLookupServiceFactory::GetForProfile(
++-        profile);
++-  }
++   return nullptr;
++ }
++ 
+ --- a/chrome/browser/download/chrome_download_manager_delegate.cc
+ +++ b/chrome/browser/download/chrome_download_manager_delegate.cc
+ @@ -130,7 +130,6 @@ using content::DownloadManager;
+diff --git a/patches/extra/ungoogled-chromium/add-flag-for-pdf-plugin-name.patch b/patches/extra/ungoogled-chromium/add-flag-for-pdf-plugin-name.patch
+index 41135fd6..3b982145 100644
+--- a/patches/extra/ungoogled-chromium/add-flag-for-pdf-plugin-name.patch
++++ b/patches/extra/ungoogled-chromium/add-flag-for-pdf-plugin-name.patch
+@@ -1,6 +1,6 @@
+ --- a/chrome/browser/chrome_content_browser_client.cc
+ +++ b/chrome/browser/chrome_content_browser_client.cc
+-@@ -5926,7 +5926,7 @@ bool ChromeContentBrowserClient::ShouldA
++@@ -5921,7 +5921,7 @@ bool ChromeContentBrowserClient::ShouldA
+      const url::Origin& embedder_origin,
+      const content::PepperPluginInfo& plugin_info) {
+  #if BUILDFLAG(ENABLE_PDF)
+
+From 4a8e2ad03ddb1e2f8aa0eb65b46670a48b6be3a8 Mon Sep 17 00:00:00 2001
+From: Albert Tang <tangalbert919@yahoo.com>
+Date: Sun, 7 Mar 2021 14:35:05 -0600
+Subject: [PATCH 5/5] Update to Chromium 89.0.4389.82
+
+---
+ chromium_version.txt                               |  2 +-
+ domain_substitution.list                           |  1 +
+ ...trk-prefixes-to-possibly-evil-connections.patch | 14 ++++++++++++++
+ .../ungoogled-chromium/disable-webstore-urls.patch | 11 -----------
+ .../fix-building-without-enabling-reporting.patch  | 12 ++++++++++++
+ pruning.list                                       |  2 +-
+ 6 files changed, 29 insertions(+), 13 deletions(-)
+
+diff --git a/chromium_version.txt b/chromium_version.txt
+index 0d2fecf7..b1a1cdbd 100644
+--- a/chromium_version.txt
++++ b/chromium_version.txt
+@@ -1 +1 @@
+-89.0.4389.72
++89.0.4389.82
+diff --git a/domain_substitution.list b/domain_substitution.list
+index 7474f39f..a1d0819f 100644
+--- a/domain_substitution.list
++++ b/domain_substitution.list
+@@ -3020,6 +3020,7 @@ ios/chrome/browser/ui/reading_list/reading_list_list_item_factory_unittest.mm
+ ios/chrome/browser/ui/reading_list/reading_list_mediator_unittest.mm
+ ios/chrome/browser/ui/settings/cells/search_engine_item.h
+ ios/chrome/browser/ui/settings/cells/search_engine_item_unittest.mm
++ios/chrome/browser/ui/settings/clear_browsing_data/clear_browsing_data_egtest.mm
+ ios/chrome/browser/ui/settings/import_data_table_view_controller_unittest.mm
+ ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_controller_unittest.mm
+ ios/chrome/browser/ui/settings/password/password_exporter_unittest.mm
+diff --git a/patches/core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch b/patches/core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch
+index b2b78115..aab8cdea 100644
+--- a/patches/core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch
++++ b/patches/core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch
+@@ -612,6 +612,20 @@ by default.
+  
+    GURL url(args[0]);
+    if (url.is_valid() && url.has_scheme())
++--- a/extensions/common/extension_urls.cc
+++++ b/extensions/common/extension_urls.cc
++@@ -26,9 +26,9 @@ bool IsSourceFromAnExtension(const base:
++ 
++ namespace extension_urls {
++ 
++-const char kChromeWebstoreBaseURL[] = "https://chrome.google.com/webstore";
+++const char kChromeWebstoreBaseURL[] = "trk:09:https://chrome.google.com/webstore";
++ const char kChromeWebstoreUpdateURL[] =
++-    "https://clients2.google.com/service/update2/crx";
+++    "trk:05:https://clients2.google.com/service/update2/crx";
++ 
++ GURL GetWebstoreLaunchURL() {
++   extensions::ExtensionsClient* client = extensions::ExtensionsClient::Get();
+ --- a/google_apis/gaia/gaia_constants.cc
+ +++ b/google_apis/gaia/gaia_constants.cc
+ @@ -25,23 +25,23 @@ const char kSyncService[] = "chromiumsyn
+diff --git a/patches/core/ungoogled-chromium/disable-webstore-urls.patch b/patches/core/ungoogled-chromium/disable-webstore-urls.patch
+index af3a80e7..f47869f2 100644
+--- a/patches/core/ungoogled-chromium/disable-webstore-urls.patch
++++ b/patches/core/ungoogled-chromium/disable-webstore-urls.patch
+@@ -180,14 +180,3 @@
+        return true;
+      case ExtensionFetch::CREDENTIALS_OAUTH2_TOKEN:
+        fetch->oauth2_attempt_count++;
+---- a/extensions/common/extension_urls.cc
+-+++ b/extensions/common/extension_urls.cc
+-@@ -26,7 +26,7 @@ bool IsSourceFromAnExtension(const base:
+- 
+- namespace extension_urls {
+- 
+--const char kChromeWebstoreBaseURL[] = "https://chrome.google.com/webstore";
+-+const char kChromeWebstoreBaseURL[] = "trk:09:https://chrome.google.com/webstore";
+- const char kChromeWebstoreUpdateURL[] =
+-     "https://clients2.google.com/service/update2/crx";
+- 
+diff --git a/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch b/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
+index 6bfecaf3..16b078fc 100644
+--- a/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
++++ b/patches/core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
+@@ -80,6 +80,18 @@
+    // Returns the frame host ptr. The interface returned is backed by an
+    // associated interface with the legacy Chrome IPC channel.
+    mojom::blink::LocalFrameHost& GetLocalFrameHostRemote() const;
++@@ -903,9 +904,11 @@ class CORE_EXPORT LocalFrame final
++   // const methods.
++   //
++   // LocalFrame can be reused by multiple ExecutionContext.
+++#if BUILDFLAG(ENABLE_REPORTING)
++   mutable HeapMojoRemote<mojom::blink::ReportingServiceProxy,
++                          HeapMojoWrapperMode::kWithoutContextObserver>
++       reporting_service_{nullptr};
+++#endif
++ 
++ #if defined(OS_MAC)
++   // LocalFrame can be reused by multiple ExecutionContext.
+ --- a/third_party/blink/renderer/core/frame/reporting_context.cc
+ +++ b/third_party/blink/renderer/core/frame/reporting_context.cc
+ @@ -4,6 +4,7 @@
+diff --git a/pruning.list b/pruning.list
+index 2e90818a..5de82a3f 100644
+--- a/pruning.list
++++ b/pruning.list
+@@ -75,7 +75,7 @@ chrome/browser/resources/default_apps/youtube.crx
+ chrome/browser/resources/media/mei_preload/preloaded_data.pb
+ chrome/browser/ui/app_list/search/search_result_ranker/20190722_example_preprocessor_config.pb
+ chrome/browser/ui/app_list/search/search_result_ranker/search_ranker_assets/20190923_example_preprocessor_config.pb
+-chrome/build/pgo_profiles/chrome-linux-4389-1614333145-3fb545b30f8abc065d64d3b5af88abd66c7abb5e.profdata
++chrome/build/pgo_profiles/chrome-linux-4389-1614685055-d26d64f2c1cdbd0bbfcf6c30c28fa131f3dde5ce.profdata
  chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/Network Share Test.lnk
  chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/New folder - Shortcut.lnk
  chrome/chrome_cleaner/parsers/shortcut_parser/target/data/lnk_parser_fuzzer/long_name.lnk
