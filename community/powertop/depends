@@ -1,0 +1,5 @@
+autoconf-archive    make
+libnl
+libtool             make
+ncurses
+pciutils

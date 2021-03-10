@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+# Disable gettext
+sed -i '/po\/Makefile.in/d' configure.ac
+sed -i '/GETTEXT_PACKAGE/d' configure.ac
+sed -i '/AM_GNU_GETTEXT/d'  configure.ac
+sed -i '/po\b/d'            Makefile.am
+
+./autogen.sh
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
+# Avoid conflict with busybox powertop
+mv "$1/usr/sbin" "$1/usr/bin"
