@@ -2,6 +2,12 @@
 
 patch -p1 < posix-build.patch
 
+# Go doesn't support targetting a particular libc meaning without this,
+# sometimes binaries will link against ld-linux instead of ld-musl. This sed
+# call makes it use ld-musl if present by applying the alpine exception.  So
+# this is necessary due to a bug that should be fixed upstream.
+sed -i 's|/etc/alpine-release|/lib/ld-musl-x86_64.so.1|' go-current/src/make.bash
+
 # Disable stripping of binaries.
 # This breaks Go.
 :> nostrip
