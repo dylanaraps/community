@@ -1,5 +1,6 @@
 json-c
 libcap
+libnghttp2
 libressl
 libuv
 perl    make
