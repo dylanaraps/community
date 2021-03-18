@@ -1,8 +1,8 @@
 alsa-lib
 ffmpeg
 gdk-pixbuf
-gstreamer
 gst-plugins-base
+gstreamer
 lame
 lcms
 libXdamage

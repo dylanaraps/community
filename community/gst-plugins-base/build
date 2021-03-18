@@ -6,10 +6,8 @@ meson \
     --prefix=/usr \
     -Dtremor=disabled \
     -Dexamples=disabled \
-    -Dgtk_doc=disabled \
     -Dcdparanoia=disabled \
     -Dintrospection=disabled \
-    -Dsndio=enabled \
     . output
 
 ninja -C output
