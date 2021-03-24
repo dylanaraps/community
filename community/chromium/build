@@ -25,6 +25,7 @@ python3 ungoogled-chromium/utils/prune_binaries.py \
 
 # Bypass the Python script and apply patches ourselves to avoid GNU patch.
 while read -r patch; do
+    [ "$patch" ] || continue
     patch -p1 < "ungoogled-chromium/patches/$patch"
 done < ungoogled-chromium/patches/series
 
