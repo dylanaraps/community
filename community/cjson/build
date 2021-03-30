@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+# Install static libs, avoid adding a 'cmake' dependency.
+for lib in CJSON UTILS; do
+    sed -i "s/\$(INSTALL) \$(${lib}_SHARED)/& \$(${lib}_STATIC)/" Makefile
+done
+
+make
+make DESTDIR="$1" PREFIX=/usr install
