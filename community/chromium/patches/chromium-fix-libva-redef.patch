@@ -1,6 +1,8 @@
+diff --git a/third_party/libva_protected_content/va_protected_content.h b/third_party/libva_protected_content/va_protected_content.h
+index dfea3ce..4a0fd2d 100644
 --- a/third_party/libva_protected_content/va_protected_content.h
 +++ b/third_party/libva_protected_content/va_protected_content.h
-@@ -132,19 +132,6 @@
+@@ -132,19 +132,6 @@ extern "C" {
  #define VA_PC_SAMPLE_TYPE_FULLSAMPLE 0x00000001
  #define VA_PC_SAMPLE_TYPE_SUBSAMPLE 0x00000002
  
@@ -20,7 +22,7 @@
  /** \brief values for the encryption return status. */
  typedef enum {
    /** \brief Indicate encryption operation is successful.*/
-@@ -159,63 +146,6 @@
+@@ -159,63 +146,6 @@ typedef enum {
    VA_ENCRYPTION_STATUS_UNSUPPORT
  } VAEncryptionStatus;
  
