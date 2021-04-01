@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Wno-dev
+
+cmake --build   build
+cmake --install build
+
+ln -s lld "$1/usr/bin/ld"
