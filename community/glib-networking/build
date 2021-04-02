@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+# Don't build tests that fail due to `gnutls` not being built with `p11-kit`.
+sed -i "/subdir('tls\/tests')/d" meson.build
+
 meson \
     --prefix=/usr \
     --sysconfdir=/etc \
