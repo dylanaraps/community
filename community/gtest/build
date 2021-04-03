@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+ver=1.10.0
+
+sed -i "s|__GOOGLETEST_VERSION__|$ver|g" libversion.patch
+
+patch -p1 < libversion.patch
+
+sed -i -E "s|(GOOGLETEST_VERSION) [0-9\\.]+|\\1 $ver|" CMakeLists.txt
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_SHARED_LIBS=ON
+
+cmake --build   build
+cmake --install build
+
+find "$1" -name "*.pump" -exec rm -f {} +
