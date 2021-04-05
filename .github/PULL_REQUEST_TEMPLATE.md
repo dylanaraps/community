@@ -1,6 +1,6 @@
 Please fill out the template.
 
-Read: https://kiss.armaanb.net/wiki/kiss/style-guide
+Read: https://k1sslinux.org/wiki/kiss/style-guide
 
 Please include the manifest for version bumps and new packages.
 
