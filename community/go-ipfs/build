@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export CGO_LDFLAGS="$LDFLAGS"
+export CGO_CFLAGS="$CFLAGS"
+export CGO_CPPFLAGS="$CPPFLAGS"
+export CGO_CXXFLAGS="$CXXFLAGS"
+export GOFLAGS="$GOFLAGS -buildmode=pie -trimpath -modcacherw"
+
+make build
+
+install -Dm755 cmd/ipfs/ipfs "$1/usr/bin/ipfs"
+install -Dm755 ipfs.run "$1/etc/sv/ipfs/run"
+
+ln -s /run/runit/supervise.ipfs "$1/etc/sv/ipfs/supervise"
