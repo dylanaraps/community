@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+install -Dm755 fortune "$1/usr/bin/fortune"
+install -Dm644 kiss    "$1/usr/share/fortune/kiss"
+install -Dm644 cookie  "$1/usr/share/fortune/cookie"
