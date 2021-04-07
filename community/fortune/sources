@@ -1,3 +1,3 @@
-https://git.sr.ht/~armaan/scripts/blob/main/fortune
-https://raw.githubusercontent.com/shlomif/fortune-mod/master/fortune-mod/datfiles/cookie
+git+https://git.sr.ht/~armaan/bin
+https://github.com/shlomif/fortune-mod/releases/download/fortune-mod-3.4.1/fortune-mod-3.4.1.tar.xz fortune-mod
 files/kiss
