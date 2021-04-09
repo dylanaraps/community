@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    -D html_manual=false \
+    -D pipe=false \
+    . output
+
+ninja -C output
+ninja -C output install
