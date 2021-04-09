@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-# ccache is causing the issue to expect clang instead of gcc.
-# Just disable it.
-export CC="${CC:-/usr/bin/cc}"
-export CXX="${CXX:-/usr/bin/c++}"
+# Change the order for checking installed compilers as
+# the ccache clang symlink might exist, but clang might not be installed.
+sed -i 's/clang gcc cc/cc clang gcc/g'       source/configure
+sed -i 's/clang++ g++ c++/c++ clang++ g++/g' source/configure
 
 source/configure \
     --prefix=/usr \
