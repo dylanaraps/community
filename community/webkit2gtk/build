@@ -6,7 +6,9 @@ kiss list openjpeg2 && jpeg=ON
 # Enable WEB_CRYPTO if libtasn1 is installed.
 kiss list libtasn1 && tasn=ON
 
-patch -p1 < fix-musl.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 # Remove gettext requirement.
 sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c

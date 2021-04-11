@@ -1,2 +1,3 @@
 https://webkitgtk.org/releases/webkitgtk-2.32.0.tar.xz
 patches/fix-musl.patch
+patches/icu-69.patch
