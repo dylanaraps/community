@@ -2,6 +2,7 @@
 
 make
 make PREFIX=/usr DESTDIR="$1" install
+make -C gadgets PREFIX=/usr DESTDIR="$1" install
 
 install -Dm644 README  "$1/usr/share/doc/dzen/README"
 install -Dm644 CREDITS "$1/usr/share/doc/dzen/CREDITS"
