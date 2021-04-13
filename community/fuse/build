@@ -15,3 +15,5 @@ meson \
 
 ninja -C output
 ninja -C output install
+
+rm -rf "$1/etc/init.d"
