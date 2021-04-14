@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+# Specify the library path for linkers like `lld`.
+sed -i 's/"ld",/& "-L", "\/usr\/lib",/' config.h
+
+make
+make DESTDIR="$1" install
