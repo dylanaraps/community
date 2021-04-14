@@ -1,9 +1,11 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr \
-    --program-prefix=sgt- \
-    --with-gtk=3
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DNAME_PREFIX=sgt-
+
+cmake --build   build
+cmake --install build
