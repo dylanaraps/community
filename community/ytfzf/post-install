@@ -14,16 +14,6 @@ Optional: ueberzug can be installed with 'pip'
 to get thumbnails support.
 
 
-NOTE: if ncurses isn't installed, the following error
-will be given:
-
-/usr/bin/ytfzf: line 114: tput: not found
-/usr/bin/ytfzf: line 115: tput: not found
-
-ytfzf will works without problem if an external menu has
-been installed.
-
-
 NOTE: if mpv fails to play the video, it needs to be
 rebuilt. 
 
