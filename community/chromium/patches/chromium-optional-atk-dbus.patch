@@ -1,13 +1,13 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index 3d23eff..a51d2aa 100644
+index 022f008..65c56c1 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
-@@ -47,8 +47,10 @@ declare_args() {
- # Make sure glib is not used if building for ChromeOS/Chromecast
- assert(!use_glib || (is_linux && !is_chromecast))
+@@ -50,8 +50,10 @@ declare_args() {
+ assert(!use_glib || ((is_linux || is_chromeos_lacros) && !is_chromecast))
  
+ # TODO(crbug.com/1171629): Remove is_chromeos_lacros.
 -# Whether to use atk, the Accessibility ToolKit library
--use_atk = is_linux && !is_chromecast && use_glib
+-use_atk = (is_linux || is_chromeos_lacros) && !is_chromecast && use_glib
 +declare_args() {
 +  # Whether to use atk, the Accessibility ToolKit library
 +  use_atk = is_linux && !is_chromecast && use_glib
@@ -16,11 +16,11 @@ index 3d23eff..a51d2aa 100644
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index 441a46a..2593c2e 100644
+index a9e1513..b64e334 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -102,7 +102,7 @@ void ChromeBrowserMainPartsLinux::PostProfileInit() {
- }
+@@ -79,7 +79,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
+ 
  
  void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
 -#if !BUILDFLAG(IS_CHROMEOS_ASH)
@@ -28,7 +28,7 @@ index 441a46a..2593c2e 100644
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
  #endif
  
-@@ -110,7 +110,7 @@ void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
+@@ -87,7 +87,7 @@ void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
  }
  
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {

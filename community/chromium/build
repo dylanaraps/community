@@ -2,13 +2,14 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
+# Patches relating to libc are conditionally applied to avoid breakage.
 kiss list musl && {
     for patch in musl-*.patch; do
         patch -p1 < "$patch"
     done
 }
 
-# Saves me from having to duplicate this package in 'gcommunity' just for 2 patches.
+# Saves me from having to fork this package just for 2 patches.
 kiss list glibc && {
     for patch in glibc-*.patch; do
         patch -p1 < "$patch"
@@ -48,14 +49,14 @@ export CXX="${CXX:-c++}"
 export AR="${AR:-ar}"
 export NM="${NM:-nm}"
 
-# 'clang' builds are untested but should most likely work fine with our flags.
-case $("$CC" --version) in (*clang*)
-    clang=true
-esac
+# Allow building against system libraries in official builds.
+sed -i 's/OFFICIAL_BUILD/GOOGLE_CHROME_BUILD/' \
+    tools/generate_shim_headers/generate_shim_headers.py
 
 # compile gn early, so it can be used to generate gni stuff.
 ./tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
+# icu: Breakage on updates.
 # libevent: Random freezes with javascript.
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
 system="
@@ -93,16 +94,18 @@ done
 
 ./third_party/libaddressinput/chromium/tools/update-strings.py
 
+# 'clang' builds are untested but should most likely work fine with our flags.
+case $("$CC" --version) in (*clang*)
+    clang=true
+esac
+
 kiss list libva && vaapi=true
 
 conf="
-    angle_enable_vulkan=false
     blink_symbol_level=0
-    build_dawn_tests=false
+    clang_use_chrome_plugins=false
     custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    dawn_enable_vulkan=false
-    enable_perfetto_unittests=false
-    enable_swiftshader_vulkan=false
+    enable_swiftshader=false
     enable_vr=false
     enable_widevine=false
     fatal_linker_warnings=false
@@ -111,7 +114,7 @@ conf="
     is_cfi=false
     is_clang=${clang:-false}
     is_debug=false
-    is_unsafe_developer_build=false
+    is_official_build=true
     link_pulseaudio=false
     ozone_platform_wayland=false
     proprietary_codecs=true
@@ -136,6 +139,7 @@ conf="
     use_vaapi=${vaapi:-false}
     use_x11=true
     use_xkbcommon=false
+    build_with_tflite_lib=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
     enable_js_type_check=false
@@ -171,8 +175,7 @@ ninja -C out/Release chrome
 install -Dm755 chromium.sh            "$1/usr/bin/chromium"
 install -Dm755 out/Release/chrome     "$1/usr/lib/chromium/chromium"
 install -Dm644 out/Release/icudtl.dat "$1/usr/lib/chromium"
-install -Dm644 out/Release/locales/*.pak    -t "$1/usr/lib/chromium/locales"
-install -Dm755 out/Release/swiftshader/*.so -t "$1/usr/lib/chromium/swiftshader"
+install -Dm644 out/Release/locales/*.pak -t "$1/usr/lib/chromium/locales"
 
 for lib in libEGL.so libGLESv2.so; do
     install -Dm755 "out/Release/$lib" "$1/usr/lib/chromium"

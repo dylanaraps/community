@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 78e4af0..41f4f79 100644
+index 5174562..9c59bd0 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -55,7 +55,9 @@
+@@ -58,7 +58,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
  #if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
@@ -12,7 +12,7 @@ index 78e4af0..41f4f79 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -316,7 +318,7 @@ void RecordLinuxDistro() {
+@@ -319,7 +321,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -34,12 +34,12 @@ index 9082ac4..cbedae6 100644
  #include <sys/un.h>
  #include <unistd.h>
 diff --git a/net/dns/dns_config_service_posix.cc b/net/dns/dns_config_service_posix.cc
-index b50f468..58bb355 100644
+index dddd4a9..bac45d2 100644
 --- a/net/dns/dns_config_service_posix.cc
 +++ b/net/dns/dns_config_service_posix.cc
-@@ -150,7 +150,7 @@ bool ReadDnsConfig(DnsConfig* dns_config) {
- #if !defined(OS_ANDROID)
-   bool success = false;
+@@ -93,7 +93,7 @@ base::Optional<DnsConfig> ReadDnsConfig() {
+ 
+   base::Optional<DnsConfig> dns_config;
  // TODO(fuchsia): Use res_ninit() when it's implemented on Fuchsia.
 -#if defined(OS_OPENBSD) || defined(OS_FUCHSIA)
 +#if defined(OS_OPENBSD) || defined(OS_FUCHSIA) || defined(_GNU_SOURCE)
@@ -166,10 +166,10 @@ index c31003e..73de448 100644
  
  /*
   * GNU-specific, but avoids the realpath(..., NULL)
-diff --git a/third_party/ots/include/opentype-sanitiser.h b/third_party/ots/include/opentype-sanitiser.h
-index 08f23be..021a7cb 100644
---- a/third_party/ots/include/opentype-sanitiser.h
-+++ b/third_party/ots/include/opentype-sanitiser.h
+diff --git a/third_party/ots/src/include/opentype-sanitiser.h b/third_party/ots/src/include/opentype-sanitiser.h
+index df36fe3..df1ab9d 100644
+--- a/third_party/ots/src/include/opentype-sanitiser.h
++++ b/third_party/ots/src/include/opentype-sanitiser.h
 @@ -20,6 +20,7 @@ typedef unsigned __int64 uint64_t;
  #define ots_htonl(x) _byteswap_ulong (x)
  #define ots_htons(x) _byteswap_ushort (x)
@@ -178,6 +178,28 @@ index 08f23be..021a7cb 100644
  #include <arpa/inet.h>
  #include <stdint.h>
  #define ots_ntohl(x) ntohl (x)
+diff --git a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
+index fb47d3d..c7b587f 100644
+--- a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
++++ b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
+@@ -29,7 +29,7 @@
+ #include <algorithm>
+ #endif
+ 
+-#if PERFETTO_BUILDFLAG(PERFETTO_OS_ANDROID)
++#if PERFETTO_BUILDFLAG(PERFETTO_OS_ANDROID) || !defined(__GLIBC__)
+ #include <sys/prctl.h>
+ #endif
+ 
+@@ -58,7 +58,7 @@ inline bool MaybeSetThreadName(const std::string& name) {
+ 
+ inline bool GetThreadName(std::string& out_result) {
+   char buf[16] = {};
+-#if PERFETTO_BUILDFLAG(PERFETTO_OS_ANDROID)
++#if PERFETTO_BUILDFLAG(PERFETTO_OS_ANDROID) || !defined(__GLIBC__)
+   if (prctl(PR_GET_NAME, buf) != 0)
+     return false;
+ #else
 diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc
 index 3750d7f..d399b39 100644
 --- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc

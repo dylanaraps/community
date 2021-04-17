@@ -1,9 +1,9 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
-index e00e312..722eb67 100644
+index 5242bde..89450d6 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
-@@ -261,6 +261,18 @@ ResultExpr EvaluateSyscallImpl(int fs_denied_errno,
-     return RestrictKillTarget(current_pid, sysno);
+@@ -269,6 +269,18 @@ ResultExpr EvaluateSyscallImpl(int fs_denied_errno,
+     return Allow();
    }
  
 +#if defined(__NR_newfstatat)

@@ -1,5 +1,5 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-index 2a97d39..0c86cc5 100644
+index 8fa54f5..ce08a0e 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 @@ -130,21 +130,11 @@ namespace sandbox {
@@ -39,10 +39,10 @@ index 2a97d39..0c86cc5 100644
        .Else(CrashSIGSYSClone());
  }
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-index d9d1882..0567557 100644
+index f40d436..1ca48f9 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-@@ -392,6 +392,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -389,6 +389,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__)
      case __NR_waitpid:
  #endif
@@ -50,7 +50,7 @@ index d9d1882..0567557 100644
        return true;
      case __NR_clone:  // Should be parameter-restricted.
      case __NR_setns:  // Privileged.
-@@ -404,7 +405,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -401,7 +402,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__)
      case __NR_set_thread_area:
  #endif
@@ -58,7 +58,7 @@ index d9d1882..0567557 100644
      case __NR_unshare:
  #if !defined(__mips__) && !defined(__aarch64__)
      case __NR_vfork:
-@@ -514,6 +514,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -511,6 +511,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_mlock:
      case __NR_munlock:
      case __NR_munmap:
@@ -67,7 +67,7 @@ index d9d1882..0567557 100644
        return true;
      case __NR_madvise:
      case __NR_mincore:
-@@ -531,7 +533,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -528,7 +530,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_modify_ldt:
  #endif
      case __NR_mprotect:

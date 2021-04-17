@@ -3,8 +3,8 @@
 cat << EOF
 Either 'eudev' or 'libudev-zero' must be installed for the 'udev loader' checks to work.
 
-'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for the sandbox to work, \
-if support for user namespaces is not available, the SUID sandbox should be built instead:
+'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for the sandbox to work. \
+If support for user namespaces is not available, the SUID sandbox should be built instead:
 
 * Change the 'ninja' command to:
     ninja -C out/Release chrome chrome_sandbox

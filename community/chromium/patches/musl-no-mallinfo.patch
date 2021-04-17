@@ -20,10 +20,10 @@ index 9d12c42..900ab13 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 9bf8376..e6cb89e 100644
+index 7c33784..21d753e 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -184,7 +184,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -185,7 +185,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
    }
  #elif defined(OS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.
@@ -59,3 +59,25 @@ index b239046..1ffdbc5 100644
    struct mallinfo mi;
    mi = ::mallinfo();
    return mi.uordblks;
+diff --git a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
+index 6a4438f..8c973f1 100644
+--- a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
++++ b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
+@@ -27,7 +27,7 @@ namespace memory {
+ const int MemoryUsage::kValueNotSet = 0;
+ 
+ bool MemoryUsage::IsSupported() {
+-#ifdef __linux__
++#ifdef __GLIBC__
+   return true;
+ #endif
+   return false;
+@@ -35,7 +35,7 @@ bool MemoryUsage::IsSupported() {
+ 
+ MemoryUsage GetMemoryUsage() {
+   MemoryUsage result;
+-#ifdef __linux__
++#ifdef __GLIBC__
+   rusage res;
+   if (getrusage(RUSAGE_SELF, &res) == 0) {
+     result.max_rss_kb = res.ru_maxrss;

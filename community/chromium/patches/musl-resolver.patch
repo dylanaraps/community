@@ -15,10 +15,10 @@ index 0672e71..ff1f795 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 760be32..cf7ac3c 100644
+index ba3d249..097cc71 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -2562,8 +2562,7 @@ HostResolverManager::HostResolverManager(
+@@ -2519,8 +2519,7 @@ HostResolverManager::HostResolverManager(
    NetworkChangeNotifier::AddConnectionTypeObserver(this);
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
@@ -29,10 +29,10 @@ index 760be32..cf7ac3c 100644
  #endif
  
 diff --git a/net/dns/host_resolver_proc.cc b/net/dns/host_resolver_proc.cc
-index 9fc9667..7cc1c93 100644
+index 3da9fb4..3adaf2f 100644
 --- a/net/dns/host_resolver_proc.cc
 +++ b/net/dns/host_resolver_proc.cc
-@@ -159,8 +159,7 @@ int SystemHostResolverCall(const std::string& host,
+@@ -176,8 +176,7 @@ int SystemHostResolverCall(const std::string& host,
    base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,
                                                  base::BlockingType::WILL_BLOCK);
  
