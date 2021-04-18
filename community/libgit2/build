@@ -2,10 +2,21 @@
 
 export DESTDIR="$1"
 
-cmake -B build \
+cmake -B build-static \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-    -DBUILD_SHARED_LIBS=OFF
+    -DBUILD_SHARED_LIBS=OFF \
+    -DUSE_BUNDLED_ZLIB=OFF
 
-cmake --build build
-cmake --install build
+cmake --build build-static
+cmake --install build-static
+
+# build shared libs https://github.com/kiss-community/repo-community/pull/304
+cmake -B build-shared \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DBUILD_SHARED_LIBS=ON \
+    -DUSE_BUNDLED_ZLIB=OFF
+
+cmake --build build-shared
+cmake --install build-shared
