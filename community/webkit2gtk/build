@@ -6,9 +6,15 @@ kiss list openjpeg2 && jpeg=ON
 # Enable WEB_CRYPTO if libtasn1 is installed.
 kiss list libtasn1 && tasn=ON
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
+# __WORDSIZE is undefined on musl.
+WORDSIZE="$(getconf LONG_BIT)"
+export CFLAGS="$CFLAGS -D__WORDSIZE=$WORDSIZE"
+export CXXFLAGS="$CXXFLAGS -D__WORDSIZE=$WORDSIZE"
+
+patch -p1 < musl-thread-stack.patch
+
+# Fix for icu 69
+sed -i 's|#define U_HIDE_DEPRECATED_API 1||g' Source/WTF/wtf/Platform.h
 
 # Remove gettext requirement.
 sed -i 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
@@ -22,7 +28,7 @@ sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
 export DESTDIR="$1"
 
 cmake -B build \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=/usr/lib \
     -DPORT=GTK \
