@@ -10,16 +10,6 @@
     exit 1
 }
 
-patch --version >/dev/null 2>&1 || {
-    printf %s "$(which patch) must be owned by GNU patch\n"
-    exit 1
-}
-
-awk --version >/dev/null 2>&1 || {
-    printf %s "$(which awk) must be owned by GNU awk\n"
-    exit 1
-}
-
 ./bootstrap
 
 ./configure \
