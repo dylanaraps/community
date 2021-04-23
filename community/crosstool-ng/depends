@@ -1,0 +1,9 @@
+automake make
+bash
+bison    make
+flex     make
+gawk     make
+libtool  make
+ncurses
+patch    make
+rsync
