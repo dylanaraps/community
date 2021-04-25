@@ -3,5 +3,5 @@
 cargo build --release
 
 install -Dm755 target/release/exa "$1/usr/bin/exa"
-install -Dm644 exa.1 "$1/usr/share/man/man1/exa.1"
-install -Dm644 exa_colors.5 "$1/usr/share/man/man1/exa.1"
+install -Dm644 exa.1              "$1/usr/share/man/man1/exa.1"
+install -Dm644 exa_colors.5       "$1/usr/share/man/man5/exa_colors.5"
