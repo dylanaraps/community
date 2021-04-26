@@ -2,6 +2,7 @@ cmake   make
 freetype-harfbuzz
 imlib2
 libXft
+libXinerama
 lua     make
 ncurses
 pkgconf make
