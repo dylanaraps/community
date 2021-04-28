@@ -6,12 +6,9 @@ kiss list openjpeg2 && jpeg=ON
 # Enable WEB_CRYPTO if libtasn1 is installed.
 kiss list libtasn1 && tasn=ON
 
-# __WORDSIZE is undefined on musl.
-WORDSIZE="$(getconf LONG_BIT)"
-export CFLAGS="$CFLAGS -D__WORDSIZE=$WORDSIZE"
-export CXXFLAGS="$CXXFLAGS -D__WORDSIZE=$WORDSIZE"
-
-patch -p1 < musl-thread-stack.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 # Fix for icu 69
 sed -i 's|#define U_HIDE_DEPRECATED_API 1||g' Source/WTF/wtf/Platform.h
@@ -30,6 +27,7 @@ export DESTDIR="$1"
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib \
     -DLIB_INSTALL_DIR=/usr/lib \
     -DPORT=GTK \
     -DCMAKE_SKIP_RPATH=ON \
