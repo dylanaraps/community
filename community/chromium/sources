@@ -1,7 +1,8 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-90.0.4430.85.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-90.0.4430.93.tar.xz
 https://github.com/stha09/chromium-patches/releases/download/chromium-90-patchset-7/chromium-90-patchset-7.tar.xz
-git+https://github.com/Eloston/ungoogled-chromium#5cb5bff275e49c22b8c3fb229245a6ea05c64049 ungoogled-chromium
+git+https://github.com/Eloston/ungoogled-chromium#d201417972dcd130016abd5b9de18ebfecf6bdcd ungoogled-chromium
 files/chromium.sh
+patches/chromium-gcc11.patch
 patches/chromium-optional-atk-dbus.patch
 patches/glibc-2.33.patch
 patches/glibc-malloc.patch

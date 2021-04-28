@@ -16,11 +16,6 @@ kiss list glibc && {
     done
 }
 
-# Glob includes the GCC patchset aswell.
-for patch in chromium-*.patch; do
-    patch -p1 < "$patch"
-done
-
 python3 ungoogled-chromium/utils/prune_binaries.py \
     ./ ungoogled-chromium/pruning.list
 
@@ -34,6 +29,11 @@ python3 ungoogled-chromium/utils/domain_substitution.py apply \
     -r ungoogled-chromium/domain_regex.list \
     -f ungoogled-chromium/domain_substitution.list \
     -c domainsubcache.tar.gz ./
+
+# Glob includes the GCC patchset aswell.
+for patch in chromium-*.patch; do
+    patch -p1 < "$patch"
+done
 
 # Avoid falling back to preprocessor mode when sources contain time macros.
 kiss list ccache && export CCACHE_SLOPPINESS=time_macros
