@@ -1,0 +1,13 @@
+--- src/buildtools/configure.json
++++ src/buildtools/configure.json.new
+@@ -373,10 +373,8 @@
+                          && (!config.sanitizer || features.webengine-sanitizer)
+                          && (!config.linux || features.pkg-config)
+                          && (!config.linux || features.webengine-host-pkg-config)
+-                         && (!config.linux || features.webengine-system-glibc)
+                          && (!config.linux || features.webengine-system-khr)
+                          && (!config.linux || features.webengine-system-nss)
+-                         && (!config.linux || features.webengine-system-dbus)
+                          && (!config.linux || features.webengine-system-fontconfig)
+                          && (!config.linux || !features.pkg-config || !features.xcb || features.webengine-ozone-x11)
+                          && (!config.win32 || features.webengine-win-compiler64)

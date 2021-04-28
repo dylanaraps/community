@@ -1,0 +1,13 @@
+--- a/src/buildtools/configure.json
++++ b/src/buildtools/configure.json
+@@ -376,7 +376,6 @@
+                          && (!config.linux || features.webengine-system-glibc)
+                          && (!config.linux || features.webengine-system-khr)
+                          && (!config.linux || features.webengine-system-nss)
+-                         && (!config.linux || features.webengine-system-dbus)
+                          && (!config.linux || features.webengine-system-fontconfig)
+                          && (!config.linux || !features.pkg-config || !features.xcb || features.webengine-ozone-x11)
+                          && (!config.win32 || features.webengine-win-compiler64)
+ig.linux || features.webengine-system-dbus)//' \                                                                                          <
+>     src/buildtools/configure.json
+sed: bad pattern '/&& (!config.linux || features.webengine-system-dbus)//'@56 ()

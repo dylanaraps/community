@@ -1,20 +1,23 @@
-bison make
+bison             make
 ffmpeg
-flex  make
+flex              make
 fontconfig
 freetype-harfbuzz
-gperf make
+gperf             make
 libXcomposite
 libXcursor
 libXi
+libXslt
 libXtst
 libdrm
 libevent
-linux-headers make
+libxml2
+linux-headers     make
+nodejs            make
 nss
-python2 make
+perl              make
+python2           make
 qt5
 qt5-declarative
 qt5-webchannel
-samurai make
 zlib

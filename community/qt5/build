@@ -4,6 +4,9 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
+# Without this folder, Qt can't find its header files.
+mkdir .git
+
 # Don't link against execinfo.h.
 sed -i 's/define QLOG/define N/g' \
     ./src/corelib/global/qlogging.cpp

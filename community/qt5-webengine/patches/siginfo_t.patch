@@ -1,0 +1,14 @@
+--- a/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/trap.cc
++++ b/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/trap.cc
+@@ -4,6 +4,11 @@
+ 
+ #include "sandbox/linux/seccomp-bpf/trap.h"
+ 
++// musl libc defines siginfo_t __si_fields instead of _sifields
++#if !defined(__GLIBC__)
++#define _sifields __si_fields
++#endif
++
+ #include <errno.h>
+ #include <signal.h>
+ #include <stddef.h>
