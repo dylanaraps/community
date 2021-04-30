@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < fix-cchar_t.patch
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --with-screen=ncurses
+
+make
+make install DESTDIR=$1
