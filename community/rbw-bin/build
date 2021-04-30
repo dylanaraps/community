@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+ar x ./*.deb
+tar xf data.tar.xz
+
+for bin in rbw rbw-agent; do
+    install -Dm755 "usr/bin/$bin" -t "$1/usr/bin"
+done
