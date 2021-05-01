@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
-grep -qFw /usr/bin/ksh /etc/shells ||
+grep -qFx /usr/bin/ksh /etc/shells ||
     printf /usr/bin/ksh\\n >>/etc/shells
