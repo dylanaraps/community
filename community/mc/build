@@ -8,4 +8,4 @@ patch -p1 < fix-cchar_t.patch
     --with-screen=ncurses
 
 make
-make install DESTDIR=$1
+make DESTDIR="$1" install
