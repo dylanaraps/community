@@ -1,2 +1,6 @@
-zlib
 bzip2
+libevent
+libressl
+xz
+zlib
+zstd
