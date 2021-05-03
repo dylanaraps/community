@@ -3,6 +3,7 @@
 # Fix build with GCC 10.
 export CFLAGS="$CFLAGS -fcommon"
 
+autoreconf -sfi
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
