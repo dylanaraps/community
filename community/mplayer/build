@@ -8,4 +8,4 @@
 make
 make install DESTDIR="$1"
 
-install -Dm0655 etc/example.conf "$1"/etc/mplayer/mplayer.conf
+install -Dm0644 etc/example.conf "$1"/etc/mplayer/mplayer.conf
