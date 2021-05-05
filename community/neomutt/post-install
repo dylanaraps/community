@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+cat << EOF
+You can find some sample neomuttrc files in /usr/share/doc/neomutt/samples.
+EOF
