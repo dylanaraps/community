@@ -1,0 +1,37 @@
+--- a/linux-user/syscall.c.orig
++++ a/linux-user/syscall.c
+@@ -48,7 +48,7 @@
+ #include <sys/sem.h>
+ #include <sys/statfs.h>
+ #include <utime.h>
+-#include <sys/sysinfo.h>
++//#include <sys/sysinfo.h>
+ #include <sys/signalfd.h>
+ //#include <sys/user.h>
+ #include <netinet/in.h>
+@@ -81,6 +81,16 @@
+ #include <sys/kcov.h>
+ #endif
+ 
++struct host_sigevent {                                                                                   
++    union sigval sigev_value;                                                                            
++    int sigev_signo;                                                                                     
++    int sigev_notify;                                                                                    
++    union {                                                                                              
++       int _pad[64-sizeof(int) * 2 + sizeof(union sigval)];                                              
++       int _tid;                                                                                         
++    } _sigev_un;                                                                                         
++}; 
++
+ #define termios host_termios
+ #define winsize host_winsize
+ #define termio host_termio
+@@ -7393,7 +7403,7 @@
+ }
+ #endif
+ 
+-static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
++static inline abi_long target_to_host_sigevent(struct host_sigevent *host_sevp,
+                                                abi_ulong target_addr)
+ {
+     struct target_sigevent *target_sevp;

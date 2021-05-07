@@ -1,8 +1,11 @@
 #!/bin/sh -e
 
 for patch in *.patch; do
-    patch -p0 < "$patch"
+    patch -p1 < "$patch"
 done
+
+# Remove bash dependency
+sed -i 's/env bash/env sh/g' Makefile
 
 # Build qemu-system* binaries dynamically linked
 ./configure \
