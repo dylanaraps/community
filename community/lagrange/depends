@@ -1,0 +1,5 @@
+cmake make
+libressl
+libunistring
+pcre
+sdl2
