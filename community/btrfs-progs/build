@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# On `glibc` the `sysinfo` struct defined in `<linux/sysinfo.h>` is used, but
+# `musl` uses it's own, leading to redefinition. Just let the linux one be
+# included implicitly by... something.
+sed -i 's|#include <sys/sysinfo.h>||' common/utils.c
+
 ./configure \
     --prefix=/usr \
     --bindir=/usr/bin \
