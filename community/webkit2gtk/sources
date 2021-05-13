@@ -1,4 +1,1 @@
-https://webkitgtk.org/releases/webkitgtk-2.32.0.tar.xz
-patches/musl-fixes.patch
-patches/musl-stack-fix.patch
-patches/musl-wordsize.patch
+https://webkitgtk.org/releases/webkitgtk-2.32.1.tar.xz
