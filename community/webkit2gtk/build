@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# Enable streaming related options if gstreamer is installed.
+kiss list gst-plugins-base && streaming=ON
+
 # Enable the use of openjpeg if the package is installed.
 kiss list openjpeg2 && jpeg=ON
 
@@ -41,6 +44,8 @@ cmake -B build \
     -DUSE_WOFF2=OFF \
     -DUSE_WPE_RENDERER=OFF \
     -DENABLE_WEB_CRYPTO=${tasn:-OFF} \
+    -DENABLE_VIDEO=${streaming:-OFF} \
+    -DENABLE_WEB_AUDIO=${streaming:-OFF} \
     -Wno-dev
 
 cmake --build   build
