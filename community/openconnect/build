@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+sed -i '/#error Bad OpenSSL/d' configure
+sed -i '/"#define HAVE_DTLS12 1" >>confdefs.h/d' configure
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --with-vpnc-script=/etc/vpnc/vpnc-script \
+    --disable-nls
+
+make
+make DESTDIR="$1" install
+install -Dt "$1/etc/vpnc/" vpnc-script
