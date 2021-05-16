@@ -5,4 +5,5 @@ perl make
 pixman
 pkgconf make
 python
+samurai make
 sdl2

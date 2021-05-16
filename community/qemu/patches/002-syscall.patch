@@ -1,14 +1,5 @@
 --- a/linux-user/syscall.c.orig
 +++ a/linux-user/syscall.c
-@@ -48,7 +48,7 @@
- #include <sys/sem.h>
- #include <sys/statfs.h>
- #include <utime.h>
--#include <sys/sysinfo.h>
-+//#include <sys/sysinfo.h>
- #include <sys/signalfd.h>
- //#include <sys/user.h>
- #include <netinet/in.h>
 @@ -81,6 +81,16 @@
  #include <sys/kcov.h>
  #endif

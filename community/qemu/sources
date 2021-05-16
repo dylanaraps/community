@@ -1,3 +1,5 @@
 https://download.qemu.org/qemu-6.0.0.tar.xz
 patches/001-sigtrm-max.patch
 patches/002-syscall.patch
+patches/CVE-2021-3527.patch
+patches/CVE-2021-20255.patch

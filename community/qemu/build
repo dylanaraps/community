@@ -4,6 +4,11 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
+# This is required for linux-headers 5.10
+# If you encounter build failures using a later kernel,
+# comment out this line:
+sed -i 's/#include <sys\/sysinfo.h>//' linux-user/syscall.c
+
 # Remove bash dependency
 sed -i 's/env bash/env sh/g' Makefile
 
