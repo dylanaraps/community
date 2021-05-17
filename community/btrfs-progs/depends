@@ -1,6 +1,7 @@
 e2fsprogs
+linux-headers make
 lzo
-pkgconf make
+pkgconf       make
 python
 util-linux
 zlib
