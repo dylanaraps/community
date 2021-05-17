@@ -1,8 +1,5 @@
 #!/bin/sh -e
 
-# Fix GCC 11.
-export CXXFLAGS="$CXXFLAGS -std=c++11"
-
 patch -p1 < rxvt-unicode-kerning.patch
 patch -p1 < gentables.patch
 
