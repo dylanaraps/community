@@ -1,2 +1,4 @@
-webkit2gtk make
+gcr
+pkgconf make
+webkit2gtk
 xprop
