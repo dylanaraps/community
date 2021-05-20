@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--bindir=/usr/bin \
+	--sbindir=/usr/bin \
+	--datarootdir=/usr/share
+
+make
+make DESTDIR="$1" install
