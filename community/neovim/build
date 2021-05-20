@@ -3,15 +3,10 @@
 # Remove mandatory gettext dependency.
 sed -i 's/^/#/' src/nvim/po/CMakeLists.txt
 
-# Fix build with latest Cmake: https://github.com/neovim/neovim/pull/12676
-sed -i '/CONFIGURE_COMMAND ""/d' third-party/cmake/BuildLibvterm.cmake
-
-# Fix build with GCC 10.
-export CFLAGS="$CFLAGS -fcommon"
-
 make \
     CMAKE_BUILD_TYPE=Release \
     CMAKE_INSTALL_PREFIX=/usr \
-    CMAKE_INSTALL_LIBDIR=lib
+    CMAKE_INSTALL_LIBDIR=lib \
+    -Wno-dev
 
 make DESTDIR="$1" install
