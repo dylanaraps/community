@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+# remove intltool
+sed -i 's/^AC_PROG_INTLTOOL/#AC_PROG_INTLTOOL/' configure.ac
+autoreconf -sfi
+
+./configure \
+    --prefix=/usr \
+    --with-media-dir=/mnt/
+
+# skip of internationalization and tests
+sed -i 's/po src tests/src/' Makefile
+
+# fix musl build
+sed -i '/<libintl.h>/a #include <limits.h>' src/utils.c
+
+make
+
+# 'make install' requires root privileges.
+install -Dm4755 src/pmount    "$1/usr/bin/pmount"
+install -Dm4755 src/pumount   "$1/usr/bin/pumount"
+install -Dm0644 man/pmount.1  "$1/usr/share/man/man1/pmount.1"
+install -Dm0644 man/pumount.1 "$1/usr/share/man/man1/pumount.1"
