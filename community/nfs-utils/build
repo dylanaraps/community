@@ -6,10 +6,9 @@
     --disable-nfsv4 \
     --disable-gss \
     --disable-uuid \
-    --sbindir=/usr/sbin
+    --sbindir=/usr/bin
 
 sed -i "s|sbindir = /sbin|sbindir = /usr/bin|" ./utils/mount/Makefile
 
 make
-make DESTDIR="$1" sbin="/usr/sbin" install
-
+make DESTDIR="$1" install
