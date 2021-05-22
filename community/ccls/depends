@@ -1,2 +1,3 @@
-llvm
 clang
+cmake make
+llvm
