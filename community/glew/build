@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+# We have to edit make files to change install dir
+sed -i "s/lib64/lib/g" config/Makefile.linux
+
+make
+make DESTDIR="$1" install
