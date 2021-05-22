@@ -1,7 +1,10 @@
 #!/bin/sh -e
 
 # Makefile uses a flag which is incompatible with busybox.
-sed -i 's/644 -T/644 /g' Makefile
+sed -i 's/644 -T/644 /g'                   Makefile
+
+# Build is broken with GCC 11
+sed -i '/<dirent.h>/a #include <limits.h>' nvme.h
 
 make
 make PREFIX=/usr SBINDIR=/usr/bin DESTDIR="$1" install
