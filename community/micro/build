@@ -1,9 +1,7 @@
 #!/bin/sh -e
 
-export GOPATH="$PWD/go"
 export GO111MODULE=on
-
-# More verbose building.
-sed -i "s/go build/go build -v/" Makefile
+export GOFLAGS="$GOFLAGS -trimpath -modcacherw"
+export GOPATH="${GOPATH:-$PWD/go}"
 
 make GOBIN="$1/usr/bin" install
