@@ -1,8 +1,8 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index 022f008..65c56c1 100644
+index 1ad352c..68a6be5 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
-@@ -50,8 +50,10 @@ declare_args() {
+@@ -51,8 +51,10 @@ declare_args() {
  assert(!use_glib || ((is_linux || is_chromeos_lacros) && !is_chromecast))
  
  # TODO(crbug.com/1171629): Remove is_chromeos_lacros.

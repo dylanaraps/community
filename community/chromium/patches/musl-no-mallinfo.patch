@@ -20,10 +20,10 @@ index 9d12c42..900ab13 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 7c33784..21d753e 100644
+index 38811b0..be4c710 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -185,7 +185,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -199,7 +199,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
    }
  #elif defined(OS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.

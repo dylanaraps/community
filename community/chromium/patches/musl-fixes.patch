@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 5174562..9c59bd0 100644
+index fadb15d..0490dcc 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -58,7 +58,9 @@
+@@ -62,7 +62,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
  #if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
@@ -12,7 +12,7 @@ index 5174562..9c59bd0 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -319,7 +321,7 @@ void RecordLinuxDistro() {
+@@ -325,7 +327,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -21,20 +21,8 @@ index 5174562..9c59bd0 100644
    base::Version version(gnu_get_libc_version());
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
-diff --git a/mojo/public/cpp/platform/named_platform_channel_posix.cc b/mojo/public/cpp/platform/named_platform_channel_posix.cc
-index 9082ac4..cbedae6 100644
---- a/mojo/public/cpp/platform/named_platform_channel_posix.cc
-+++ b/mojo/public/cpp/platform/named_platform_channel_posix.cc
-@@ -5,6 +5,7 @@
- #include "mojo/public/cpp/platform/named_platform_channel.h"
- 
- #include <errno.h>
-+#include <string.h>
- #include <sys/socket.h>
- #include <sys/un.h>
- #include <unistd.h>
 diff --git a/net/dns/dns_config_service_posix.cc b/net/dns/dns_config_service_posix.cc
-index dddd4a9..bac45d2 100644
+index 0bb9da1..61af776 100644
 --- a/net/dns/dns_config_service_posix.cc
 +++ b/net/dns/dns_config_service_posix.cc
 @@ -93,7 +93,7 @@ base::Optional<DnsConfig> ReadDnsConfig() {
@@ -114,7 +102,7 @@ index 52f6b9a..8da9488 100644
  #if HAVE_UNISTD_H
  #include <unistd.h>
 diff --git a/third_party/lss/linux_syscall_support.h b/third_party/lss/linux_syscall_support.h
-index e4ac226..3e58a66 100644
+index 8d4e4d2..45d589b 100644
 --- a/third_party/lss/linux_syscall_support.h
 +++ b/third_party/lss/linux_syscall_support.h
 @@ -139,12 +139,14 @@ extern "C" {
@@ -132,7 +120,7 @@ index e4ac226..3e58a66 100644
  #undef lstat64
  #undef pread64
  #undef pwrite64
-@@ -1258,6 +1260,12 @@ struct kernel_statfs {
+@@ -1303,6 +1305,12 @@ struct kernel_statfs {
  #ifndef __NR_getrandom
  #define __NR_getrandom          318
  #endif
@@ -145,7 +133,7 @@ index e4ac226..3e58a66 100644
  /* End of x86-64 definitions                                                 */
  #elif defined(__mips__)
  #if _MIPS_SIM == _MIPS_SIM_ABI32
-@@ -4545,6 +4553,7 @@ struct kernel_statfs {
+@@ -4854,6 +4862,7 @@ struct kernel_statfs {
   * corresponding #pragma push_macro near the top of this file. */
  #pragma pop_macro("stat64")
  #pragma pop_macro("fstat64")
@@ -179,7 +167,7 @@ index df36fe3..df1ab9d 100644
  #include <stdint.h>
  #define ots_ntohl(x) ntohl (x)
 diff --git a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
-index fb47d3d..c7b587f 100644
+index 2e9c4e5..cb71b29 100644
 --- a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
 +++ b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
 @@ -29,7 +29,7 @@

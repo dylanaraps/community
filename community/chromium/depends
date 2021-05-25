@@ -19,6 +19,8 @@ libexif
 libgcrypt
 libjpeg-turbo
 libwebp
+libxml2
+libxslt
 mesa
 nodejs             make
 nss
@@ -29,4 +31,3 @@ python             make
 python2            make
 samurai            make
 xcb-proto
-zlib

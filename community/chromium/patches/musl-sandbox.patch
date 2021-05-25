@@ -1,5 +1,5 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-index 8fa54f5..ce08a0e 100644
+index cc0e91b..8836e77 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 @@ -130,21 +130,11 @@ namespace sandbox {
@@ -39,10 +39,10 @@ index 8fa54f5..ce08a0e 100644
        .Else(CrashSIGSYSClone());
  }
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-index f40d436..1ca48f9 100644
+index 96c9f49..225823c 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-@@ -389,6 +389,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -417,6 +417,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__)
      case __NR_waitpid:
  #endif
@@ -50,7 +50,7 @@ index f40d436..1ca48f9 100644
        return true;
      case __NR_clone:  // Should be parameter-restricted.
      case __NR_setns:  // Privileged.
-@@ -401,7 +402,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -429,7 +430,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__)
      case __NR_set_thread_area:
  #endif
@@ -58,7 +58,7 @@ index f40d436..1ca48f9 100644
      case __NR_unshare:
  #if !defined(__mips__) && !defined(__aarch64__)
      case __NR_vfork:
-@@ -511,6 +511,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -543,6 +543,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_mlock:
      case __NR_munlock:
      case __NR_munmap:
@@ -67,7 +67,7 @@ index f40d436..1ca48f9 100644
        return true;
      case __NR_madvise:
      case __NR_mincore:
-@@ -528,7 +530,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -560,7 +562,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_modify_ldt:
  #endif
      case __NR_mprotect:
@@ -91,7 +91,7 @@ index a242c18..bb80da6 100644
  #define __NR_bpf 280
  #endif
 diff --git a/sandbox/linux/system_headers/arm_linux_syscalls.h b/sandbox/linux/system_headers/arm_linux_syscalls.h
-index 85e2110..2621cd2 100644
+index 85da6f4..7a26b31 100644
 --- a/sandbox/linux/system_headers/arm_linux_syscalls.h
 +++ b/sandbox/linux/system_headers/arm_linux_syscalls.h
 @@ -1385,6 +1385,10 @@
@@ -131,11 +131,11 @@ index ec75815..5515270 100644
 +
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_MIPS64_LINUX_SYSCALLS_H_
 diff --git a/sandbox/linux/system_headers/mips_linux_syscalls.h b/sandbox/linux/system_headers/mips_linux_syscalls.h
-index ddbf97f..ad3d64b 100644
+index 50d9ea1..0caffae 100644
 --- a/sandbox/linux/system_headers/mips_linux_syscalls.h
 +++ b/sandbox/linux/system_headers/mips_linux_syscalls.h
-@@ -1433,4 +1433,8 @@
- #define __NR_memfd_create (__NR_Linux + 354)
+@@ -1685,4 +1685,8 @@
+ #define __NR_mount_setattr (__NR_Linux + 442)
  #endif
  
 +#if !defined(__NR_membarrier)
@@ -158,10 +158,10 @@ index b0ae0a2..8b12029 100644
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_X86_64_LINUX_SYSCALLS_H_
  
 diff --git a/sandbox/policy/linux/bpf_renderer_policy_linux.cc b/sandbox/policy/linux/bpf_renderer_policy_linux.cc
-index 9fe9575..8ab9c9d 100644
+index f789e92..5cc0861 100644
 --- a/sandbox/policy/linux/bpf_renderer_policy_linux.cc
 +++ b/sandbox/policy/linux/bpf_renderer_policy_linux.cc
-@@ -93,11 +93,11 @@ ResultExpr RendererProcessPolicy::EvaluateSyscall(int sysno) const {
+@@ -97,11 +97,11 @@ ResultExpr RendererProcessPolicy::EvaluateSyscall(int sysno) const {
      case __NR_sysinfo:
      case __NR_times:
      case __NR_uname:

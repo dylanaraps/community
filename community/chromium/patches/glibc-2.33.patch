@@ -1,8 +1,8 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
-index 5242bde..89450d6 100644
+index 05c39f0..ce1a4e3 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
-@@ -269,6 +269,18 @@ ResultExpr EvaluateSyscallImpl(int fs_denied_errno,
+@@ -286,6 +286,18 @@ ResultExpr EvaluateSyscallImpl(int fs_denied_errno,
      return Allow();
    }
  

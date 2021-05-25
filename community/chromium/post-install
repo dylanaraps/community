@@ -1,13 +1,18 @@
 #!/bin/sh -e
 
 cat << EOF
-Either 'eudev' or 'libudev-zero' must be installed for the 'udev loader' checks to work.
+NOTE: Either 'eudev' or 'libudev-zero' must be installed for the udev checks to work.
 
-'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for the sandbox to work. \
-If support for user namespaces is not available, the SUID sandbox should be built instead:
+NOTE: Add the following to your '.profile' for VA-API to work:
+
+'export CHROME_FLAGS="\$CHROME_FLAGS --enable-features=VaapiVideoDecoder"'
+
+NOTE: 'CONFIG_USER_NS' MUST be set to 'Y' in your kernel configuration for \
+the sandbox to work. If support for user namespaces is not available, the \
+SUID sandbox should be built instead:
 
 * Change the 'ninja' command to:
-    ninja -C out/Release chrome chrome_sandbox
+    'ninja -C out/Release chrome chrome_sandbox'
 * Package the sandbox:
-    install -Dm4755 out/Release/chrome_sandbox "\$1/usr/lib/chromium/chrome-sandbox"
+    'install -Dm4755 out/Release/chrome_sandbox "\$1/usr/lib/chromium/chrome-sandbox"'
 EOF
