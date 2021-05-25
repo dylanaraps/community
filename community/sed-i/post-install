@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-printf '%s\n' 'NOTE: add /usr/lib/sed-i/bin to the beginning of your $PATH'
+printf '%s\n' "NOTE: add /usr/lib/sed-i/bin to the beginning of your \$PATH"
