@@ -4,11 +4,11 @@ glib-networking
 gperf  make
 gtk+3
 harfbuzz-icu
-libXslt
 libXt
 libgcrypt
 libsoup
 libwebp
+libxslt
 mesa
 perl   make
 python make
