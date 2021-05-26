@@ -63,7 +63,7 @@ find . -name '*.pr[fio]' | while read -r file; do
 done
 
 # Increase the limit -- thanks chromium
-# shellcheck disable=2039
+# shellcheck disable=3045
 ulimit -n 4096
 
 qmake QMAKE_CXXFLAGS=-DQT_NO_ACCESSIBILITY -- \
