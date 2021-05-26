@@ -7,11 +7,11 @@ gperf             make
 libXcomposite
 libXcursor
 libXi
-libXslt
 libXtst
 libdrm
 libevent
 libxml2
+libxslt
 linux-headers     make
 nodejs            make
 nss
