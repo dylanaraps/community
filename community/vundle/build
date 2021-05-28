@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+install -Dm644 -t "$1/usr/share/vim/vimfile/doc"             doc/vundle.txt
+install -Dm644 -t "$1/usr/share/vim/vimfile/autoload"        autoload/vundle.vim
+install -Dm644 -t "$1/usr/share/vim/vimfile/autoload/vundle" autoload/vundle/*.vim
+install -Dm644 -t "$1/usr/share/licenses/vundle/LICENSE"     LICENSE-MIT.txt
+install -Dm644 -t "$1/usr/share/doc/vundle/README"           README.md
