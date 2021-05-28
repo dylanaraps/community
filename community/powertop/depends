@@ -1,4 +1,5 @@
 autoconf-archive    make
+automake            make
 libnl
 libtool             make
 ncurses
