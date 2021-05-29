@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+# Fixes building with clang when clang doesn't include stdc-predef.h by default,
+# which is where the required macro __STDC_ISO_10646__ is defined.
+sed -i '31 a #include <stdc-predef.h>' src/chartype.h
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
