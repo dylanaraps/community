@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# We have to edit files to set the install location
+sed -i 's|/opt/schily|/usr|' DEFAULTS/Defaults.linux
+
+# install rscsi to /usr/bin instead of /usr/sbin
+sed -i 's|INSDIR=.*|INSDIR=bin|' rscsi/Makefile
+
+make
+make DESTDIR="$1" install
