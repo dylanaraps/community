@@ -1,0 +1,668 @@
+diff --git a/Makefile b/Makefile
+index 7e2d7be..9cb2cc1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -133,7 +133,7 @@ CFLAGS += -std=c11 -Wall -Wextra -Wshadow
+ CFLAGS += $(CFLAGS_OPTIMIZATION)
+ CFLAGS += $(CFLAGS_CURSES)
+ 
+-LDLIBS += $(LDLIBS_CURSES) -lpthread
++LDLIBS += $(LDLIBS_CURSES)
+ 
+ # static compilation needs libgpm development package
+ ifeq ($(strip $(O_STATIC)),1)
+diff --git a/src/nnn.c b/src/nnn.c
+index d83d7f6..a06f4fc 100644
+--- a/src/nnn.c
++++ b/src/nnn.c
+@@ -74,13 +74,11 @@
+ #include <dirent.h>
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <fts.h>
+ #include <libgen.h>
+ #include <limits.h>
+ #ifndef NOLC
+ #include <locale.h>
+ #endif
+-#include <pthread.h>
+ #include <stdio.h>
+ #ifndef NORL
+ #include <readline/history.h>
+@@ -128,7 +126,7 @@
+ #endif
+ 
+ /* Macro definitions */
+-#define VERSION "4.1"
++#define VERSION "4.0"
+ #define GENERAL_INFO "BSD 2-Clause\nhttps://github.com/jarun/nnn"
+ 
+ #ifndef NOSSN
+@@ -338,8 +336,7 @@ typedef struct {
+ 	uint_t dirctx     : 1;  /* Show dirs in context color */
+ 	uint_t uidgid     : 1;  /* Show owner and group info */
+ 	uint_t prstssn    : 1;  /* Persistent session */
+-	uint_t duinit     : 1;  /* Initialize disk usage */
+-	uint_t reserved   : 7;  /* Adjust when adding/removing a field */
++	uint_t reserved   : 8;  /* Adjust when adding/removing a field */
+ } runstate;
+ 
+ /* Contexts or workspaces */
+@@ -427,7 +424,9 @@ static char *fifopath;
+ #endif
+ static unsigned long long *ihashbmp;
+ static struct entry *pdents;
++static blkcnt_t ent_blocks;
+ static blkcnt_t dir_blocks;
++static ulong_t num_files;
+ static kv *bookmark;
+ static kv *plug;
+ static uchar_t tmpfplen, homelen;
+@@ -441,28 +440,6 @@ static pcre *archive_pcre;
+ static regex_t archive_re;
+ #endif
+ 
+-/* pthread related */
+-#define NUM_DU_THREADS (4) /* Can use sysconf(_SC_NPROCESSORS_ONLN) */
+-#define DU_TEST (((node->fts_info & FTS_F) && \
+-			(sb->st_nlink <= 1 || test_set_bit((uint_t)sb->st_ino))) || node->fts_info & FTS_DP)
+-
+-static int threadbmp = -1; /* Has 1 in the bit position for idle threads */
+-static volatile int active_threads = 0;
+-static pthread_mutex_t running_mutex = PTHREAD_MUTEX_INITIALIZER;
+-static pthread_mutex_t hardlink_mutex = PTHREAD_MUTEX_INITIALIZER;
+-static ulong_t *core_files;
+-static blkcnt_t *core_blocks;
+-static _Atomic volatile ulong_t num_files;
+-
+-typedef struct {
+-	char path[PATH_MAX];
+-	int entnum;
+-	ushort_t core;
+-	bool mntpoint;
+-} thread_data;
+-
+-static thread_data *core_data;
+-
+ /* Retain old signal handlers */
+ static struct sigaction oldsighup;
+ static struct sigaction oldsigtstp;
+@@ -567,7 +544,7 @@ static char * const utils[] = {
+ #define MSG_NEW_PATH 19
+ #define MSG_LINK_PREFIX 20
+ #define MSG_COPY_NAME 21
+-#define MSG_RETURN 22
++#define MSG_CONTINUE 22
+ #define MSG_SEL_MISSING 23
+ #define MSG_ACCESS 24
+ #define MSG_EMPTY_FILE 25
+@@ -800,6 +777,7 @@ static haiku_nm_h haiku_hnd;
+ /* Forward declarations */
+ static void redraw(char *path);
+ static int spawn(char *file, char *arg1, char *arg2, char *arg3, uchar_t flag);
++static int (*nftw_fn)(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf);
+ static void move_cursor(int target, int ignore_scrolloff);
+ static char *load_input(int fd, const char *path);
+ static int set_sort_flags(int r);
+@@ -875,32 +853,41 @@ static bool test_set_bit(uint_t nr)
+ {
+ 	nr &= HASH_BITS;
+ 
+-	pthread_mutex_lock(&hardlink_mutex);
+-	ulong_t *m = ((ulong_t *)ihashbmp) + (nr >> 6);
++	unsigned long long *m = ((unsigned long long *)ihashbmp) + (nr >> 6);
+ 
+-	if (*m & (1 << (nr & 63))) {
+-		pthread_mutex_unlock(&hardlink_mutex);
++	if (*m & (1 << (nr & 63)))
+ 		return FALSE;
+-	}
+ 
+ 	*m |= 1 << (nr & 63);
+-	pthread_mutex_unlock(&hardlink_mutex);
+ 
+ 	return TRUE;
+ }
+ 
+ #ifndef __APPLE__
+ /* Increase the limit on open file descriptors, if possible */
+-static void max_openfds(void)
++static rlim_t max_openfds(void)
+ {
+ 	struct rlimit rl;
++	rlim_t limit = getrlimit(RLIMIT_NOFILE, &rl);
+ 
+-	if (!getrlimit(RLIMIT_NOFILE, &rl)) {
+-		if (rl.rlim_cur < rl.rlim_max) {
+-			rl.rlim_cur = rl.rlim_max;
+-			setrlimit(RLIMIT_NOFILE, &rl);
++	if (!limit) {
++		limit = rl.rlim_cur;
++		rl.rlim_cur = rl.rlim_max;
++
++		/* Return ~75% of max possible */
++		if (setrlimit(RLIMIT_NOFILE, &rl) == 0) {
++			limit = rl.rlim_max - (rl.rlim_max >> 2);
++			/*
++			 * 20K is arbitrary. If the limit is set to max possible
++			 * value, the memory usage increases to more than double.
++			 */
++			if (limit > 20480)
++				limit = 20480;
+ 		}
+-	}
++	} else
++		limit = 32;
++
++	return limit;
+ }
+ #endif
+ 
+@@ -2084,10 +2071,10 @@ static int spawn(char *file, char *arg1, char *arg2, char *arg3, uchar_t flag)
+ 		DPRINTF_D(pid);
+ 
+ 		if ((flag & F_CONFIRM) || ((flag & F_CHKRTN) && retstatus)) {
+-			status = write(STDOUT_FILENO, messages[MSG_RETURN], xstrlen(messages[MSG_RETURN]));
+-			(void)status;
+-			status = read(STDIN_FILENO, g_buf, PATH_MAX);
++			status = write(STDOUT_FILENO, messages[MSG_CONTINUE],
++					xstrlen(messages[MSG_CONTINUE]));
+ 			(void)status;
++			while (getchar() != '\n') {};
+ 		}
+ 
+ 		if (flag & F_NORMAL)
+@@ -3002,13 +2989,18 @@ static int filterentries(char *path, char *lastname)
+ 		case KEY_MOUSE:
+ 			goto end;
+ #endif
+-		case ESC:
++		case ESC: /* Exit filter mode on Esc and Alt+key */
+ 			if (handle_alt_key(ch) != ERR) {
+-				if (*ch == ESC) /* Handle Alt+Esc */
+-					*ch = 'q'; /* Quit context */
+-				else {
++				if (*ch == ESC) { /* Handle Alt+Esc */
++					if (wln[1]) {
++						ln[REGEX_MAX - 1] = ln[1];
++						ln[1] = wln[1] = '\0';
++						ndents = total;
++						*ch = CONTROL('L');
++					}
++				} else {
+ 					unget_wch(*ch);
+-					*ch = ';'; /* Run plugin */
++					*ch = ';';
+ 				}
+ 			}
+ 			goto end;
+@@ -4581,18 +4573,18 @@ static void show_help(const char *path)
+        "1NAVIGATION\n"
+ 	       "9Up k  Up%-16cPgUp ^U  Scroll up\n"
+ 	       "9Dn j  Down%-14cPgDn ^D  Scroll down\n"
+-	       "9Lt h  Parent%-12c~ ` @ -  ~, /, start, prev\n"
++	       "9Lt h  Parent%-12c~ ` @ -  HOME, /, start, last\n"
+ 	   "5Ret Rt l  Open%-20c'  First file/match\n"
+ 	       "9g ^A  Top%-21c.  Toggle hidden\n"
+ 	       "9G ^E  End%-21c+  Toggle auto-advance\n"
+ 	       "9b ^/  Bookmark key%-12c,  Mark CWD\n"
+-		"a1-4  Context 1-4%-7c(Sh)Tab  Cycle/new context\n"
++		"a1-4  Context 1-4%-7c(Sh)Tab  Cycle context\n"
+ 		"aEsc  Send to FIFO%-11c^L  Redraw\n"
+ 		  "cQ  Pick/err, quit%-9c^G  QuitCD\n"
+ 	          "cq  Quit context%-6c2Esc ^Q  Quit\n"
+ 		  "c?  Help, conf\n"
+        "1FILTER & PROMPT\n"
+-		  "c/  Filter%-12cAlt+Esc  Unfilter, quit context\n"
++		  "c/  Filter%-12cAlt+Esc  Clear filter & redraw\n"
+ 		"aEsc  Exit prompt%-12c^L  Clear prompt/last filter\n"
+ 		 "b^N  Toggle type-to-nav%-0c\n"
+        "1FILES\n"
+@@ -4740,19 +4732,17 @@ static void readpipe(int fd, char **path, char **lastname, char **lastdir)
+ {
+ 	int r;
+ 	char ctx, *nextpath = NULL;
++	ssize_t len = read_nointr(fd, g_buf, 1);
+ 
+-	if (read_nointr(fd, g_buf, 1) != 1)
++	if (len != 1)
+ 		return;
+ 
+-	if (g_buf[0] == '-') { /* Clear selection on '-' */
+-		clearselection();
+-		if (read_nointr(fd, g_buf, 1) != 1)
+-			return;
+-	}
+-
+ 	if (g_buf[0] == '+')
+ 		ctx = (char)(get_free_ctx() + 1);
+-	else if (g_buf[0] < '0')
++	else if (g_buf[0] == '-') { /* Clear selection on '-' */
++		clearselection();
++		return;
++	} else if (g_buf[0] < '0')
+ 		return;
+ 	else {
+ 		ctx = g_buf[0] - '0';
+@@ -4760,14 +4750,14 @@ static void readpipe(int fd, char **path, char **lastname, char **lastdir)
+ 			return;
+ 	}
+ 
+-	if (read_nointr(fd, g_buf, 1) != 1)
++	len = read_nointr(fd, g_buf, 1);
++	if (len != 1)
+ 		return;
+ 
+ 	char op = g_buf[0];
+ 
+ 	if (op == 'c') {
+-		ssize_t len = read_nointr(fd, g_buf, PATH_MAX);
+-
++		len = read_nointr(fd, g_buf, PATH_MAX);
+ 		if (len <= 0)
+ 			return;
+ 
+@@ -4964,111 +4954,61 @@ static bool handle_cmd(enum action sel, const char *current, char *newpath)
+ 	return TRUE;
+ }
+ 
+-static void dentfree(void)
++static int sum_bsize(const char *UNUSED(fpath), const struct stat *sb, int typeflag, struct FTW *UNUSED(ftwbuf))
+ {
+-	free(pnamebuf);
+-	free(pdents);
+-	free(mark);
++	if (sb->st_blocks
++	    && ((typeflag == FTW_F && (sb->st_nlink <= 1 || test_set_bit((uint_t)sb->st_ino)))
++	    || typeflag == FTW_D))
++		ent_blocks += sb->st_blocks;
+ 
+-	/* Thread data cleanup */
+-	free(core_blocks);
+-	free(core_data);
+-	free(core_files);
++	++num_files;
++	return 0;
+ }
+ 
+-static void *du_thread(void *p_data)
++static int sum_asize(const char *UNUSED(fpath), const struct stat *sb, int typeflag, struct FTW *UNUSED(ftwbuf))
+ {
+-	thread_data *pdata = (thread_data *)p_data;
+-	char *path[2] = {pdata->path, NULL};
+-	ulong_t tfiles = 0;
+-	blkcnt_t tblocks = 0;
+-	struct stat *sb;
+-	FTS *tree = fts_open(path, FTS_PHYSICAL | FTS_XDEV | FTS_NOCHDIR, 0);
+-	FTSENT *node;
++	if (sb->st_size
++	    && ((typeflag == FTW_F && (sb->st_nlink <= 1 || test_set_bit((uint_t)sb->st_ino)))
++	    || typeflag == FTW_D))
++		ent_blocks += sb->st_size;
+ 
+-	while ((node = fts_read(tree))) {
+-		if (node->fts_info & FTS_D)
+-			continue;
+-
+-		sb = node->fts_statp;
+-
+-		if (cfg.apparentsz) {
+-			if (sb->st_size && DU_TEST)
+-				tblocks += sb->st_size;
+-		} else if (sb->st_blocks && DU_TEST)
+-			tblocks += sb->st_blocks;
+-
+-		++tfiles;
+-	}
+-
+-	fts_close(tree);
+-
+-	if (pdata->entnum >= 0)
+-		pdents[pdata->entnum].blocks = tblocks;
+-
+-	if (!pdata->mntpoint) {
+-		core_blocks[pdata->core] += tblocks;
+-		core_files[pdata->core] += tfiles;
+-	} else
+-		core_files[pdata->core] += 1;
+-
+-	pthread_mutex_lock(&running_mutex);
+-	threadbmp |= (1 << pdata->core);
+-	--active_threads;
+-	pthread_mutex_unlock(&running_mutex);
+-
+-	return NULL;
++	++num_files;
++	return 0;
+ }
+ 
+-static void dirwalk(char *dir, char *path, int entnum, bool mountpoint)
++static void dentfree(void)
+ {
+-	/* Loop till any core is free */
+-	while (active_threads == NUM_DU_THREADS){}
+-
+-	if (g_state.interrupt)
+-		return;
+-
+-	pthread_mutex_lock(&running_mutex);
+-	++active_threads;
+-	int core = ffs(threadbmp) - 1;
+-	threadbmp &= ~(1 << core);
+-	pthread_mutex_unlock(&running_mutex);
+-
+-	xstrsncpy(core_data[core].path, path, PATH_MAX);
+-	core_data[core].entnum = entnum;
+-	core_data[core].core = (ushort_t)core;
+-	core_data[core].mntpoint = mountpoint;
++	free(pnamebuf);
++	free(pdents);
++	free(mark);
++}
+ 
+-	pthread_t tid = 0;
++static blkcnt_t dirwalk(char *path, struct stat *psb)
++{
++#ifndef __APPLE__
++	static uint_t open_max;
+ 
+-	pthread_create(&tid, NULL, du_thread, (void *)&(core_data[core]));
++	/* Increase current open file descriptor limit */
++	if (!open_max)
++		open_max = max_openfds();
++#endif
+ 
+-	redraw(dir);
++	ent_blocks = 0;
+ 	tolastln();
++	addstr(xbasename(path));
+ 	addstr(" [^C aborts]\n");
+ 	refresh();
+-}
+-
+-static void prep_threads(void)
+-{
+-	if (!g_state.duinit) {
+-		/* drop MSB 1s */
+-		threadbmp >>= (32 - NUM_DU_THREADS);
+-
+-		core_blocks = calloc(NUM_DU_THREADS, sizeof(blkcnt_t));
+-		core_data = calloc(NUM_DU_THREADS, sizeof(thread_data));
+-		core_files = calloc(NUM_DU_THREADS, sizeof(ulong_t));
+ 
+ #ifndef __APPLE__
+-		/* Increase current open file descriptor limit */
+-		max_openfds();
++	if (nftw(path, nftw_fn, open_max, FTW_MOUNT | FTW_PHYS) < 0) {
++#else
++	if (nftw(path, nftw_fn, OPEN_MAX, FTW_MOUNT | FTW_PHYS) < 0) {
+ #endif
+-		g_state.duinit = TRUE;
+-	} else {
+-		memset(core_blocks, 0, NUM_DU_THREADS * sizeof(blkcnt_t));
+-		memset(core_data, 0, NUM_DU_THREADS * sizeof(thread_data));
+-		memset(core_files, 0, NUM_DU_THREADS * sizeof(ulong_t));
++		DPRINTF_S("nftw failed");
++		return cfg.apparentsz ? psb->st_size : psb->st_blocks;
+ 	}
++
++	return ent_blocks;
+ }
+ 
+ /* Skip self and parent */
+@@ -5080,7 +5020,8 @@ static bool selforparent(const char *path)
+ static int dentfill(char *path, struct entry **ppdents)
+ {
+ 	uchar_t entflags = 0;
+-	int flags = 0;
++	int n = 0, flags = 0;
++	ulong_t num_saved;
+ 	struct dirent *dp;
+ 	char *namep, *pnb, *buf = NULL;
+ 	struct entry *dentp;
+@@ -5088,8 +5029,6 @@ static int dentfill(char *path, struct entry **ppdents)
+ 	struct stat sb_path, sb;
+ 	DIR *dirp = opendir(path);
+ 
+-	ndents = 0;
+-
+ 	DPRINTF_S(__func__);
+ 
+ 	if (!dirp)
+@@ -5114,8 +5053,6 @@ static int dentfill(char *path, struct entry **ppdents)
+ 		} else
+ 			memset(ihashbmp, 0, HASH_OCTETS << 3);
+ 
+-		prep_threads();
+-
+ 		attron(COLOR_PAIR(cfg.curctx + 1));
+ 	}
+ 
+@@ -5158,11 +5095,13 @@ static int dentfill(char *path, struct entry **ppdents)
+ 			if (S_ISDIR(sb.st_mode)) {
+ 				if (sb_path.st_dev == sb.st_dev) { // NOLINT
+ 					mkpath(path, namep, buf);
+-					dirwalk(path, buf, -1, FALSE);
++
++					dir_blocks += dirwalk(buf, &sb);
+ 
+ 					if (g_state.interrupt)
+ 						goto exit;
+-
++					ndents = n;
++					redraw(path);
+ 				}
+ 			} else {
+ 				/* Do not recount hard links */
+@@ -5189,10 +5128,7 @@ static int dentfill(char *path, struct entry **ppdents)
+ 				entflags = SYM_ORPHAN;
+ 		}
+ 
+-		if (ndents == total_dents) {
+-			if (cfg.blkorder)
+-				while (active_threads) {}
+-
++		if (n == total_dents) {
+ 			total_dents += ENTRY_INCR;
+ 			*ppdents = xrealloc(*ppdents, total_dents * sizeof(**ppdents));
+ 			if (!*ppdents) {
+@@ -5221,13 +5157,13 @@ static int dentfill(char *path, struct entry **ppdents)
+ 				dentp = *ppdents;
+ 				dentp->name = pnamebuf;
+ 
+-				for (int count = 1; count < ndents; ++dentp, ++count)
++				for (int count = 1; count < n; ++dentp, ++count)
+ 					/* Current file name starts at last file name start + length */
+ 					(dentp + 1)->name = (char *)((size_t)dentp->name + dentp->nlen);
+ 			}
+ 		}
+ 
+-		dentp = *ppdents + ndents;
++		dentp = *ppdents + n;
+ 
+ 		/* Selection file name */
+ 		dentp->name = (char *)((size_t)pnamebuf + off);
+@@ -5285,13 +5221,21 @@ static int dentfill(char *path, struct entry **ppdents)
+ 
+ 		if (cfg.blkorder) {
+ 			if (S_ISDIR(sb.st_mode)) {
++				num_saved = num_files + 1;
+ 				mkpath(path, namep, buf);
+ 
+ 				/* Need to show the disk usage of this dir */
+-				dirwalk(path, buf, ndents, (sb_path.st_dev != sb.st_dev)); // NOLINT
++				dentp->blocks = dirwalk(buf, &sb);
++
++				if (sb_path.st_dev == sb.st_dev) // NOLINT
++					dir_blocks += dentp->blocks;
++				else
++					num_files = num_saved;
+ 
+ 				if (g_state.interrupt)
+ 					goto exit;
++				ndents = n;
++				redraw(path);
+ 			} else {
+ 				dentp->blocks = (cfg.apparentsz ? sb.st_size : sb.st_blocks);
+ 				/* Do not recount hard links */
+@@ -5316,25 +5260,18 @@ static int dentfill(char *path, struct entry **ppdents)
+ #endif
+ 		}
+ 
+-		++ndents;
++		++n;
+ 	} while ((dp = readdir(dirp)));
+ 
+ exit:
+-	if (cfg.blkorder) {
+-		while (active_threads) {}
+-
++	if (cfg.blkorder)
+ 		attroff(COLOR_PAIR(cfg.curctx + 1));
+-		for (int i = 0; i < NUM_DU_THREADS; ++i) {
+-			num_files += core_files[i];
+-			dir_blocks += core_blocks[i];
+-		}
+-	}
+ 
+ 	/* Should never be null */
+ 	if (closedir(dirp) == -1)
+ 		errexit();
+ 
+-	return ndents;
++	return n;
+ }
+ 
+ static void populate(char *path, char *lastname)
+@@ -5530,16 +5467,11 @@ static int handle_context_switch(enum action sel)
+ 			do
+ 				r = (r + 1) & ~CTX_MAX;
+ 			while (!g_ctx[r].c_cfg.ctxactive);
+-		else {
+-			do /* Attempt to create a new context */
+-				r = (r + 1) & ~CTX_MAX;
+-			while (g_ctx[r].c_cfg.ctxactive && (r != cfg.curctx));
+-
+-			if (r == cfg.curctx) /* If all contexts are active, reverse cycle */
+-				do
+-					r = (r + (CTX_MAX - 1)) & (CTX_MAX - 1);
+-				while (!g_ctx[r].c_cfg.ctxactive);
+-		} // fallthrough
++		else
++			do
++				r = (r + (CTX_MAX - 1)) & (CTX_MAX - 1);
++			while (!g_ctx[r].c_cfg.ctxactive);
++		// fallthrough
+ 	default: /* SEL_CTXN */
+ 		if (sel >= SEL_CTX1) /* CYCLE keys are lesser in value */
+ 			r = sel - SEL_CTX1; /* Save the next context id */
+@@ -5553,7 +5485,7 @@ static int handle_context_switch(enum action sel)
+ 				return -1;
+ 		}
+ 
+-		if (g_state.selmode) /* Remember the position from where to continue selection */
++		if (g_state.selmode)
+ 			lastappendpos = selbufpos;
+ 	}
+ 
+@@ -5593,6 +5525,7 @@ static int set_sort_flags(int r)
+ 	case 'a': /* Apparent du */
+ 		cfg.apparentsz ^= 1;
+ 		if (cfg.apparentsz) {
++			nftw_fn = &sum_asize;
+ 			cfg.blkorder = 1;
+ 			blk_shift = 0;
+ 		} else
+@@ -5602,6 +5535,7 @@ static int set_sort_flags(int r)
+ 		if (r == 'd') {
+ 			if (!cfg.apparentsz)
+ 				cfg.blkorder ^= 1;
++			nftw_fn = &sum_bsize;
+ 			cfg.apparentsz = 0;
+ 			blk_shift = ffs(S_BLKSIZE) - 1;
+ 		}
+@@ -5731,15 +5665,15 @@ static void statusbar(char *path)
+ 
+ 	printw("%d/%s ", cur + 1, xitoa(ndents));
+ 
+-	if (g_state.selmode || nselected) {
++	if (g_state.selmode) {
+ 		attron(A_REVERSE);
+ 		addch(' ');
+ 		if (g_state.rangesel)
+ 			addch('*');
+-		else if (g_state.selmode)
+-			addch('+');
+-		if (nselected)
++		else if (nselected)
+ 			addstr(xitoa(nselected));
++		else
++			addch('+');
+ 		addch(' ');
+ 		attroff(A_REVERSE);
+ 		addch(' ');
+@@ -5781,11 +5715,7 @@ static void statusbar(char *path)
+ 
+ 			if (i > 1) { /* Show symlink target */
+ 				g_buf[i] = '\0';
+-#ifdef ICONS_ENABLED
+-				addstr(" "MD_ARROW_FORWARD);
+-#else
+ 				addstr(" ->");
+-#endif
+ 				addstr(g_buf);
+ 			}
+ 		} else {
+@@ -5818,11 +5748,7 @@ static inline void markhovered(void)
+ {
+ 	if (cfg.showdetail && ndents) { /* Reversed block for hovered entry */
+ 		tocursor();
+-#ifdef ICONS_ENABLED
+-		addstr(MD_ARROW_FORWARD);
+-#else
+ 		addch(' ' | A_REVERSE);
+-#endif
+ 	}
+ }
+ 
+@@ -5975,11 +5901,7 @@ static void redraw(char *path)
+ 	/* Go to first entry */
+ 	if (curscroll > 0) {
+ 		move(1, 0);
+-#ifdef ICONS_ENABLED
+-		addstr(MD_ARROW_UPWARD);
+-#else
+ 		addch('^');
+-#endif
+ 	}
+ 
+ 	if (g_state.oldcolor) {
+@@ -6001,14 +5923,10 @@ static void redraw(char *path)
+ 		g_state.dircolor = 0;
+ 	}
+ 
+-	/* Go to last entry */
+-	if (onscreen < ndents) {
++	/* Go to first entry */
++	if (i < ndents) {
+ 		move(xlines - 2, 0);
+-#ifdef ICONS_ENABLED
+-		addstr(MD_ARROW_DOWNWARD);
+-#else
+ 		addch('v');
+-#endif
+ 	}
+ 
+ 	markhovered();
+@@ -6426,10 +6344,8 @@ nochange:
+ 					if (g_state.picked)
+ 						return EXIT_SUCCESS;
+ 
+-					if (runfile[0]) {
+-						xstrsncpy(lastname, runfile, NAME_MAX + 1);
++					if (runfile[0])
+ 						runfile[0] = '\0';
+-					}
+ 					clearfilter();
+ 					setdirwatch();
+ 					goto begin;
