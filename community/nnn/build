@@ -2,5 +2,5 @@
 
 patch -p1 < fts-removal.patch
 
-gmake O_NORL=1 strip
-gmake DESTDIR="$1" PREFIX=/usr install
+make O_NORL=1 strip
+make DESTDIR="$1" PREFIX=/usr install
