@@ -1,4 +1,7 @@
 #!/bin/sh -e
 
+export GOPATH="$PWD/go"
+export GO111MODULE=on
+
 make PREFIX=/usr
 make DESTDIR="$1" PREFIX=/usr install
