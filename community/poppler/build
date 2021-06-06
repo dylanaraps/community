@@ -5,6 +5,7 @@ export DESTDIR="$1"
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DENABLE_BOOST=OFF \
     -DENABLE_CPP=ON \
     -DENABLE_QT5=OFF \
     -DWITH_NSS3=OFF
