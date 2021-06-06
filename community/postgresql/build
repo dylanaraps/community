@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --enable-thread-safety \
+    --with-libedit-preferred \
+    --with-openssl \
+    --with-uuid=e2fs \
+    --with-llvm
+
+make world
+make DESTDIR="$1" install
+
+install -Dm644 postgresqld.conf "$1/etc/default/postgresql"
+
+install -Dm644 "$1/usr/share/postgresql/postgresql.conf.sample" \
+    "$1/etc/postgresql/postgresql.conf"
+
+install -Dm755 postgresql.run         "$1/etc/sv/postgresql/run"
+ln -s /run/runit/supervise.postgresql "$1/etc/sv/postgresql/supervise"

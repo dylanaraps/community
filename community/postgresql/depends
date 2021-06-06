@@ -1,0 +1,5 @@
+clang make
+libedit
+llvm
+python
+zlib
