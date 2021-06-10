@@ -1,0 +1,40 @@
+diff --git a/Makefile b/Makefile
+index 199f143..b413b36 100644
+--- a/Makefile
++++ b/Makefile
+@@ -67,11 +67,14 @@ MAN7DIR=$(MANDIR)/man7
+ all: $(LIBRARY) $(DEMOS)
+ 
+ %.lo: %.c termkey.h termkey-internal.h
+-	$(LIBTOOL) --mode=compile --tag=CC $(CC) $(CFLAGS) -o $@ -c $<
++	$(CC) $(CFLAGS) -fPIC -o $@ -c $<
+ 
+ $(LIBRARY): $(OBJECTS)
+ 	$(LIBTOOL) --mode=link --tag=CC $(CC) -rpath $(LIBDIR) -version-info $(VERSION_CURRENT):$(VERSION_REVISION):$(VERSION_AGE) $(LDFLAGS) -o $@ $^
+ 
++libtermkey.a: $(OBJECTS)
++	$(AR) rc $@ $^
++
+ demo: $(LIBRARY) demo.lo
+ 	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
+ 
+@@ -106,7 +109,6 @@ clean: clean-test
+ 
+ .PHONY: install
+ install: install-inc install-lib install-man
+-	$(LIBTOOL) --mode=finish $(DESTDIR)$(LIBDIR)
+ 
+ install-inc: termkey.h
+ 	install -d $(DESTDIR)$(INCDIR)
+@@ -114,9 +116,9 @@ install-inc: termkey.h
+ 	install -d $(DESTDIR)$(LIBDIR)/pkgconfig
+ 	LIBDIR=$(LIBDIR) INCDIR=$(INCDIR) VERSION=$(VERSION) sh termkey.pc.sh >$(DESTDIR)$(LIBDIR)/pkgconfig/termkey.pc
+ 
+-install-lib: $(LIBRARY)
++install-lib: libtermkey.a
+ 	install -d $(DESTDIR)$(LIBDIR)
+-	$(LIBTOOL) --mode=install install libtermkey.la $(DESTDIR)$(LIBDIR)/libtermkey.la
++	install libtermkey.a $(DESTDIR)$(LIBDIR)/libtermkey.a
+ 
+ install-man:
+ 	install -d $(DESTDIR)$(MAN3DIR)

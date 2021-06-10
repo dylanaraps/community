@@ -1,8 +1,6 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
+patch -p1 < static-no-libtool.patch
 
-make
+make libtermkey.a
 make PREFIX=/usr DESTDIR="$1" install
