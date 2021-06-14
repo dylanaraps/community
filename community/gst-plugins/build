@@ -7,7 +7,9 @@ for plugin in libav good bad ugly; do (
 
     meson \
         --prefix=/usr \
-        -Dexample=false \
+        -Dtests=disabled \
+        -Dexamples=disabled \
+        -Dintrospection=disabled \
         -Dqt5=disabled \
         . output
 
