@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+PATH="$PATH:$PWD/bin"
+
+for bin in xgettext msgfmt; do
+    : | install -Dm755 /dev/stdin "./bin/$bin"
+done
+
+make PREFIX=/usr
+make DESTDIR="$1" PREFIX=/usr install
