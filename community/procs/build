@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
-cargo build --release --locked
+cargo build \
+	--release \
+	--locked
 
-install -Dm755 "target/release/procs" "$1/usr/bin/procs" 
+install -Dm755 "target/release/procs" "$1/usr/bin/procs"
