@@ -1,7 +1,9 @@
 #!/bin/sh -e
 
-cargo build --release --locked
+cargo build \
+	--release \
+	--locked
 
-install -Dm755 target/release/delta "$1/usr/bin/delta"
+install -Dm755 target/release/delta           "$1/usr/bin/delta"
 install -Dm644 etc/completion/completion.bash "$1/usr/share/bash-completion/completions/delta"
-install -Dm644 etc/completion/completion.zsh "$1/usr/share/zsh/site-functions/_delta"
+install -Dm644 etc/completion/completion.zsh  "$1/usr/share/zsh/site-functions/_delta"
