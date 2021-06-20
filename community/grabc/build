@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+make
+
+install -Dm755 grabc   "$1/usr/bin/grabc"
+install -Dm644 grabc.1 "$1/usr/share/man/man1/grabc.1"
