@@ -3,6 +3,9 @@
 # Without this folder, Qt can't find its own header files.
 mkdir .git
 
+# Fix for GCC 11.1.0
+sed -i '/<type_traits>/i #include <limits>' src/qmldebug/qqmlprofilerevent_p.h
+
 qmake
 
 make
